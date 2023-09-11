@@ -4,7 +4,7 @@ The queue manager on **CSF3** is Sun Grid Engine (SGE) and the scripts that crea
 
 The queue manager on **CSF4** is SLURM and requires a different run.sh file. The \*\_csf4 scripts generate the respective file.
 ### Usage
-The scripts are written in python and can be run on CSF3/4 directly or from your local machine. The scripts need be stored in `~/bin` and need to be made executbale by running `[sudo] chmod u+x foo`. The script can be invoked from any directory by calling its name and specifing the name of the input file and the number of cores required for the calculation. A help message is displayed when the script is called without any arguments.
+The scripts are written in python and can be run on CSF3/4 directly or from your local machine. The scripts need be stored in `~/bin` and need to be made executable by running `[sudo] chmod u+x foo`. The script can be invoked from any directory by calling its name and specifing the name of the input file and the number of cores required for the calculation. A help message is displayed when the script is called without any arguments.
 
 **Example:**
 
