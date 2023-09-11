@@ -1,0 +1,159 @@
+#!/usr/local/bin/python3
+import os
+import sys
+import argparse
+
+# create parser for parsing input file name
+parser = argparse.ArgumentParser(description='Create Orca slurm runscript')
+parser.add_argument("-i", "--input", help="Input file name", required=True, type=str)
+parser.add_argument("-n", "--nodes", help="Number of nodes. multicore=1, multinode>1, serial=0; default=1", default=1, type=int)
+parser.add_argument("-c", "--cores", help="Number of cores", required=True, type=int)
+args = parser.parse_args()
+
+# check if number of nodes is valid
+if args.nodes > 1: 
+    queue = "multinode"
+else:
+    queue = "multicore"
+
+if args.cores > 40 and args.nodes < 2:
+    print("Number of cores must be between 2 and 40")
+    sys.exit()
+elif args.nodes == 0:
+    queue = "serial"
+
+# check if number of cores is the same as in input file
+def check_cores(input_file, cores):
+    with open(input_file, "r") as f:
+        lines = f.readlines()
+        for line in lines:
+            if "nprocs" in line:
+                if int(line.split()[2]) != cores:
+                    print("Number of cores in input file does not match number of cores specified")
+                    # ask user if they want to change number of cores in input file
+                    change_cores = input("Do you want to change the number of cores in the input file? (y/n)")
+                    if change_cores == "y":
+                        with open(input_file, "w") as f:
+                            for line in lines:
+                                if "nproc" in line:
+                                    line = f"%pal   nprocs {cores}\n"
+                                f.write(line)
+                    else:
+                        sys.exit()
+
+# create slurm runscript
+def create_runscript(queue, cores, input_file):
+    script = f"""#!/bin/bash --login
+#SBATCH -p {queue}       # (or --partition=) Parallel job using cores on a single node
+#SBATCH -n {cores}                # (or --ntasks=) Number of cores (2--40)
+#SBATCH --job-name {input_file.split(".")[0]}""" + """
+###########################
+job=${SLURM_JOB_NAME}
+
+job=$(echo ${job%%.*})
+##########################
+
+# Load the modulefile in a clean environment
+module purge
+module load orca/5.0.4-gompi-2021a
+export RSH_COMMAND=ssh
+##########################
+export scratchlocation=/scratch
+
+if [ ! -d $scratchlocation/$USER ]
+
+then
+
+  mkdir -p $scratchlocation/$USER
+
+fi
+##########################
+tdir=$(mktemp -d $scratchlocation/$USER/orcajob_$SLURM_JOB_ID-XXXX)
+
+# Copy only the necessary stuff in submit directory to scratch directory. Add more here if needed.
+
+cp  $SLURM_SUBMIT_DIR/*.inp $tdir/
+
+cp  $SLURM_SUBMIT_DIR/*.gbw $tdir/
+
+cp  $SLURM_SUBMIT_DIR/*.xyz $tdir/
+#########################
+
+# Creating nodefile in scratch
+
+# echo $SLURM_NODELIST > $tdir/$job.nodes
+
+# cd to scratch
+
+cd $tdir
+
+# Copy job and node info to beginning of outputfile
+
+echo "Job execution start: $(date)" >>  $SLURM_SUBMIT_DIR/$job.out
+
+echo "Shared library path: $LD_LIBRARY_PATH" >>  $SLURM_SUBMIT_DIR/$job.out
+
+echo "Slurm Job ID is: ${SLURM_JOB_ID}" >>  $SLURM_SUBMIT_DIR/$job.out
+
+echo "Slurm Job name is: ${SLURM_JOB_NAME}" >>  $SLURM_SUBMIT_DIR/$job.out
+
+echo $SLURM_NODELIST >> $SLURM_SUBMIT_DIR/$job.out
+
+#Start ORCA job. ORCA is started using full pathname (necessary for parallel execution). Output file is written directly to submit directory on frontnode.
+
+$(which orca) $job.inp >  $SLURM_SUBMIT_DIR/$job.out
+
+# ORCA has finished here. Now copy important stuff back (xyz files, GBW files etc.). Add more here if needed.
+
+cp $tdir/*.gbw $SLURM_SUBMIT_DIR
+
+cp $tdir/*.engrad $SLURM_SUBMIT_DIR
+
+cp $tdir/*.xyz $SLURM_SUBMIT_DIR
+
+cp $tdir/*.loc $SLURM_SUBMIT_DIR
+
+cp $tdir/*.qro $SLURM_SUBMIT_DIR
+
+cp $tdir/*.uno $SLURM_SUBMIT_DIR
+
+cp $tdir/*.unso $SLURM_SUBMIT_DIR
+
+cp $tdir/*.uco $SLURM_SUBMIT_DIR
+
+cp $tdir/*.hess $SLURM_SUBMIT_DIR
+
+cp $tdir/*.cis $SLURM_SUBMIT_DIR
+
+cp $tdir/*.dat $SLURM_SUBMIT_DIR
+
+cp $tdir/*.mp2nat $SLURM_SUBMIT_DIR
+
+cp $tdir/*.nat $SLURM_SUBMIT_DIR
+
+cp $tdir/*.scfp_fod $SLURM_SUBMIT_DIR
+
+cp $tdir/*.scfp $SLURM_SUBMIT_DIR
+
+cp $tdir/*.scfr $SLURM_SUBMIT_DIR
+
+cp $tdir/*.nbo $SLURM_SUBMIT_DIR
+
+cp $tdir/FILE.47 $SLURM_SUBMIT_DIR
+
+cp $tdir/*_property.txt $SLURM_SUBMIT_DIR
+
+cp $tdir/*spin* $SLURM_SUBMIT_DIR"""
+    return script
+
+# check if input file exists
+if not os.path.isfile(args.input):
+    print("Input file does not exist")
+    sys.exit()
+# if input file exists, create slurm runscript and adjust number of cores
+else:
+    # check if number of cores in input file matches number of cores specified
+    check_cores(args.input, args.cores)
+    with open("run.sh", "w") as f:
+        f.write(create_runscript(queue, args.cores, args.input))
+    
