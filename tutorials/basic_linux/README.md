@@ -6,6 +6,14 @@ This page contains the most essential UNIX commands and the most common options 
 > This are brief descriptions and the most common options.
 > For more detailed information you can use `man [command]` command to get more information or, sometimes, use run the desired command with the `-h` (`command -h`) for more information.
 
+## Sections 
+
+- [File related commands](#file-related-commands)
+- [Directory related commands](#directory-related-commands)
+- [Cluster relateed commands](#cluster-related-commands)
+- [Process management commands](#process-management-commands)
+- [Git commands](#git-commands)
+
 ## File related commands
 
 | Command  | Description                               | Examples                   | Common Options                                                              |
@@ -43,8 +51,18 @@ This page contains the most essential UNIX commands and the most common options 
 | `mkdir`  | Create a new directory.             | `mkdir new_dir`         | `-p`: Create parent dirs if they don't exist    |
 | `rmdir`  | Remove empty directories.           | `rmdir empty_dir`       |                                                 |
 
+## Cluster related commands
+| Command  | Description                                   | Examples                              | Common Options                                                                                      |
+|----------|-----------------------------------------------|---------------------------------------|-----------------------------------------------------------------------------------------------------|
+| `ssh`    | Securely connect to a remote server.          | `ssh username@hostname`               | `-i "~/.ssh/private_key"`: Specify private key                                                      |
+| `sbatch` | Submit a batch job to a cluster.              | `sbatch script.job`                   |                                                                                                     |
+| `scancel`| Cancel a pending or running job on a cluster. | `scancel job_id`                      |                                                                                                     |
+| `squeue` | View job status on a cluster.                 | `squeue`                              | `squeue -u username`                                                                                |
+| `rsync`  | Synchronize files and directories.            | `rsync source/ destination/`          | `-e "ssh -i ~/.ssh/private_key"`: for either remote source or destination with specific private key |
+| `scp`    | Securely copy files between hosts.            | `scp file.txt username@hostname:/path`| `-i "~/.ssh/private_key"`: Specify private key                                                      |
+| `sshfs`  | Mount a remote filesystem over SSH.           | `sshfs username@hostname:/path /mnt`  | `-o IdentityFile=/path/to/file/.ssh/private_key`: Specify private key                               |
 
-## Process Managemeent Commands 
+## Process Management Commands 
 | Command  | Description                            | Examples                | Common Options                                    |
 |----------|----------------------------------------|-------------------------|---------------------------------------------------|
 | `ps`     | List processes.                        | `ps`                    | `ps aux`: User-friendly format                    |
@@ -56,16 +74,6 @@ This page contains the most essential UNIX commands and the most common options 
 | `df`     | Display disk space usage.              | `df -h`                 |                                                   |
 | `free`   | Display system memory usage.           | `free -m`               |                                                   |
 
-## Cluster related commands
-| Command  | Description                                   | Examples                              | Common Options                                                                                      |
-|----------|-----------------------------------------------|---------------------------------------|-----------------------------------------------------------------------------------------------------|
-| `ssh`    | Securely connect to a remote server.          | `ssh username@hostname`               | `-i "~/.ssh/private_key"`: Specify private key                                                      |
-| `sbatch` | Submit a batch job to a cluster.              | `sbatch script.job`                   |                                                                                                     |
-| `scancel`| Cancel a pending or running job on a cluster. | `scancel job_id`                      |                                                                                                     |
-| `squeue` | View job status on a cluster.                 | `squeue`                              | `squeue -u username`                                                                                |
-| `rsync`  | Synchronize files and directories.            | `rsync source/ destination/`          | `-e "ssh -i ~/.ssh/private_key"`: for either remote source or destination with specific private key |
-| `scp`    | Securely copy files between hosts.            | `scp file.txt username@hostname:/path`| `-i "~/.ssh/private_key"`: Specify private key                                                      |
-| `sshfs`  | Mount a remote filesystem over SSH.           | `sshfs username@hostname:/path /mnt`  | `-o IdentityFile=/path/to/file/.ssh/private_key`: Specify private key                               |
 
 ## Git commands
 | Command       | Description                                       | Examples                                            |
