@@ -1,0 +1,41 @@
+#!/bin/bash
+
+queue_time=$1
+project=$2
+queue=$3
+name=$4
+
+jobfile=${4}_job
+
+echo "working with $jobfile"
+echo "#!/bin/bash "                                                      > $jobfile.job
+echo "# Slurm flags                                              "      >> $jobfile.job
+echo "#SBATCH -p $queue                                          "      >> $jobfile.job
+echo "#SBATCH -N 1                                               "      >> $jobfile.job
+echo "#SBATCH --job-name=$jobfile                                "      >> $jobfile.job
+echo "#SBATCH -t $queue_time:00                                  "      >> $jobfile.job
+echo "# Charge job to myaccount                                  "      >> $jobfile.job
+echo "#SBATCH -A $project                                        "      >> $jobfile.job
+echo "# Write stdout+stderr to file                              "      >> $jobfile.job
+echo "#SBATCH -o ${jobfile}.txt                                  "      >> $jobfile.job
+echo "# Mail me on job start & end                               "      >> $jobfile.job
+echo "#SBATCH --mail-user=innigo_iribarren@gmail.com             "      >> $jobfile.job
+echo "#SBATCH --mail-type=BEGIN,END                              "      >> $jobfile.job
+echo 'cd $SLURM_SUBMIT_DIR                                       '      >> $jobfile.job
+echo 'echo $SLURM_NODELIST                                       '      >> $jobfile.job
+echo "module load gamess-us/aug02.R2.2018                        "      >> $jobfile.job
+echo "export OMP_NUM_THREADS=10                                  "      >> $jobfile.job
+
+for j in *$4*.inp; do 
+	head=$(echo $j | awk -F.inp '{print $1}')
+	file="$file    $head"
+done
+
+for j in $file;
+do
+echo "$j"
+echo "rm /ichec/home/users/iiribarren/scr/$j*                  "      >> $jobfile.job
+echo "rungms  ${j}.inp > ${j}.log                          "      >> $jobfile.job
+done
+
+#sbatch $jobfile.job

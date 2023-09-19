@@ -1,0 +1,69 @@
+#!/bin/bash
+
+#echo 'Give me the file (*.com)'
+#read temporal
+#echo "     " 
+#echo 'Queue time? (01:00 or 00:30) for h and min'
+#read queue_time
+#echo "     " 
+
+#time_job=$(echo $queue_time | awk -F: '{print $1*40+$2/60*40}' )
+time_job=$(echo $2 | awk -F: '{print $1*40+$2/60*40}' )
+N_jobs=$(ls $temporal | wc -l)
+aux_1=$(echo ${time_job} ${N_jobs} )
+CPU_time=` echo $aux_1 | awk '{printf("%15.1f",$1*$2)}'`
+queue=$4
+
+#echo "Estimate CPU time: $CPU_time"   
+#echo "     " 
+#mybalance -h
+#echo "     " 
+#echo '                         '
+#echo '----------------------------------------- '
+
+#echo "Give me the project code"
+#read project
+echo "     " 
+for j in $1 #$temporal
+do
+head=$(echo $j | awk -F.com '{print $1}')
+file="$file    $head"
+done
+
+for i in $file
+do
+echo "working with $i"
+echo "#!/bin/bash "                                                     > $i.job
+echo "# All the informations about queues can be obtained by 'sinfo'"   >> $i.job
+echo "# PARTITION AVAIL  TIMELIMIT "                                    >> $i.job
+echo "# DevQ         up    1:00:00                               "      >> $i.job
+echo "# ProdQ*       up 3-00:00:00                               "      >> $i.job
+echo "# LongQ        up 6-00:00:00                               "      >> $i.job
+echo "# ShmemQ       up 3-00:00:00                               "      >> $i.job
+echo "# PhiQ         up 1-00:00:00                               "      >> $i.job
+echo "# GpuQ         up 2-00:00:00                               "      >> $i.job
+echo "# Slurm flags                                              "      >> $i.job
+echo "#SBATCH -p $queue                                           "      >> $i.job
+#echo "#SBATCH -p DevQ                                           "      >> $i.job
+echo "#SBATCH -N 1                                               "      >> $i.job
+echo "#SBATCH --job-name=$i                                      "      >> $i.job
+#echo "#SBATCH -t $queue_time:00                                  "      >> $i.job
+echo "#SBATCH -t $2:00                                  "      >> $i.job
+echo "# Charge job to myaccount                                  "      >> $i.job
+#echo "#SBATCH -A $project                                        "      >> $i.job
+echo "#SBATCH -A $3                                        "      >> $i.job
+echo "# Write stdout+stderr to file                              "      >> $i.job
+echo "#SBATCH -o $i.txt                                          "      >> $i.job
+echo "# Mail me on job start & end                               "      >> $i.job
+echo "#SBATCH --mail-user=innigo.iribarren@gmail.com                     "      >> $i.job
+echo "#SBATCH --mail-type=BEGIN,END                              "      >> $i.job
+echo 'cd $SLURM_SUBMIT_DIR                                       '      >> $i.job
+echo "module load   gaussian/09e01                               "      >> $i.job
+echo "                                                           "      >> $i.job
+echo "export GAUSS_SCRDIR=/scratch/global                        "      >> $i.job
+echo "                                                           "      >> $i.job
+echo "g09 < $i.com > $i.log                                      "      >> $i.job
+sbatch $i.job
+done
+
+

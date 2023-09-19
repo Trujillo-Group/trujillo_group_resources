@@ -1,0 +1,5 @@
+#!/bin/bash
+
+for file in *$4*.com; do 
+	sub_g16 $file $1 $2 $3
+done

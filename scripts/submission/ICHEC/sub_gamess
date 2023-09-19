@@ -1,0 +1,30 @@
+#!/bin/bash
+
+file=$1
+queue_time=$2
+project=$3
+queue=$4
+
+ifile=$(echo $file | awk -F. '{print $1}')
+
+echo "working with $ifile"
+echo "#!/bin/bash "                                                      > $ifile.job
+echo "# Slurm flags                                              "      >> $ifile.job
+echo "#SBATCH -p $queue                                          "      >> $ifile.job
+echo "#SBATCH -N 1                                               "      >> $ifile.job
+echo "#SBATCH --job-name=$ifile                                  "      >> $ifile.job
+echo "#SBATCH -t $queue_time:00                                  "      >> $ifile.job
+echo "# Charge job to myaccount                                  "      >> $ifile.job
+echo "#SBATCH -A $project                                        "      >> $ifile.job
+echo "# Write stdout+stderr to file                              "      >> $ifile.job
+echo "#SBATCH -o ${ifile}.txt                                    "      >> $ifile.job
+echo "# Mail me on job start & end                               "      >> $ifile.job
+echo "#SBATCH --mail-user=innigo_iribarren@gmail.com             "      >> $ifile.job
+echo "#SBATCH --mail-type=BEGIN,END                              "      >> $ifile.job
+echo 'cd $SLURM_SUBMIT_DIR                                       '      >> $ifile.job
+echo 'echo $SLURM_NODELIST                                       '      >> $ifile.job
+echo "module load gamess-us/aug02.R2.2018                        "      >> $ifile.job
+echo "export OMP_NUM_THREADS=10                                  "      >> $ifile.job
+echo "rm /ichec/home/users/iiribarren/scr/$ifile*                "      >> $ifile.job
+echo "rungms  ${ifile}.inp > ${ifile}.log                        "      >> $ifile.job
+sbatch $ifile.job
