@@ -9,12 +9,13 @@ General scripts and modules for Trujillo Group.
 |    ├── ssh              setup of config files
 |    └── vim              useful code highlighting or Plugins
 └──tutorials              Step by step tutorials about different things  
-|    ├── Basic_linux      Basic linux commands for beginners 
+|    ├── basic_linux      Basic linux commands for beginners 
      └── MEP              Step by step MEP with Gaussian, MultiWFN & Jmol
 ```
 
-# Tutorials
-   - [Molecular Electrostatic Potential](tutorials/MEP/README.md)
+# Links 
+- **[Basic UNIX commands](tutorials/basic_linux/README.md)**
+- **[Molecular Electrostatic Potential](tutorials/MEP/README.md)**
 
 # Guidelines for uploading scripts
 

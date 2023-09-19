@@ -10,20 +10,20 @@ If you are working in the computational centre, you can find the corresponding s
 
     1. Format the **checkpoint** to make it human-readable 
 
-        ```{bash}
+        ```{shell}
         formchk {filename}.chk
         ```
 
     2. Generate **density** `{filname}_DENS.cube` and **potential** `{filname}_MEP.cube` cube files
 
-        ```{bash}
+        ```{shell}
         cubegen 0 density=scf {filename}.fchk {filename}_DENS.cube 100 h
         cubegen 0 potential=scf {filename}.fchk {filename}_DENS.cube 100 h
         ```
 
     3. Extract critical points from the selected isosurface with **MultiWFN**
 
-        ```{bash}
+        ```{shell}
         Multiwfn {filename}.fchk
         ```
 
@@ -40,7 +40,7 @@ If you are working in the computational centre, you can find the corresponding s
 
     4. Rename the surfanalysis.txt file
     
-        ```{bash}
+        ```{shell}
         mv surfanalysis.txt {filename}_CRIT.txt
         ```
 
@@ -58,7 +58,7 @@ If you are working in the computational centre, you can find the corresponding s
         ```
     2. Generate the **Jmol** script
 
-        ```bash
+        ```shell
         mep_jmol.sh {filename}
         ```
 
@@ -78,7 +78,7 @@ If you are working in the computational centre, you can find the corresponding s
 
         In the following example, the first sphere below will be shown while the second one will be hidden:
 
-        ```bash
+        ```shell
         draw sphere1 diameter 0.4 {0.0 0.0 0.0} color black #MEP in a.u. 0.2184
         #draw sphere2 diameter 0.4 {1.0 1.0 0.0} color black #MEP in a.u. 0.3651
         ```
