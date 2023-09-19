@@ -1,4 +1,19 @@
-# General
+![group logo](docs/logo_horizontal.png)
+
+Welcome to the **Trujillo Research Group**, this repository contains useful documentation, tutorials, resources and scripts useful for your daily research.
+It is especially convenient for new members of the team, either undergrad, master or PhD students.
+
+Contributing to this repository is the perfect way to get familiar with the GitHub repositories, code documentation and tutorial writing. 
+Do not hesitate to collaborate, provide feedback or ask for any help from other members of the team.
+
+Checking the [**good practices guideline**](tutorials/good_practices/README.md) is highly recommended for new members as well.
+
+# Links to tutorials
+- **[Basic UNIX commands](tutorials/basic_linux/README.md)**
+- **[Molecular Electrostatic Potential](tutorials/MEP/README.md)**
+
+# Group scripts
+
 General scripts and modules for Trujillo Group.
 ```
 ├── scripts               may contain common bash or python useful for the group
@@ -13,11 +28,7 @@ General scripts and modules for Trujillo Group.
      └── MEP              Step by step MEP with Gaussian, MultiWFN & Jmol
 ```
 
-# Links 
-- **[Basic UNIX commands](tutorials/basic_linux/README.md)**
-- **[Molecular Electrostatic Potential](tutorials/MEP/README.md)**
-
-# Guidelines for uploading scripts
+## Guidelines for uploading scripts
 
 When you upload some scripts on the repository, you have to think that these must be understandable for the general end-user. Thus, each uploaded script must meet the following criteria:
 1. It must work and be up-to-date. 
