@@ -67,4 +67,20 @@ This page contains the most essential UNIX commands and the most common options 
 | `scp`    | Securely copy files between hosts.            | `scp file.txt username@hostname:/path`| `-i "~/.ssh/private_key"`: Specify private key                                                      |
 | `sshfs`  | Mount a remote filesystem over SSH.           | `sshfs username@hostname:/path /mnt`  | `-o IdentityFile=/path/to/file/.ssh/private_key`: Specify private key                               |
 
+## Git commands
+| Command       | Description                                       | Examples                                            |
+|---------------|---------------------------------------------------|-----------------------------------------------------|
+| `git clone`   | Clone a Git repository.                           | `git clone <repository_url>`                        |
+| `git init`    | Initialize a new Git repository.                  | `git init`                                          |
+| `git status`  | Show the status of the working directory.         | `git status`                                        |
+| `git log`     | Display commit history.                           | `git log`                                           |
+| `git diff`    | Show changes between commits or working dir.      | `git diff`                                          |
+| `git add`     | Stage changes for commit.                         | `git add file.txt`, `git add .`                     |
+| `git commit`  | Commit staged changes.                            | `git commit -m "Commit message"`                    |
+| `git branch`  | List branches in the repository.                  | `git branch`                                        |
+| `git checkout`| Switch branches or restore working dir.           | `git checkout branch_name`, `git checkout file.txt` |
+| `git merge`   | Merge changes from one branch into another.       | `git merge branch_name`                             |
+| `git pull`    | Fetch changes from a remote repository and merge. | `git pull origin branch_name`                       |
+| `git push`    | Push local changes to a remote repository.        | `git push origin branch_name`                       |
+| `git remote`  | Manage remote repositories.                       | `git remote add origin <repository_url>`            |
 
