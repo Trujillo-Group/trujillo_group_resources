@@ -1,12 +1,48 @@
-# Genera Good Practicies guidelines - TRG
 
-## Project structure
+Welcome to the **Trujillo Research Group!** 
+To ensure a productive and collaborative environment, we have established these guidelines for all PhD students to follow:
 
-The use of a clear and consistent naming convention for foldes and files is crucial for a project research.
-Establish a hierarchical folder structure for your projects and use always the same template when starting a new project.
+## General Good Practices
 
-You can find a suggested template below that can be used for all your projects or you can create your own project structure.
+### 1. Data Management 
+- Regularly backup your work, including data, code, and documents.
+  **Weekly backups** are mandatory.
+- Use either cloud storage or an institutional server for secure and accesible backups
+- Keep software and systems updated to address security vulnerabilities
+- Keep a detailed journal of all your projects, including: list of calculations and their state, TODO list, and computational details.
 
+    *Suggested tools*:
+    Physical notebooks,
+    [Obsidian](https://obsidian.md/),
+    [Notion](https://notion.so).
+
+### 2. Code and Software
+- **Document your code** comprehensively, including comments, function descriptions and usage instructions.
+- Use version control (e.g., GitHub) for tracking code changes with clear commit messages.
+- List of recommended software:
+  - **3D figures:**
+    [CYLView](https://www.cylview.org/) (*free*),
+    [Jmol](https://jmol.sourceforge.net/) (*open source*),
+    [Chimera](https://www.cgl.ucsf.edu/chimera/) (*open source*),
+    [PyMOL](https://pymol.org/2/).
+  - **Reaction schemes and 2D figures:**
+    [Chemdraw](https://chemdrawdirect.perkinelmer.cloud/js/sample/index.html),
+    [Inkscape](https://inkscape.org/) (*open source*),
+    [Affinity Designer](https://affinity.serif.com/en-gb/designer/?gclid=CjwKCAjwjaWoBhAmEiwAXz8DBc2dkBvoIlDL4T8dlRXLb-6j0SriiyVhM1oOdaMV7o2kYxwaKsyDixoCc-EQAvD_BwE),
+    [smiles2svg](https://github.com/iribirii/smiles2svg) (*open source*).
+  - **3D modelling:**
+    [Blender](https://www.blender.org/download/) (*open source*) combined with [molecular nodes](https://github.com/BradyAJohnston/MolecularNodes).
+    
+[Group GitHub repository](https://github.com/Trujillo-Group): Ensure your daily scripts are part of the group's GitHub repository.
+
+Utilising and contributing to the [**scripts repository**](https://github.com/Trujillo-Group/trujillo_group_resources/tree/main/scripts) is highly recommended.
+  
+## 3. Project Organisation
+
+- Maintain a **clear** and **consistent** naming convention for folders and files.
+- Establish a hierarchical folder structure for your projects.
+  Consider using the provided template or create your own.
+  
 ```
 project_template
   ├── calculations
@@ -25,47 +61,31 @@ project_template
   └── scripts 
 ```
 
-Version control (e.g. git) is recommended for tracking changes in the code and documents
-
 ## Writing papers and report sharing 
 
-### Internal reports and presentations
+### 4. Internal reports and presentations
 
-- Internal reports, datasets and presentations should be done/allocated using collaboration tools (e.g. Google Drive, Onedrive). 
+- Use collaboration tools like **Google Drive** or **OneDrive** for creating and sharing internal reports, datasets, and presentations.
 
-- An example document with a generic report format can be found [here]().
+- *Example document*: refer to [this link](https://docs.google.com/document/d/1IBO9fovI7JyVLZ2LVy7tpVxf_777KzSQcyZJESrGJQ0/edit?usp=sharing) for a generic report format.
 
-### Papers and reviews
+### 5. Papers and reviews
 
-- The prefered way of writing scientific articles within the group would be using the Overleaf platform, as it offers read-time collaboration and LaTeX support.
-    - If you are not familiar with Overleaf or LaTeX, you can learn the basics [here](https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes)
-- The prefered way to manage the Supporting Informatio of the papers within the group would be [Zenodo](https://zenodo.org) as it allows to upload all the required documents, xyz structures, tables and figures as individual files that the reader can quickly download and access.
+- Preferred platform for writing scientific articles: [Overleaf](https://www.overleaf.com) (offers real-time collaboration and LaTeX support).
+- Manage Supporting Information on [Zenodo](https://zenodo.org), allowing easy access to readers.
 
-## General good practices 
+ *Learning resources* If unfamiliar with Overleaf or LaTeX, you can learn basics [here](https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes)
 
-### Data Management 
-- Regurlarly backup your work including data, code, and documents. 
-**Weekly backups** are highly recommended.
-- Use either cloud storage or an institutional server for secure and accesible backups
-- Keep software and systems updated to address security vulnerabilities
-- Keep a detailed journal of all your projects, including: 
-    - List of calculations and their state
-    - TODO list
-    - Computational details of the different parts of the project
+## Communication and Meetings
 
-    Having a consistent system would be recommended and some available options are:
-    - Physical notebooks for different projects
-    - [Obsidian](https://obsidian.md/) 
-    - [Notion](https://notion.so) 
-    - [insert more options here]
+### 6. Participation
+- Actively participate in research group meetings, sharing your progress and challenges.
+- Maintain open and clear communication with your supervisor and fellow researchers
 
-### Code and Software
-- Document your code comprehensively, including comments, function descriptions and usage instructions.
-- Use version control for tracking code changes with clear commit messages
-- A compilation of scripts used by the group can be found in [this repository](https://github.com/Trujillo-Group/trujillo_group_resources/tree/main/scripts), feel free to contribute and add your own scripts.
+### 7. Digital Collaboration Tools
+- Use digital collaboration tools (e.g. Slack, Teams, etc.) for quick and efficient communications within the group, using the designated channels.
+- Calendar Teams: keep track of the main events in the calendar (deadlines, meetings, etc.).
 
-### Communication and Meetings
-- Participate actively in research group meetings, sharing progress and challenges.
-- Manintain open and clear communication with your supervisor and fellow researchers
-- Use digital collaboration tools (e.g. Slack, Teams, etc.) for quick communications
+By adhering to these guidelines, you will contribute to a productive and harmonious research environment.
+Feel free to reach out to me or your colleagues if you have any questions or need further clarification on these practices.
 
