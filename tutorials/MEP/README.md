@@ -47,7 +47,7 @@ If you are working in the computational center, you can find the corresponding s
 3. Visualise the MEP using Jmol
 
     > [!WARNING]  
-    > Due to the nature of the scripts and volume of files you will be producing, keep the `{filename}` consistent, as specified in instructions below.
+    > The scripts for visualising the MEP will change and this part should be change accordingly
 
     1. Make sure that your folder contains all the required files for the script to work.
         ```

@@ -1,14 +1,19 @@
 # General
 General scripts and modules for Trujillo Group.
-- `scripts`: may contain common bash or python useful for the group
-  - `submission`: submission scripts for CSF3/4 and ICHEC
-  - `analysis`: scripts for quick assessment of calculation
-- `config`: useful configs for setup on either local machine or cluster
-  - `bashrc`: e.g. useful aliases
-  - `ssh`: setup of config files
-  - `vim`: useful code highlighting or Plugins
-- `tutorials`: Step by step tutorials about different things  
-    - `MEP`: Step by step Molecular Electrostatic Potential with Gaussian, MultiWFN \& Jmol
+```
+├── scripts               may contain common bash or python useful for the group
+|    ├── submission       submission scripts for CSF3/4 and ICHEC
+|    └── analysis         scripts for quick assessment of calculation
+├── config                useful configs for setup on either local machine or cluster
+|    ├── bashrc           e.g. useful aliases
+|    ├── ssh              setup of config files
+|    └── vim              useful code highlighting or Plugins
+└──tutorials              Step by step tutorials about different things  
+     └──MEP               Step by step MEP with Gaussian, MultiWFN & Jmol
+```
+
+# Tutorials
+   - [Molecular Electrostatic Potential](tutorials/MEP/README.md)
 
 # Guidelines for uploading scripts
 
