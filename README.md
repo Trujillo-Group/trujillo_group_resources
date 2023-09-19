@@ -7,7 +7,8 @@ General scripts and modules for Trujillo Group.
   - `bashrc`: e.g. useful aliases
   - `ssh`: setup of config files
   - `vim`: useful code highlighting or Plugins
-- `thisCouldBeYourContribution`: Whatever you think is useful
+- `tutorials`: Step by step tutorials about different things  
+    - `MEP`: Step by step Molecular Electrostatic Potential with Gaussian, MultiWFN \& Jmol
 
 # Guidelines for uploading scripts
 

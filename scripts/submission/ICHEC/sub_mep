@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# USAGE:
+#
+# mep_sub filename.chk hh:mm project_code queue_name
+
+filename=$(echo $j | awk -F.chk '{print $1}')
+queue_time=$2
+project=$3
+queue_name=$4
+
+echo "working with $filename"
+echo "#!/bin/bash "                                                      > $filename.job
+echo "# All the informations about queues can be obtained by 'sinfo'"   >> $filename.job
+echo "# PARTITION AVAIL  TIMELIMIT "                                    >> $filename.job
+echo "# DevQ         up    1:00:00                               "      >> $filename.job
+echo "# ProdQ*       up 3-00:00:00                               "      >> $filename.job
+echo "# LongQ        up 6-00:00:00                               "      >> $filename.job
+echo "# ShmemQ       up 3-00:00:00                               "      >> $filename.job
+echo "# PhiQ         up 1-00:00:00                               "      >> $filename.job
+echo "# GpuQ         up 2-00:00:00                               "      >> $filename.job
+echo "# Slurm flags                                              "      >> $filename.job
+echo "#SBATCH -p $queue_name                                     "      >> $filename.job
+echo "#SBATCH -N 1                                               "      >> $filename.job
+echo "#SBATCH --job-name=$filename                               "      >> $filename.job
+echo "#SBATCH -t $queue_time:00                                  "      >> $filename.job
+echo "# Charge job to myaccount                                  "      >> $filename.job
+echo "#SBATCH -A $project                                        "      >> $filename.job
+echo "# Write stdout+stderr to file                              "      >> $filename.job
+echo "#SBATCH -o $filename.txt                                   "      >> $filename.job
+echo "# Mail me on job start & end                               "      >> $filename.job
+echo "#SBATCH --mail-user=your_email@domain.com                  "      >> $filename.job
+echo "#SBATCH --mail-type=BEGIN,END                              "      >> $filename.job
+echo 'cd $SLURM_SUBMIT_DIR                                       '      >> $filename.job
+echo "module load   gaussian/16b01                               "      >> $filename.job
+echo "                                                           "      >> $filename.job
+echo "export GAUSS_SCRDIR=/scratch/global                        "      >> $filename.job
+echo "                                                           "      >> $filename.job
+echo "formchk $filename.chk                                      "   	>> $filename.job
+echo "cubegen 0 density=scf $filename.fchk ${filename}_DENS.cube 100 h" >> $filename.job
+echo "cubegen 0 potential=scf $filename.fchk ${filename}_MEP.cube 100 h">> $filename.job
+echo "Multiwfn $filename.fchk < ~/scripts/mep_options.txt             " >> $filename.job
+echo "mv surfanalysis.txt ${filename}_CRIT.txt" >> $filename.job
+
+sbatch $filename.job
+done
+
+
