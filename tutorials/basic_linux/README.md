@@ -22,8 +22,8 @@ This page contains the most essential UNIX commands and the most common options 
 |          |                                           |                            | `-a`: Show hidden files                                                     |
 |          |                                           |                            | `-h`: Human-readable sizes                                                  |
 | `exa`    | Modern replacement for `ls`.              | `exa`                      | `-l`: Long format                                                           |
-| `exa`    | Modern replacement for `ls`.              | `exa`                      | `-a`: Show hidden files                                                     |
-| `exa`    | Modern replacement for `ls`.              | `exa`                      | `-h`: Human-readable sizes                                                  |
+|          |                                           |                            | `-a`: Show hidden files                                                     |
+|          |                                           |                            | `-h`: Human-readable sizes                                                  |
 | `touch`  | Create an empty file or update timestamps.| `touch file.txt`           |                                                                             |
 | `cat`    | Concatenate and display file content.     | `cat file.txt`             | `-n`: Number lines                                                          |
 |          |                                           |                            | `-E`: Show line endings                                                     |
