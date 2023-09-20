@@ -97,10 +97,8 @@ export GAUSS_SCRDIR=/scratch/global
     with open(f'{filename}.job','w') as f:
         f.write(script)
 
-    print(no_submit)
     if no_submit == False:
         os.system(f'sbatch {filename}.job')
-        print(f'{filename}.job submitted to {queue}')
     else:
         print(f'{filename}.job created but not submitted')
 
@@ -135,7 +133,6 @@ export GAUSS_SCRDIR=/scratch/global
 
     if no_submit == False:
         os.system(f'sbatch {jobname}.job')
-        print(f'{jobname}.job submitted to {queue}')
     else:
         print(f'{jobname}.job created but not submitted')
 
