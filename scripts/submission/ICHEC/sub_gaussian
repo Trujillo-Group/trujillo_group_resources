@@ -1,0 +1,174 @@
+#!/usr/bin/env python3
+
+# Imports
+import os
+import glob 
+import sys
+import argparse
+
+def arg_parser():
+    parser = argparse.ArgumentParser(
+            description='Create a Gaussian job and submits to the queue',
+            formatter_class=argparse.ArgumentDefaultsHelpFormatter
+            )
+    parser.add_argument(
+            "-i", "--input",
+            type=str,
+            required=False,
+            help='Name of the input file (.com)'
+            )
+    parser.add_argument(
+            "-t", "--runtime",
+            type=str,
+            default='72:00',
+            help='Job runtime in format HH:MM'
+            )
+    parser.add_argument(
+            "-p", "--project_code",
+            type=str,
+            required=True,
+            help='Project code to which you want to submit the calculation'
+            )
+    parser.add_argument(
+            "-q", "--queue",
+            type=str,
+            default='ProdQ',
+            required=False,
+            choices=['DevQ','PhiQ','ProdQ','LongQ'],
+            help='Queue name'
+            )
+    parser.add_argument(
+            "-v", "--version",
+            type=str,
+            default='g16',
+            required=False,
+            choices=['g16','g09'],
+            help='Gaussian version to execute the calculation.'
+            )
+    parser.add_argument(
+            "-a", "--all",
+            type=str,
+            default='single',
+            required=False,
+            choices=['single','all','all1job'],
+            help='Number of calculations submitted. Single will submit the selected input file, All will submit all the input files (.com) in the folder. All1job will submit all the input files (.com) in a single job file, executing them in series.'
+            )
+    parser.add_argument(
+            "--pattern",
+            type=str,
+            default='',
+            required=False,
+            help='Pattern used to launch all the calculations starting with it. Must be used with -a "all" or -a "all1job" options. If empty, all .com within the folder will be considered.'
+            )
+    parser.add_argument(
+            "--no_submit",
+            action="store_true",
+            required=False,
+            help='Creates the runscripts but does not submit them to the queue.'
+            )
+    args = parser.parse_args()
+
+    return args
+
+def create_job_single(filename,time,project,queue,version,mail,no_submit):
+
+    if version == 'g16':
+        module = 'gaussian/16c01'
+    elif version == 'g09':
+        module = 'gaussian/09e01'
+
+    script = f"""#!/bin/bash
+#SBATCH -p {queue}
+#SBATCH -N 1
+#SBATCH --job-name={filename} 
+#SBATCH -t {time}:00
+#SBATCH -A {project}
+#SBATCH -o {filename}.txt
+#SBATCH --mail-user={mail}
+#SBATCH --mail-type=BEGIN,END
+
+cd $SLURM_SUBMIT_DIR
+module load {module}
+
+export GAUSS_SCRDIR=/scratch/global
+
+{version} < {filename}.com > {filename}.log """
+
+    with open(f'{filename}.job','w') as f:
+        f.write(script)
+
+    print(no_submit)
+    if no_submit == False:
+        os.system(f'sbatch {filename}.job')
+        print(f'{filename}.job submitted to {queue}')
+    else:
+        print(f'{filename}.job created but not submitted')
+
+def create_job_multiple(jobname,input_files,time,project,queue,version,mail,no_submit):
+
+    if version == 'g16':
+        module = 'gaussian/16c01'
+    elif version == 'g09':
+        module = 'gaussian/09e01'
+
+    script = f"""#!/bin/bash
+#SBATCH -p {queue}
+#SBATCH -N 1
+#SBATCH --job-name={jobname} 
+#SBATCH -t {time}:00
+#SBATCH -A {project}
+#SBATCH -o {jobname}.txt
+#SBATCH --mail-user={mail}
+#SBATCH --mail-type=BEGIN,END
+
+cd $SLURM_SUBMIT_DIR
+module load {module}
+
+export GAUSS_SCRDIR=/scratch/global
+
+"""
+
+    with open(f'{jobname}.job','w') as f:
+        f.write(script)
+        for file in input_files:
+            f.write(f'{version} < {file} > {file.split(".")[0]}.log \n')
+
+    if no_submit == False:
+        os.system(f'sbatch {jobname}.job')
+        print(f'{jobname}.job submitted to {queue}')
+    else:
+        print(f'{jobname}.job created but not submitted')
+
+def main():
+    mail = 'name@domail.com'
+    args = arg_parser()
+
+    if args.all == 'single':
+        if os.path.isfile(args.input):
+            filename = args.input.split('.')[0]
+            create_job_single(filename, args.runtime, args.project_code, args.queue,args.version,mail, args.no_submit)
+        else:
+            print(f'{args.input} does not exist')
+
+    elif args.all == 'all':
+        search = f'{args.pattern}*com'
+        input_files = glob.glob(search)
+        
+        for input in input_files:
+            filename = input.split('.')[0]
+            create_job_single(filename, args.runtime, args.project_code, args.queue,args.version,mail, args.no_submit)
+
+    elif args.all == 'all1job':
+        search = f'{args.pattern}*com'
+        input_files = glob.glob(search)
+
+        if args.pattern == '':
+            jobname = 'all_jobs'
+        else:
+            jobname = f'{args.pattern}_all'
+
+        create_job_multiple(jobname,input_files, args.runtime, args.project_code, args.queue, args.version, mail, args.no_submit)
+
+if __name__ == "__main__":
+    main()
+

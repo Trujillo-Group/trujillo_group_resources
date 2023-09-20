@@ -1,5 +1,0 @@
-#!/bin/bash
-
-for file in *.com; do 
-	sub_g09 $file $1 $2 
-done
