@@ -52,7 +52,7 @@ def create_runscript(queue, cores, input_file):
 module load gaussian/g16c01_em64t_detectcpu
 
 ## Set up scratch dir (please do this!)
-export GAUSS_SCRDIR=/scratch/m19190tr/gau_temp_$SLURM_JOB_ID
+export GAUSS_SCRDIR=/scratch/$USER/gau_temp_$SLURM_JOB_ID
 mkdir -p $GAUSS_SCRDIR
 
 ## Say how much memory to use (4GB per core)
@@ -74,4 +74,4 @@ else:
     # check if number of cores in input file matches number of cores specified
     with open("run.sh", "w") as f:
         f.write(create_runscript(queue, args.cores, args.input))
-    
+    os.system(f"sbatch run.sh {args.input}")
