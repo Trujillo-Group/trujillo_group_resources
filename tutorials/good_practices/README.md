@@ -25,7 +25,7 @@ To ensure a productive and collaborative environment, we have established these 
     [Jmol](https://jmol.sourceforge.net/) (*open source*),
     [Chimera](https://www.cgl.ucsf.edu/chimera/) (*open source*),
     [PyMOL](https://pymol.org/2/),
-    [VMD](https://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=VMD).
+    [VMD](https://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=VMD) (*free*).
   - **Reaction schemes and 2D figures:**
     [Chemdraw](https://chemdrawdirect.perkinelmer.cloud/js/sample/index.html),
     [Inkscape](https://inkscape.org/) (*open source*),
