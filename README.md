@@ -10,6 +10,7 @@ Checking the [**good practices guideline**](tutorials/good_practices/README.md) 
 
 # Links to tutorials
 - **[Basic UNIX commands](tutorials/basic_linux/README.md)**
+- **[Your first Gaussian optimisation](tutorials/gaussian_submission/README.md)**
 - **[Molecular Electrostatic Potential](tutorials/MEP/README.md)**
 
 # Group scripts
