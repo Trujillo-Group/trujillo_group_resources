@@ -7,7 +7,7 @@ The smarter `cd` command. It tracks your most used directories and allows you to
 The magic shell history. It allows you to search through your shell history and execute commands from it.    
 ### [copyq](https://hluk.github.io/CopyQ/)
 Clipboard manager with advanced features. It allows you to copy and paste multiple items and supports keyboard shortcuts to paste them. 
-### ls alternatives
+### `ls` alternatives
 #### [exa](https://github.com/ogham/exa)
 A modern replacement for `ls`. It is written in Rust and has a lot of useful features.
 #### [eza](https://github.com/eza-community/)
