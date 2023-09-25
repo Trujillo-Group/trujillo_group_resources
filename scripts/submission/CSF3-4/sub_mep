@@ -10,13 +10,14 @@ echo "working with $filename"
 echo "#!/bin/bash "                                                      > $filename.job
 echo "# All the informations about queues can be obtained by 'sinfo'"   >> $filename.job
 echo "#SBATCH -p serial                                          "      >> $filename.job
-echo "#SBATCH -N 1                                               "      >> $filename.job
+echo "#SBATCH --ntasks 1                                         "      >> $filename.job
 echo "#SBATCH --job-name=$filename                               "      >> $filename.job
 echo "# Charge job to myaccount                                  "      >> $filename.job
 echo "# Write stdout+stderr to file                              "      >> $filename.job
 echo "#SBATCH -o $filename.txt                                   "      >> $filename.job
 echo "module load gaussian/g16c01_em64t_detectcpu                "      >> $filename.job
 echo "                                                           "      >> $filename.job
+echo "## Set up scratch dir (please do this!)                    "      >> $filename.job
 echo "export GAUSS_SCRDIR=/scratch/$USER/gau_temp_$SLURM_JOB_ID  "      >> $filename.job
 echo "mkdir -p $GAUSS_SCRDIR                                     "      >> $filename.job
 echo "## Say how much memory to use (4GB per core)               "      >> $filename.job
@@ -30,7 +31,5 @@ echo "cubegen 0 potential=scf $filename.fchk ${filename}_MEP.cube 100 h">> $file
 echo "Multiwfn $filename.fchk < ~/bin/mep_options.txt                 " >> $filename.job
 echo "mv surfanalysis.txt ${filename}_CRIT.txt"                         >> $filename.job
 
-sbatch $filename.job
+sbatch $filename.job 
 done
-
-
