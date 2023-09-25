@@ -18,12 +18,12 @@ echo "#SBATCH -o $filename.txt                                   "      >> $file
 echo "module load gaussian/g16c01_em64t_detectcpu                "      >> $filename.job
 echo "                                                           "      >> $filename.job
 echo "## Set up scratch dir (please do this!)                    "      >> $filename.job
-echo "export GAUSS_SCRDIR=/scratch/$USER/gau_temp_\$SLURM_JOB_ID  "      >> $filename.job
-echo "mkdir -p \$GAUSS_SCRDIR                                     "      >> $filename.job
+echo "export GAUSS_SCRDIR=/scratch/\$USER/gau_temp_\$SLURM_JOB_ID  "    >> $filename.job
+echo "mkdir -p \$GAUSS_SCRDIR                                     "     >> $filename.job
 echo "## Say how much memory to use (4GB per core)               "      >> $filename.job
-echo "export GAUSS_MDEF=\$((SLURM_NTASKS*4))4GB                   "      >> $filename.job
+echo "export GAUSS_MDEF=\$((SLURM_NTASKS*4))4GB                   "     >> $filename.job
 echo " ## Inform Gaussian how many cores to use                  "      >> $filename.job   
-echo "export GAUSS_PDEF=\$SLURM_NTASKS                            "      >> $filename.job                                                      
+echo "export GAUSS_PDEF=\$SLURM_NTASKS                            "     >> $filename.job                                                      
 echo "                                                           "      >> $filename.job
 echo "formchk $filename.chk                                      "   	>> $filename.job
 echo "cubegen 0 density=scf $filename.fchk ${filename}_DENS.cube 100 h" >> $filename.job
