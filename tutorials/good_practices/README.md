@@ -7,9 +7,9 @@ To ensure a productive and collaborative environment, we have established these 
 ### 1. Data Management 
 - Regularly backup your work, including data, code, and documents.
   **Weekly backups** are mandatory.
-- Use either cloud storage or an institutional server for secure and accesible backups
+- Use either cloud storage or an institutional server for secure and accessible backups
 - Keep software and systems updated to address security vulnerabilities
-- Keep a detailed journal of all your projects, including: list of calculations and their state, TODO list, and computational details.
+- Keep a detailed journal of all your projects, including: a list of calculations and their state, TODO list, and computational details.
 
     *Suggested tools*:
     Physical notebooks,
