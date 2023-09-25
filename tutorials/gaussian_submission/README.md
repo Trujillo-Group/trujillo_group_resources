@@ -68,7 +68,7 @@ In this example, the $H_2O$ molecule will be optimised and its vibrational frequ
 A continius solvent model (**SMD**) will be used to include the effect of the solvent in the calculation and **water** will be the solvent of choice.
 
 In order to modify the input file you have to:
-1. Open the input file with your text editor of choice: `vi h2o.gjf` (if you are not familiar with `vi`, you can use any other text editor like [Sublime](https://www.sublimetext.com/3), [Atom](https://atom.en.softonic.com/) or [VScode](https://code.visualstudio.com/), or check our `vi` tutorial (**not available yet**)).
+1. Open the input file with your text editor of choice: `vi h2o.gjf` (if you are not familiar with `vi`, you can use any other text editor like [Sublime](https://www.sublimetext.com/3), [Atom](https://atom.en.softonic.com/) or [VScode](https://code.visualstudio.com/), or check our `vi` tutorial [here](../vi_tutorial/README.md) ).
 
     If you saved the molecule with the default GaussView options, you should see something like:
     ```
