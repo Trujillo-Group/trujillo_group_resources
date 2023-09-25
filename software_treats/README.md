@@ -7,6 +7,26 @@ The smarter `cd` command. It tracks your most used directories and allows you to
 The magic shell history. It allows you to search through your shell history and execute commands from it.    
 ### [copyq](https://hluk.github.io/CopyQ/)
 Clipboard manager with advanced features. It allows you to copy and paste multiple items and supports keyboard shortcuts to paste them. 
+### ls alternatives
+#### [exa](https://github.com/ogham/exa)
+A modern replacement for `ls`. It is written in Rust and has a lot of useful features.
+#### [eza](https://github.com/eza-community/)
+A modern replacement for `ls`. It is based on `exa` and written in Rust. In contrast to [`exa` it is maintained](https://github.com/ogham/exa/issues/1243) by the community and has a few more features.
+
+### [fzf](https://github.com/junegunn/fzf)
+A command-line fuzzy finder. It allows you to search through your shell history, files, and directories. It also has a lot of useful keybindings. A `vim` plugin is also available.
+
+### [bat](https://github.com/sharkdp/bat)
+A `cat` clone with syntax highlighting and Git integration. It is written in Rust and has a lot of useful features.
+
+### [ripgrep](https://github.com/BurntSushi/ripgrep)
+A `grep` alternative written in Rust. It is faster than `grep` and has a lot of useful features. 
+
+### [clifm](https://github.com/leo-arch/clifm)
+A command-line file manager. From the [wiki](https://github.com/leo-arch/clifm/wiki/Introduction#what-is-clifm):
+>If your workflow is mainly based on the command line, then a command line file manager is naturally a coherent choice. There is no need to hide it: clifm is mainly aimed to advanced, power users, programmers, and system administrators who perform most (if not all) their work in the command line.
+
+
 
 ## AI tools
 >[!WARNING]  
