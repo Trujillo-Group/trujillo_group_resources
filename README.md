@@ -6,11 +6,15 @@ It is especially convenient for new members of the team, either undergrad, maste
 Contributing to this repository is the perfect way to get familiar with the GitHub repositories, code documentation and tutorial writing. 
 Do not hesitate to collaborate, provide feedback or ask for any help from other members of the team.
 
-Checking the [**good practices guideline**](tutorials/good_practices/README.md) is highly recommended for new members as well.
+Checking the [**good practices guideline**](resources/good_practices.md) is highly recommended for new members as well.
+
+# Resources
+- **[Basic UNIX commands](resources/basic_linux.md)**
+- **[Basic VI](resources/vi_tutorial.md)**
+- **[Web resources](resources/web_resources.md)**
+- **[Software treats](resources/software_treats.md)**
 
 # Links to tutorials
-- **[Basic UNIX commands](tutorials/basic_linux.md)**
-- **[Basic VI tutorial](tutorials/vi_tutorial.md)**
 - **[Your first Gaussian optimisation](tutorials/gaussian_submission/README.md)**
 - **[Molecular Electrostatic Potential](tutorials/MEP/README.md)**
 
