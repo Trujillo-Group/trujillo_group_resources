@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# USAGE:
+#
+# mep_sub filename.chk 
+
+filename=$(echo $1 | awk -F.chk '{print $1}')
+
+echo "working with $filename"
+echo "#!/bin/bash "                                                      > $filename.job
+echo "# All the informations about queues can be obtained by 'sinfo'"   >> $filename.job
+echo "#SBATCH -p serial                                          "      >> $filename.job
+echo "#SBATCH -N 1                                               "      >> $filename.job
+echo "#SBATCH --job-name=$filename                               "      >> $filename.job
+echo "# Charge job to myaccount                                  "      >> $filename.job
+echo "# Write stdout+stderr to file                              "      >> $filename.job
+echo "#SBATCH -o $filename.txt                                   "      >> $filename.job
+echo "module load gaussian/g16c01_em64t_detectcpu                "      >> $filename.job
+echo "                                                           "      >> $filename.job
+echo "export GAUSS_SCRDIR=/scratch/$USER/gau_temp_$SLURM_JOB_ID  "      >> $filename.job
+echo "mkdir -p $GAUSS_SCRDIR                                     "      >> $filename.job
+echo "## Say how much memory to use (4GB per core)               "      >> $filename.job
+echo "export GAUSS_MDEF=$((SLURM_NTASKS*4))4GB                   "      >> $filename.job
+echo " ## Inform Gaussian how many cores to use                  "      >> $filename.job   
+echo "export GAUSS_PDEF=$SLURM_NTASKS                            "      >> $filename.job                                                      
+echo "                                                           "      >> $filename.job
+echo "formchk $filename.chk                                      "   	>> $filename.job
+echo "cubegen 0 density=scf $filename.fchk ${filename}_DENS.cube 100 h" >> $filename.job
+echo "cubegen 0 potential=scf $filename.fchk ${filename}_MEP.cube 100 h">> $filename.job
+echo "Multiwfn $filename.fchk < ~/bin/mep_options.txt                 " >> $filename.job
+echo "mv surfanalysis.txt ${filename}_CRIT.txt"                         >> $filename.job
+
+sbatch $filename.job
+done
+
+
