@@ -9,8 +9,8 @@ Do not hesitate to collaborate, provide feedback or ask for any help from other 
 Checking the [**good practices guideline**](tutorials/good_practices/README.md) is highly recommended for new members as well.
 
 # Links to tutorials
-- **[Basic UNIX commands](tutorials/basic_linux/README.md)**
-- **[Basic VI tutorial](tutorials/vi_tutorial/README.md)**
+- **[Basic UNIX commands](tutorials/basic_linux.md)**
+- **[Basic VI tutorial](tutorials/vi_tutorial.md)**
 - **[Your first Gaussian optimisation](tutorials/gaussian_submission/README.md)**
 - **[Molecular Electrostatic Potential](tutorials/MEP/README.md)**
 
