@@ -10,7 +10,7 @@ Checking the [**good practices guideline**](resources/good_practices.md) is high
 
 # Resources
 - **[Basic UNIX commands](resources/basic_linux.md)**
-- **[Basic VI](resources/vi_tutorial.md)**
+- **[Basic VI](resources/basic_vi.md)**
 - **[Web resources](resources/web_resources.md)**
 - **[Software treats](resources/software_treats.md)**
 
