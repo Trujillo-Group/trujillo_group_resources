@@ -35,6 +35,7 @@ A command-line file manager. From the [wiki](https://github.com/leo-arch/clifm/w
 Though ChatGPT has been very popular in the beginning, other platforms have occured that are more powerful and more user-friendly. [You](https://you.com/) and [Perplexity](https://perplexity.ai/) are just two of them. They are AI enhanced search engines and allow you to search the web in a more efficient way. Their capabilities range from basic web searches, over chat bots to generating images. 
 ### Academic search engines
 In addition to those generic search engines, there are also academic search engines that are more specialized. [SciSpace](https://typeset.io/), for exmple, is a search engine for scientific papers and review articles enhanced with AI. It provides AI generated summaries and the chat function allows you to ask questions about the paper. 
+### [ML demos](https://github.com/MilesCranmer/awesome-ml-demos)
 
 ## QM software in Python
 ### [ASE](https://wiki.fysik.dtu.dk/ase/index.html)
