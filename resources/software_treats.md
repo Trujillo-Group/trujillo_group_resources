@@ -45,3 +45,6 @@ A Python library for materials analysis but also useful for other applications. 
 A chemical toolbox designed to speak the many languages of chemical data. It's an open, collaborative project allowing anyone to search, convert, analyze, or store data from molecular modeling, chemistry, solid-state materials, biochemistry, or related areas.
 ### [RDKit](https://www.rdkit.org/)
 A collection of cheminformatics and machine-learning software written in C++ and Python. It is used to generate 2D and 3D molecular structures, fingerprints, and other useful data.
+### [AQME](https://github.com/jvalegre/aqme)
+Ensemble of automated QM workflows that can be run through jupyter notebooks, command lines and yaml file.
+[Youtube tutorials](https://www.youtube.com/channel/UCHRqI8N61bYxWV9BjbUI4Xw) available.
