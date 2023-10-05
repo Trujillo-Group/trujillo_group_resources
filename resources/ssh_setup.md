@@ -35,7 +35,7 @@ To enable ssh multiplexing, open your ssh config file and add the following line
 ```bash
 Host csf3
     HostName 10.99.203.52
-    User m19190tr
+    User <username>
     ControlPath ~/.ssh/cm-%r@%h:%p
     ControlMaster auto
 Host 10.99.203.5*
