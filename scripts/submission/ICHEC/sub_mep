@@ -4,14 +4,14 @@
 #
 # mep_sub filename.chk hh:mm project_code queue_name
 
-filename=$(echo $j | awk -F.chk '{print $1}')
+filename=$(echo $1 | awk -F.chk '{print $1}')
 queue_time=$2
 project=$3
 queue_name=$4
 
 echo "working with $filename"
 echo "#!/bin/bash "                                                      > $filename.job
-echo "# All the informations about queues can be obtained by 'sinfo'"   >> $filename.job
+echo "# All the information about queues can be obtained by 'sinfo'"    >> $filename.job
 echo "# PARTITION AVAIL  TIMELIMIT "                                    >> $filename.job
 echo "# DevQ         up    1:00:00                               "      >> $filename.job
 echo "# ProdQ*       up 3-00:00:00                               "      >> $filename.job
@@ -43,6 +43,6 @@ echo "Multiwfn $filename.fchk < ~/scripts/mep_options.txt             " >> $file
 echo "mv surfanalysis.txt ${filename}_CRIT.txt" >> $filename.job
 
 sbatch $filename.job
-done
+
 
 
