@@ -27,7 +27,6 @@ echo "Total: $total_jobs"
 
 echo "${GREEN}----- Completed Jobs -----${DEFAULT}"
 
-
 # Run the squeue command and store the output in a temporary file
 squeue -u $USER > /mnt/iusers01/chem01/$USER/bin/squeue_jobs.txt
 
@@ -40,23 +39,22 @@ rm /mnt/iusers01/chem01/$USER/bin/squeue_jobs.txt
 # Get the squeue information for user $USER
 squeue -u $USER > /mnt/iusers01/chem01/$USER/bin/squeue_jobs.txt
 
-# Compare the job IDs and save the unmatched job IDs to completed_jobs.txt
-comm -3 <(awk '{print $1}' /mnt/iusers01/chem01/$USER/bin/current_jobs.txt | sort) <(awk '{print $1}' /mnt/iusers01/chem01/$USER/bin/squeue_jobs.txt | sort) > /mnt/iusers01/chem01/$USER/bin/completed_jobs.txt
+# Compare the job IDs and save the unmatched job IDs to a temporary file
+comm -3 <(awk '{print $1}' /mnt/iusers01/chem01/$USER/bin/current_jobs.txt | sort) <(awk '{print $1}' /mnt/iusers01/chem01/$USER/bin/squeue_jobs.txt | sort) > /mnt/iusers01/chem01/$USER/bin/temp_completed_jobs.txt
 
-# Check if completed_jobs.txt is empty
-if [ -s /mnt/iusers01/chem01/$USER/bin/completed_jobs.txt ]; then
-  # Print the number of completed jobs
-  completed_jobs_count=$(wc -l < /mnt/iusers01/chem01/$USER/bin/completed_jobs.txt)
-  echo "Number of completed jobs: $completed_jobs_count"
-
+# Check if the temporary completed jobs file is not empty
+if [ -s /mnt/iusers01/chem01/$USER/bin/temp_completed_jobs.txt ]; then
   # Add a timestamp to the completed jobs and append them to completed_jobs.txt
   date +"%Y-%m-%d %T" | awk -v OFS='\t' '{print $0}' >> /mnt/iusers01/chem01/$USER/bin/completed_jobs.txt
+
+  # Print the newly completed jobs
+  echo "Newly completed jobs:"
+  cat /mnt/iusers01/chem01/$USER/bin/temp_completed_jobs.txt
 else
-  echo "All jobs are still running."
+  # Print "No completed jobs"
+  echo "No completed jobs"
 fi
 
-# Print the names of completed jobs
-awk 'NR==FNR{a[$1];next} !($1 in a) {print $2}' /mnt/iusers01/chem01/$USER/bin/completed_jobs.txt /mnt/iusers01/chem01/$USER/bin/current_jobs.txt
 
-# Delete the squeue_jobs.txt file
-rm -f /mnt/iusers01/chem01/$USER/bin/squeue_jobs.txt
+# Remove the temporary completed jobs file
+rm /mnt/iusers01/chem01/$USER/bin/temp_completed_jobs.txt
