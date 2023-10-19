@@ -1,14 +1,4 @@
 #!/bin/bash
-# N.B. For this script to work you must have a bin folder in your home directory. (This script will create the necessary files in this folder.)
-
-# This script will check the status of your jobs on CSF4
-# and print the number of running and pending jobs.
-
-# Define the colors
-GREEN=$(tput setaf 2)
-DEFAULT=$(tput sgr0)
-
-echo "${GREEN}------ Current Jobs ------${DEFAULT}"
 
 # Get the number of running jobs
 running_jobs=$(squeue -u $USER | awk '$7 == "R" {print}' | wc -l)
@@ -23,38 +13,4 @@ total_jobs=$((running_jobs + pending_jobs))
 echo "You currently have:"
 echo "  $running_jobs jobs running"
 echo "  $pending_jobs jobs pending"
-echo "Total: $total_jobs"
-
-echo "${GREEN}----- Completed Jobs -----${DEFAULT}"
-
-# Run the squeue command and store the output in a temporary file
-squeue -u $USER > /mnt/iusers01/chem01/$USER/bin/squeue_jobs.txt
-
-# Use awk to remove the first column and then use the column command to format the output into two separate columns
-awk '{print $1, $4}' /mnt/iusers01/chem01/$USER/bin/squeue_jobs.txt | column -t > /mnt/iusers01/chem01/$USER/bin/current_jobs.txt
-
-# Remove the temporary file
-rm /mnt/iusers01/chem01/$USER/bin/squeue_jobs.txt
-
-# Get the squeue information for user $USER
-squeue -u $USER > /mnt/iusers01/chem01/$USER/bin/squeue_jobs.txt
-
-# Compare the job IDs and save the unmatched job IDs to a temporary file
-comm -3 <(awk '{print $1}' /mnt/iusers01/chem01/$USER/bin/current_jobs.txt | sort) <(awk '{print $1}' /mnt/iusers01/chem01/$USER/bin/squeue_jobs.txt | sort) > /mnt/iusers01/chem01/$USER/bin/temp_completed_jobs.txt
-
-# Check if the temporary completed jobs file is not empty
-if [ -s /mnt/iusers01/chem01/$USER/bin/temp_completed_jobs.txt ]; then
-  # Add a timestamp to the completed jobs and append them to completed_jobs.txt
-  date +"%Y-%m-%d %T" | awk -v OFS='\t' '{print $0}' >> /mnt/iusers01/chem01/$USER/bin/completed_jobs.txt
-
-  # Print the newly completed jobs
-  echo "Newly completed jobs:"
-  cat /mnt/iusers01/chem01/$USER/bin/temp_completed_jobs.txt
-else
-  # Print "No completed jobs"
-  echo "No completed jobs"
-fi
-
-
-# Remove the temporary completed jobs file
-rm /mnt/iusers01/chem01/$USER/bin/temp_completed_jobs.txt
+echo "Total: $total_jobs" 
