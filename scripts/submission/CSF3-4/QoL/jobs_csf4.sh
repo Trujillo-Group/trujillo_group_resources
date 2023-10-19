@@ -8,9 +8,7 @@
 GREEN=$(tput setaf 2)
 DEFAULT=$(tput sgr0)
 
-echo "${GREEN}--------------------------${DEFAULT}"
 echo "${GREEN}------ Current Jobs ------${DEFAULT}"
-echo "${GREEN}--------------------------${DEFAULT}"
 
 # Get the number of running jobs
 running_jobs=$(squeue -u $USER | awk '$7 == "R" {print}' | wc -l)
@@ -27,11 +25,8 @@ echo "  $running_jobs jobs running"
 echo "  $pending_jobs jobs pending"
 echo "Total: $total_jobs"
 
-# Print the job IDs and names
-
-echo "${GREEN}--------------------------${DEFAULT}"
 echo "${GREEN}----- Completed Jobs -----${DEFAULT}"
-echo "${GREEN}--------------------------${DEFAULT}"
+
 
 # Run the squeue command and store the output in a temporary file
 squeue -u $USER > /mnt/iusers01/chem01/$USER/bin/squeue_jobs.txt
@@ -59,8 +54,6 @@ if [ -s /mnt/iusers01/chem01/$USER/bin/completed_jobs.txt ]; then
 else
   echo "All jobs are still running."
 fi
-
-#echo "----------------------"
 
 # Delete the squeue_jobs.txt file
 rm -f /mnt/iusers01/chem01/$USER/bin/squeue_jobs.txt
