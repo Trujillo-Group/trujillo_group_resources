@@ -55,5 +55,8 @@ else
   echo "All jobs are still running."
 fi
 
+# Print the names of completed jobs
+awk 'NR==FNR{a[$1];next} !($1 in a) {print $2}' /mnt/iusers01/chem01/$USER/bin/completed_jobs.txt /mnt/iusers01/chem01/$USER/bin/current_jobs.txt
+
 # Delete the squeue_jobs.txt file
 rm -f /mnt/iusers01/chem01/$USER/bin/squeue_jobs.txt
