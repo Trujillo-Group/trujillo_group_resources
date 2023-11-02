@@ -15,6 +15,7 @@ Checking the [**good practices guideline**](resources/good_practices.md) is high
 - **[Software treats](resources/software_treats.md)**
 - **[SSH set up](resources/ssh_setup.md)**
 - **[Windows set up](resources/windows_users.md)**
+- **[Image formats](resources/image_formats/README.md)**
 
 # Links to tutorials
 - **[Your first Gaussian optimisation](tutorials/gaussian_submission/README.md)**
