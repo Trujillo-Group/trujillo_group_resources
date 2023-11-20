@@ -25,7 +25,7 @@ A `grep` alternative written in Rust. It is faster than `grep` and has a lot of 
 ### [clifm](https://github.com/leo-arch/clifm)
 A command-line file manager. From the [wiki](https://github.com/leo-arch/clifm/wiki/Introduction#what-is-clifm):
 >If your workflow is mainly based on the command line, then a command line file manager is naturally a coherent choice. There is no need to hide it: clifm is mainly aimed to advanced, power users, programmers, and system administrators who perform most (if not all) their work in the command line.
-
+[Video Tutorial](https://www.youtube.com/watch?v=CJmcisw9F90)
 
 
 ## AI tools
