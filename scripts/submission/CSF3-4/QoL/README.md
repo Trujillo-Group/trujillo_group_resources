@@ -27,11 +27,11 @@ Whenever a new script is added, add the following details:
 **jobs_csf3.sh**
   - James O'Brien
   - Outlines number and status of jobs. (Tracks job completions when used consistently)
-  - \textit{Recommended: Add execution to end of submission script.}
+  - *Recommended: Add execution to end of submission script.*
   - CSF3
 
 **jobs_csf4.sh**
   - James O'Brien
   - Outlines number and status of jobs. (Tracks job completions when used consistently)
-  - \textit{Recommended: Add execution to end of submission script.}
+  - *Recommended: Add execution to end of submission script.*
   - CSF4
