@@ -9,11 +9,12 @@ The computaitonal chemistry equivalent to the `hello world!` script is the optim
  - [Requirements](#requirements)
  - Steps
     1. [Build the system](#1.-build-the-system)
-    1. [Prepare the input file](#2.-prepare-the-input-file)
-
+    2. [Prepare the input file](#2.-prepare-the-input-file)
+    3. [Modify the lines to match your requirements](#3.-modify-the-lines-to-metch-your-requirements)
+    4. [Submit the calculation](#4.-submit-the-calculation)
 ## Requirements
-- GaussView (available in CFS)
-- Gaussian (available in ICHEC and CFS)
+- GaussView (available in CSF3)
+- Gaussian (available in ICHEC and CSF3/4)
 - [Submission script](https://github.com/Trujillo-Group/trujillo_group_resources/tree/main/scripts/submission) 
 
 ## 1. Build the system
@@ -68,7 +69,9 @@ In this example, the $H_2O$ molecule will be optimised and its vibrational frequ
 A continius solvent model (**SMD**) will be used to include the effect of the solvent in the calculation and **water** will be the solvent of choice.
 
 In order to modify the input file you have to:
-1. Open the input file with your text editor of choice: `vi h2o.gjf` (if you are not familiar with `vi`, you can use any other text editor like [Sublime](https://www.sublimetext.com/3), [Atom](https://atom.en.softonic.com/) or [VScode](https://code.visualstudio.com/), or check our `vi` tutorial [here](../vi_tutorial/README.md) ).
+1. **Open the input file with your text editor of choice:** 
+
+`vi h2o.gjf` (if you are not familiar with `vi`, you can use any other text editor like [Sublime](https://www.sublimetext.com/3), [Atom](https://atom.en.softonic.com/) or [VScode](https://code.visualstudio.com/), or check our `vi` tutorial [here](../vi_tutorial/README.md) ).
 
     If you saved the molecule with the default GaussView options, you should see something like:
     ```
@@ -87,11 +90,9 @@ In order to modify the input file you have to:
      3
     ```
 
-2. Modify the lines to match your requirements.
-
-Depending on the computational facility, you may need to specify the number of processors and memmory destinated for the calculation.=
+2. **Modify the lines to match your requirements.**
    
- - ICHEC :
+ - **ICHEC**:
 
     Your input file should look like this after modifiying it:
     ```
@@ -110,7 +111,7 @@ Depending on the computational facility, you may need to specify the number of p
     ```
     If you are working in **ICHEC**, 40 is the maximum number of shared process/cores that can be used and 100GB is the maximum memory that can be allocated for a calculation.
 
- - CSF3 / CSF4 :
+ - **CSF3 / CSF4:**
 
     Your input file should look like this after modifiying it:
     ```
@@ -126,11 +127,14 @@ Depending on the computational facility, you may need to specify the number of p
 
     ```
 
-    If you are working in CSF3, 32 is the maximum number of cores that can be used for a calculation.
-    If you are working in CSF4, 40 is the maximum number of cores that can be used for a calculation.
+    If you are working in **CSF3**: 32 is the maximum number of cores that can be used for a calculation.
+    
+    If you are working in **CSF4**: 40 is the maximum number of cores that can be used for a calculation.
 
-4. Save the new input file as a .com file
-5. Copy the .gjf input file to .com: `cp h2o.gjf h2o.com`. The reason to use two different file extensions for the same input is that we do not overwrite any input file (.com) by mistake when we save a new one with gaussview (.gjf).
+3. **Save and exit the new input file**
+4. **Copy the .gjf input file to .com**
+
+ `cp h2o.gjf h2o.com` The reason to use two different file extensions for the same input is that we do not overwrite any input file (.com) by mistake when we save a new one with gaussview (.gjf).
 
 ## 3. Submit the calculation
 
@@ -142,7 +146,7 @@ Once the input file is created and the keywords modified, the next step would be
    
    - CSF3 / CSF4 :    ```rsync -avz h2o.com username@csf3.itservices.manchester.ac.uk:/path/to/your/folder```
 
-3. Once connected to the computational center
+2. Once connected to the computational center
 
     ```ssh -i "~/.ssh/your_private_ssh_key" username@domain.com```
 
@@ -154,7 +158,7 @@ Once the input file is created and the keywords modified, the next step would be
 
         This command will generate a **.job** file with all the required information for the run and will submit it to the queue. 
         Since the system is small 1:00 is enough but for bigger systems longer times and different queues will be required. For more information about the submission script refer to the scripts folder or run `sub_gaussian -h`.
-
+<br><br>
 
     - Submission in **CSF3** using `sub_g16_csf3_python`:
 
@@ -164,31 +168,32 @@ Once the input file is created and the keywords modified, the next step would be
 
         ```sub_g16_csf4_python -i h2o.com -c 5```
 
-        This command will generate a **run.sh** file with all the required information for the run and will submit it to the queue. 
+        These command will generate a **run.sh** file with all the required information for the run and will submit it to the queue. 
         Since the system is small 5 cores is enough but for bigger systems more nodes will be required. For more information about the submission script refer to the scripts folder or run `sub_g16_csf3_python -h`.
 
   
 
-4. You can check the state of the queue:
-   - ICHEC / CSF4 : Run `squeue -u your_username` and check if it is pending (**PD**) or running (**R**).
-   - CSF3 : Run `qstat -u your_username` and check if it is pending (**qw**) or running (**r**).
+3. You can check the state of the queue:
+   - **ICHEC / CSF4:** Run `squeue -u your_username` and check if it is pending (**PD**) or running (**R**).
+   - **CSF3:** Run `qstat -u your_username` and check if it is pending (**qw**) or running (**r**).
 
-5. Once the calculation is finished, a **.log** file will be created. You can download this file to your local computer and open it with GaussView by running the following commmand in your local computer (not in the computational center).
+4. Once the calculation is finished, a **.log** file will be created. You can download this file to your local computer and open it with GaussView by running the following commmand in your local computer (not in the computational center).
 
-   > ICHEC :    ```scp -i "~/.ssh/your_private_ssh_key" username@domain.com:/path/to/your/folder/h2o.log ./```
-
-
-   > CSF3 / CSF4 :    ```rsync -avz username@csf3.itservices.manchester.ac.uk:/path/to/your/folder/h2o.log .```
+   - **ICHEC:**    ```scp -i "~/.ssh/your_private_ssh_key" username@domain.com:/path/to/your/folder/h2o.log ./```
 
 
-6. All the energy data can be extrated using GaussView (right click > Results>Summary) or by running one of our designated scripts `dat.py` or `dat.src` that can be found [here](https://github.com/Trujillo-Group/trujillo_group_resources/tree/main/scripts/analysis).
+   - **CSF3 / CSF4:**    ```rsync -avz username@csf3.itservices.manchester.ac.uk:/path/to/your/folder/h2o.log .```
+
+
+5. All the energy data can be extrated using GaussView (right click > Results>Summary) or by running one of our designated scripts `dat.py` or `dat.src` that can be found [here](https://github.com/Trujillo-Group/trujillo_group_resources/tree/main/scripts/analysis).
 
 **Congratulations**, you have optimised your first molecule! 
 You can now try to run more complex systems like a benzene ring, an amino acid, ionic compounds or bigger molecules like caffeine.
 
-Play around and do not hesitate to ask any of the group memebers if you have any questions.
+Play around and do not hesitate to ask any of the group members if you have any questions.
+
 For reference:
 
- - Users familiar with ICHEC : Cris, Inigo, Nika, Diana
+ - Users familiar with ICHEC: Cris, Inigo, Nika, Diana
   
- - Users familiar with CSF3/4 : Cris, Tim, James, Maxime
+ - Users familiar with CSF3/4: Cris, Tim, James, Maxime
