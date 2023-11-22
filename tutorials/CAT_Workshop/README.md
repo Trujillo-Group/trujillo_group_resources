@@ -197,7 +197,7 @@ Once the calculation is finished, a `<filename>.log` file will be created. You c
 **Congratulations**, you have optimised your first molecule! 
 You can now try to run the remaining calculations for this SN2:
 - Substrates: HO<sup>-</sup>, EtBr
-- Transition State: HO<sup>-</sup> --- Et --- Br<sup>-</sup>
+- Transition State: HO<sup>-</sup> --- Et^+^ --- Br<sup>-</sup>
 - Products: EtOH, Br<sup>-</sup>
 
 Play around and do not hesitate to ask any of the group members if you have any questions.
