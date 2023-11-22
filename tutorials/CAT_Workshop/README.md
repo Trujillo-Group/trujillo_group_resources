@@ -154,7 +154,7 @@ Your input file should look like this after modifiying it:
 3. **Save and exit the new input file**
 4. **Copy the .gjf input file to .com**
 
-`cp h2o.gjf h2o.com` 
+`cp OH_anion.gjf OH_anion.com` 
 <br></br>
 The reason to use two different file extensions for the same input is that we do not overwrite any input file (.com) by mistake when we save a new one with gaussview (.gjf).
 
