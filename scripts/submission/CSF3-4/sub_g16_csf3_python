@@ -8,6 +8,7 @@ parser = argparse.ArgumentParser(description='Create Orca slurm runscript')
 parser.add_argument("-i", "--input", help="Input file name", required=True, type=str)
 parser.add_argument("-n", "--nodes", help="Number of nodes. multicore=1, multinode>1, serial=0; default=1", default=1, type=int)
 parser.add_argument("-c", "--cores", help="Number of cores", required=True, type=int)
+parser.add_argument("-s", "--short", help="Run the job on the short queue?", required=False, type=bool, default=False)
 args = parser.parse_args()
 
 # check if number of nodes is valid
@@ -76,5 +77,8 @@ else:
     # check if number of cores in input file matches number of cores specified
     with open("run.sh", "w") as f:
         f.write(create_runscript(queue, args.cores, args.input))
-    os.system(f"qsub run.sh {args.input}")
+    if args.short:
+        os.system(f"qsub -l short run.sh {args.input}")
+    else:
+        os.system(f"qsub run.sh {args.input}")
     
