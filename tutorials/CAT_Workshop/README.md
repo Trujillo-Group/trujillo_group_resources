@@ -177,6 +177,9 @@ You have to run the dedicated submission script that can be found in the [submis
 
 Submission in **CSF3**:
 ```sub_g16_csf3_python -i OH_anion.com -c 4```
+In case the queue system is busy, you can submit the job to the short queue:
+```sub_g16_csf3_python -i OH_anion.com -c 4 -s```
+The short queue is limited to 1 hour of wall time and a maximum of 24 cores per job.
 <br></br>  
 
 Submission in **CSF4**:
