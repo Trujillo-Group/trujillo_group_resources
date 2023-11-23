@@ -8,7 +8,8 @@ parser = argparse.ArgumentParser(description='Create Orca slurm runscript')
 parser.add_argument("-i", "--input", help="Input file name", required=True, type=str)
 parser.add_argument("-n", "--nodes", help="Number of nodes. multicore=1, multinode>1, serial=0; default=1", default=1, type=int)
 parser.add_argument("-c", "--cores", help="Number of cores", required=True, type=int)
-parser.add_argument("-s", "--short", help="Run the job on the short queue?", required=False, type=bool, default=False)
+# add flag for short queue
+parser.add_argument("-s", "--short", help="Use short queue", action="store_true")
 args = parser.parse_args()
 
 # check if number of nodes is valid
@@ -20,25 +21,6 @@ elif args.cores == 1:
     queue = "#"
 elif args.cores > 1 and args.cores <= 32:
     queue = "#$ -pe smp.pe"
-
-# check if number of cores is the same as in input file
-# def check_cores(input_file, cores):
-    # with open(input_file, "r") as f:
-        # lines = f.readlines()
-        # for line in lines:
-            # if "nprocs" in line:
-                # if int(line.split()[2]) != cores:
-                    # print("Number of cores in input file does not match number of cores specified")
-#                    ask user if they want to change number of cores in input file
-                    # change_cores = input("Do you want to change the number of cores in the input file? (y/n)")
-                    # if change_cores == "y":
-                        # with open(input_file, "w") as f:
-                            # for line in lines:
-                                # if "nproc" in line:
-                                    # line = f"%pal   nprocs {cores}\n"
-                                # f.write(line)
-                    # else:
-                        # sys.exit()
 
 # create slurm runscript
 def create_runscript(queue, cores, input_file):
@@ -81,4 +63,3 @@ else:
         os.system(f"qsub -l short run.sh {args.input}")
     else:
         os.system(f"qsub run.sh {args.input}")
-    
