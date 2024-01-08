@@ -10,7 +10,7 @@ To ensure a productive and collaborative environment, we have established these 
 - Use either cloud storage or an institutional server for secure and accessible backups
 - Keep software and systems updated to address security vulnerabilities
 - Keep a detailed journal of all your projects, including: a list of calculations and their state, TODO list, and computational details.
-
+- Be **extra** careful when using the command 'rm'. It is permanent and cannot be undone. In an attempt to save us from our own worst enemy, ourselves, it is recommended to use an alias such as srm='/bin/rm -i' as a safety net!
     *Suggested tools*:
     Physical notebooks,
     [Obsidian](https://obsidian.md/),
