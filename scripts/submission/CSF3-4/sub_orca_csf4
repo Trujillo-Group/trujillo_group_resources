@@ -156,4 +156,5 @@ else:
     check_cores(args.input, args.cores)
     with open("run.sh", "w") as f:
         f.write(create_runscript(queue, args.cores, args.input))
+    os.system(f"sbatch run.sh {args.input}")
     
