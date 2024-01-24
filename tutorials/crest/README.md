@@ -13,16 +13,21 @@ conda config -n crest_env --add channels conda-forge
 3. place the crest file in your ~/bin on CSF
 4. chmod u+x crest
 
-# Using Crest (CSF3)
+# Accessing Crest
+### CSF3
+1. Open interactive Session
 ```
 qrsh -l short
+```
+2. Load Conda Environment
+```
+module load apps/binapps/anaconda3/2023.09
 source activate crest_env
 ```
-Commands available via the [Crest documentation](https://crest-lab.github.io/crest-docs/page/documentation)
 
-# Using Crest (CSF4)
+### CSF4
 
-Open interactive Session
+1. Open interactive Session
 
 Single core:
 ```
@@ -30,9 +35,15 @@ srun --pty bash
 ```
 Multiple cores:    
 ```
-srun -p multicore -n [No. of Cores] --pty bash
+srun -p multicore -n [No. of Cores] --pty bash 
+```
+2. Load Conda environment
+```
+module load anaconda3/2022.10
 source activate crest_env
 ```
+
+##### Done!
 Commands available via the [Crest documentation](https://crest-lab.github.io/crest-docs/page/documentation)
 
 TBD: Create a jobscript to run Crest outside of the short interactive node.
