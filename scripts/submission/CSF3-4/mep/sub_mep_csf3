@@ -7,17 +7,17 @@
 filename=$(echo $1 | awk -F.chk '{print $1}')
 
 echo "working with $filename"
-echo "#!/bin/bash --login "                                             > $filename.job
+echo "#!/bin/bash --login "                                              > $filename.job
 echo "# All the informations about queues can be obtained by qstat  "   >> $filename.job
 echo "#$ -cwd                                                       "   >> $filename.job
 echo "# Load g16 for the CPU type our job is running on          "      >> $filename.job
 echo "module load apps/binapps/gaussian/g16c01_em64t_detectcpu   "      >> $filename.job
 echo "                                                           "      >> $filename.job
 echo "## Set up scratch dir (please do this!)                    "      >> $filename.job
-echo "export GAUSS_SCRDIR=/scratch/$USER/gau_temp_$JOB_ID        "    >> $filename.job
-echo "mkdir -p $GAUSS_SCRDIR                                     "     >> $filename.job
+echo "export GAUSS_SCRDIR=/scratch/$USER/gau_temp_$JOB_ID          "    >> $filename.job
+echo "mkdir -p $GAUSS_SCRDIR                                      "     >> $filename.job
 echo "## Say how much memory to use (4GB per core)               "      >> $filename.job
-echo "export GAUSS_MDEF=$((NSLOTS*4))GB                         "     >> $filename.job
+echo "export GAUSS_MDEF=$((NSLOTS*4))GB                           "     >> $filename.job
 echo "formchk $filename.chk                                      "      >> $filename.job
 echo "cubegen 0 density=scf $filename.fchk ${filename}_DENS.cube 100 h" >> $filename.job
 echo "cubegen 0 potential=scf $filename.fchk ${filename}_MEP.cube 100 h">> $filename.job
