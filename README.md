@@ -21,7 +21,7 @@ Checking the [**good practices guideline**](resources/good_practices.md) is high
 - **[Your first Gaussian optimisation](tutorials/gaussian_submission/README.md)**
 - **[Your first Reaction Path](tutorials/gaussian_submission/SN2_workshop/README.md)**
 - **[Molecular Electrostatic Potential](tutorials/MEP/README.md)**
-- **[Crest](tutorials/crest/README.md)**
+- **[Crest](tutorials/crest/CSF3-4/README.md)**
 
 
 # Group scripts
