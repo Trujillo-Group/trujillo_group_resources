@@ -1,3 +1,5 @@
+
+
 # Step by step gaussian submission
 
 This tutorial will help you to submit your first quantum optimisation using Gaussian.
@@ -189,6 +191,7 @@ Once the input file is created and the keywords modified, the next step would be
 
 **Congratulations**, you have optimised your first molecule! 
 You can now try to run more complex systems like a benzene ring, an amino acid, ionic compounds or bigger molecules like caffeine.
+Or you can try model a full reaction path through the available SN2_tutorial!
 
 Play around and do not hesitate to ask any of the group members if you have any questions.
 
@@ -196,4 +199,4 @@ For reference:
 
  - Users familiar with ICHEC: Cris, Inigo, Nika, Diana
   
- - Users familiar with CSF3/4: Cris, Tim, James, Maxime
+ - Users familiar with CSF3/4: Cris, Tim, James
