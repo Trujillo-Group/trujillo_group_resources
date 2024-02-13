@@ -92,6 +92,8 @@ def2svp
     
 # Unrecognised Atomic Symbol
 
+![Unrecognised Atomic Symbol Example](figures/unrecognised_atomic_symbol_error.png)
+
 **Explanation:** This is typically an input error.
 
 **Solution:** Consider the following
@@ -104,10 +106,10 @@ def2svp
 Title
 [Blank Line]
 Charge Multiplicity
-Element 1       X   Y   Z
-.
-.
-.
+ Element 1       X   Y   Z
+ .
+ .
+ .
 Last Element    X   Y   Z
 [Blank Line]
 ```
@@ -115,6 +117,8 @@ Last Element    X   Y   Z
 2. If using pseudopotentials, this error can typically occur with a misinput at the bottom of the file. See previous error for example.
 
 3. Check all your atomic symbols are correctly input.
+
+4. Ensure theres a space at the start of all lines involving elements & their coordinates
 
 # End of file reading PCM Input
 
