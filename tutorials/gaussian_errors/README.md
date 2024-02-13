@@ -118,7 +118,7 @@ Charge Multiplicity
 
 3. Check all your atomic symbols are correctly input.
 
-4. Ensure theres a space at the start of all lines involving elements & their coordinates
+4. If using peseudopotentials this error can arise as ```Unrecognised Atomic Symbol****```. Ensure you have included ```functional/gen``` in your keywords.
 
 # End of file reading PCM Input
 
