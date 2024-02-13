@@ -64,7 +64,7 @@ When you upload some scripts on the repository, you have to think that these mus
 
 
 ## To-Do
-
+- Add snippets of the output as examples for each Gaussian Error (James / Diana)
 - TS Tutorial (James)
 - Orca Error Tutorial (Tim)
 - NBO Tutorial (Nika)
