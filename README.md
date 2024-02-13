@@ -3,8 +3,13 @@
 Welcome to the **Trujillo Research Group**, this repository contains useful documentation, tutorials, resources and scripts useful for your daily research.
 It is especially convenient for new members of the team, either undergrad, master or PhD students.
 
-Contributing to this repository is the perfect way to get familiar with the GitHub repositories, code documentation and tutorial writing. 
+Contributing to this repository is the perfect way to get familiar with the GitHub repositories, code documentation and tutorial writing.
 Do not hesitate to collaborate, provide feedback or ask for any help from other members of the team.
+
+Should you find any gaps in this repository, be it Tutorial, Software, or Scripts, please take the time to fill this gap! If you can't, then please place it in the **[To-Do](#to-do)** section below.
+
+> **"The whole is greater than the sum of its parts"**
+
 
 Checking the [**good practices guideline**](resources/good_practices.md) is highly recommended for new members as well.
 
@@ -55,3 +60,13 @@ When you upload some scripts on the repository, you have to think that these mus
 - **Directly from the browser**: In the page repo, move to the subdirectory where you think the file you want to upload is more adapt. On the top right, click on `Add file` and then `Upload files`.
 
 - **From the command line**: Clone the entire repo typing on the command line `git clone git@github.com:Trujillo-Group/General.git`,  enter the repo and add the file you want to add. Then, from the root of the repo, type: `git add *` , `git commit -m "added file xy Name Surname"` , `git push origin main`.
+
+
+## To-Do
+
+- Gaussian Error Tutorial (James / Diana)
+- TS Tutorial (James)
+- Orca Error Tutorial (Tim)
+- NBO Tutorial (Nika)
+- AIM Tutorial (Nika)
+- Software Treats: Visualisation Tools (Diana), Design/Graphics (Iñigo), CLI things (Tim)
