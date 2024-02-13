@@ -25,6 +25,7 @@ Checking the [**good practices guideline**](resources/good_practices.md) is high
 # Links to tutorials
 - **[Your first Gaussian optimisation](tutorials/gaussian_submission/README.md)**
 - **[Your first Reaction Path](tutorials/gaussian_submission/SN2_workshop/README.md)**
+- **[Gaussian Errors](tutorials/gaussian_errors/README.md)
 - **[Molecular Electrostatic Potential](tutorials/MEP/README.md)**
 - **[Crest](tutorials/crest/CSF3-4/README.md)**
 
@@ -64,7 +65,6 @@ When you upload some scripts on the repository, you have to think that these mus
 
 ## To-Do
 
-- Gaussian Error Tutorial (James / Diana)
 - TS Tutorial (James)
 - Orca Error Tutorial (Tim)
 - NBO Tutorial (Nika)
