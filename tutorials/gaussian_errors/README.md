@@ -11,7 +11,7 @@ This tutorial aims to provide more specific help for Gaussian Errors typical to 
 Lastly, this is by no means an exhaustive list, and should you find any alternative fix/error to what is in this tutorial, please add it! Thanks.
 
 # Index
-- [Convergence Error](#convergence-error)
+- [Convergence Failure](#convergence-failure)
 - [Product Formed instead of TS](#product-formed-instead-of-ts)
 - [Link9999](#link9999)
 - [Reading Basis Center](#reading-basis-center)
@@ -21,7 +21,9 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 - [galloc: could not allocate memory](#galloc-could-not-allocate-memory)
 - [No such File or Directory](#no-such-file-or-directory)
 
-# Convergence Error
+# Convergence Failure
+
+![Convergence Failure Example](figures/convergence_failure.png)
 
 **Explanation:** The SCF (self-consistent field) procedure failed to converge.
 
@@ -92,7 +94,7 @@ def2svp
     
 # Unrecognised Atomic Symbol
 
-![Unrecognised Atomic Symbol Example](figures/unrecognised_atomic_symbol_error.png)
+![Unrecognised Atomic Symbol Example](figures/unrecognised_atomic_symbol.png)
 
 **Explanation:** This is typically an input error.
 
