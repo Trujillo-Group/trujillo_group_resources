@@ -27,17 +27,17 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 
 **Solution:** Execute ```grep "Converged?" file.log -A5```
 
-If 2/4 values are consistently converged, consider the following keywords:
+If 2/4 values are consistently converged, consider the following keywords
 
-1. scf=xqc
+1. ```scf=xqc```
 
-2. MaxStep=3 or MaxStep=4
+2. ```MaxStep=3``` or ```MaxStep=4```
 
 Else:
 
 1. Check keywords are correct
 
-2. Consider alternative initial geometry
+2. Poor initial geometry, therefore use an alternative initial geometry
 
 3. Run quick preoptimisation using [xtb](https://github.com/grimme-lab/xtb)
 
@@ -110,7 +110,7 @@ Charge Multiplicity
  .
  .
  .
-Last Element    X   Y   Z
+ Last Element    X   Y   Z
 [Blank Line]
 ```
 
