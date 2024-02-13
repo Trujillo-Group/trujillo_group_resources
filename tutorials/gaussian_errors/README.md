@@ -18,7 +18,7 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 - [Unrecognised Atomic Symbol](#unrecognised-atomic-symbol)
 - [End of file reading PCM Input](#end-of-file-reading-pcm-input)
 - [End of file reading Connectivity](#end-of-file-reading-connectivity)
-- [galloc: could not allocate memory](#galloc:-could-not-allocate-memory)
+- [galloc: could not allocate memory](#galloc-could-not-allocate-memory)
 - [No such File or Directory](#no-such-file-or-directory)
 
 # Convergence Error
