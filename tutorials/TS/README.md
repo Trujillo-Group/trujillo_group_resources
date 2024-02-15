@@ -4,7 +4,7 @@
 # Introduction
 This tutorial aims to provide more guidance for the **tedious** process of finding Transition States. Should you need any further help, included are some resources which provide general information on finding *pesky* Transition States.
 
-Lastly, softwares, techniques, and methodologies are constantly improving, so should any section of this tutorial become outdated, **please** update it. If you can't please at least place it in the [To-Do](../../README.md/to-do) section on the front page!
+Lastly, softwares, techniques, and methodologies are constantly improving, so should any section of this tutorial become outdated, **please** update it. If you can't please at least place it in the [To-Do](../../README.md) section on the front page!
 
 # Index
 - [Gaussian Tutorials](#gaussian-tutorials)
