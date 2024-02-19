@@ -1,0 +1,22 @@
+#!/bin/bash
+#
+# sub_aimall
+#
+# This script submits all the WFN or WFX files in the working directory
+#
+files=$(ls ${1}*wfx)
+for i in $files
+do
+echo "Working with " $i
+
+cat > $i.job << END
+#!/bin/bash
+cd $PWD
+/home/nika/AIMAll/aimqb.ish -nogui -skipint=true -nproc=1 -naat=1 $i
+END
+
+chmod 0755 $i.job
+/programs/sqs-3.1/bin/qsub -q TRGqueue -d $PWD/$i.job
+
+echo "End of " $i
+done
