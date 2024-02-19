@@ -26,10 +26,11 @@ Checking the [**good practices guideline**](resources/good_practices.md) is high
 - **[Your first Gaussian optimisation](tutorials/gaussian_submission/README.md)**
 - **[Your first Reaction Path](tutorials/gaussian_submission/SN2_workshop/README.md)**
 - **[Gaussian Errors](tutorials/gaussian_errors/README.md)**
-- **[Molecular Electrostatic Potential](tutorials/MEP/README.md)**
-- **[Crest](tutorials/crest/CSF3-4/README.md)**
 - **[Transition State Searching](tutorials/TS/README.md)**
-
+- **[Molecular Electrostatic Potential](tutorials/MEP/README.md)**
+- **[CREST](tutorials/CREST/README.md)**
+- **[NBO](tutorials/NBO/README.md)**
+- **[AIMAll](tutorials/AIMAll/README.md)**
 
 # Group scripts
 
@@ -65,9 +66,11 @@ When you upload some scripts on the repository, you have to think that these mus
 
 
 ## To-Do
+#### Tutorials
 - Add snippets of the output as examples for each Gaussian Error (James / Diana)
 - TS Tutorial (James)
 - Orca Error Tutorial (Tim)
-- NBO Tutorial (Nika)
-- AIM Tutorial (Nika)
 - Software Treats: Visualisation Tools (Diana), Design/Graphics (Iñigo), CLI things (Tim)
+#### Scripts
+- CSF script for CREST Submission
+- CSF script for MEP Submission
