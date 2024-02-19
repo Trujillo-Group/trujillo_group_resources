@@ -43,6 +43,8 @@ Else:
 
 3. Run quick preoptimisation using [xtb](https://github.com/grimme-lab/xtb)
 
+4. If using Pseudopotential, check **all** elements are included at the bottom of the file
+
 # Product formed instead of TS
 
 **Explanation:** Initial geometry is too close to the product.
