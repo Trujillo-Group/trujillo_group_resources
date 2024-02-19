@@ -28,6 +28,7 @@ Checking the [**good practices guideline**](resources/good_practices.md) is high
 - **[Gaussian Errors](tutorials/gaussian_errors/README.md)**
 - **[Molecular Electrostatic Potential](tutorials/MEP/README.md)**
 - **[Crest](tutorials/crest/CSF3-4/README.md)**
+- **[Transition State Searching](tutorials/TS/README.md)**
 
 
 # Group scripts
