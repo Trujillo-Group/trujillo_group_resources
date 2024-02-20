@@ -7,7 +7,7 @@ Run single point calculation on previously optimised system with Gaussian (submi
 ```{shell}
 %nprocshared=40
 %mem=100GB
-# wb97xd/gen scrf=(smd,solvent=dichloromethane) output=wfx
+# wb97xd def2svp scrf=(smd,solvent=dichloromethane) output=wfx
 
 filename
 
