@@ -18,8 +18,8 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 - [galloc: could not allocate memory](#galloc-could-not-allocate-memory)
 - [Link9999](#link9999)
 - [No such File or Directory](#no-such-file-or-directory)
-- [Product Formed instead of TS](#product-formed-instead-of-ts)
 - [Reading Basis Center](#reading-basis-center)
+- [Product Formed instead of TS](#product-formed-instead-of-ts)
 - [Unrecognised Atomic Symbol](#unrecognised-atomic-symbol)
 
 
