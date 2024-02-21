@@ -52,3 +52,5 @@ source activate crest_env
 ##### Done!
 Commands available via the [Crest documentation](https://crest-lab.github.io/crest-docs/page/documentation)
 
+Recommended energy window: 3 kcal/mol.<sup>[Ref.](https://onlinelibrary.wiley.com/doi/10.1002/anie.202205735)</sup>
+
