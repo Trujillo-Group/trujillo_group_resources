@@ -154,3 +154,11 @@ Charge Multiplicity
 **Explanation:** This is likely a pathing issue regarding ```GAUSS_SCRDIR```
 
 **Solution:** Change ```GAUSS_SCRDIR``` to your existing scratch directory.
+
+# End of file in ZSymb
+
+![ZSymb Example](figures/ZSymb.png)
+
+**Explanation:** This is an input error. Gaussian is unable to locate the Z-matrix. 
+
+**Solution:** Add a blank line to the end of your input file.
