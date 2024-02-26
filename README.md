@@ -11,16 +11,16 @@ Should you find any gaps in this repository, be it Tutorial, Software, or Script
 > **"The whole is greater than the sum of its parts"**
 
 
-Checking the [**good practices guideline**](resources/good_practices.md) is highly recommended for new members as well.
+Checking the ["Getting Started" section](tutorials/getting_started) is highly recommended for new members as well. Particularly the **guidelines for good practice**.
 
 # Resources
-- **[Basic UNIX commands](resources/basic_linux.md)**
+- **[Basic UNIX Commands](resources/basic_linux.md)**
 - **[Basic VI](resources/basic_vi.md)**
-- **[Web resources](resources/web_resources.md)**
-- **[Software treats](resources/software_treats.md)**
-- **[SSH set up](resources/ssh_setup.md)**
-- **[Windows set up](resources/windows_users.md)**
-- **[Image formats](resources/image_formats/README.md)**
+- **[Web Resources](resources/README.md)**
+- **[Software Treats](resources/software_treats.md)**
+- **[SSH Set Up](resources/ssh_setup.md)**
+- **[Windows Set Up](resources/windows_users.md)**
+- **[Image Formats](resources/image_formats/README.md)**
 
 # Links to tutorials
 - **[Your first Gaussian optimisation](tutorials/gaussian_submission/README.md)**
