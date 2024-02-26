@@ -12,8 +12,8 @@ Should you come across any useful material that you deem would fit here, please 
 ## Visualisation
 - [Text in data visualisations](https://blog.datawrapper.de/text-in-data-visualizations/)
 - Creating a Colour Palette: [Link 1](https://coolors.co/)
-- Existing Colour Palettes: [MetBrewer](https://twitter.com/Emil_Hvitfeldt/status/1582795210949423104), [Studio Ghibli](https://medium.com/@jchen001/r-ggplot2-color-palettes-inspired-by-hayao-miyazakis-animes-f2aeccce45fd)
-- [Dataviz Inspiration](https://www.dataviz-inspiration.com/), [Colour Hunt](https://colorhunt.co/)
+- Existing Colour Palettes: [MetBrewer](https://twitter.com/Emil_Hvitfeldt/status/1582795210949423104), [Studio Ghibli](https://medium.com/@jchen001/r-ggplot2-color-palettes-inspired-by-hayao-miyazakis-animes-f2aeccce45fd), [Colour Hunt](https://colorhunt.co/)
+- [Dataviz Inspiration](https://www.dataviz-inspiration.com/)
 
 ## Teaching Material
 - [Cheminformatics](https://github.com/Sulstice/Cheminformatics-Teaching-Material)
