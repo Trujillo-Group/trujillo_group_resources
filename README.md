@@ -67,9 +67,10 @@ When you upload some scripts on the repository, you have to think that these mus
 
 ## To-Do
 #### Resources
-- Collection of "Fundamental Papers" (Tim / James)
+- Add (1) Link for Benchmark Papers to Resources/README.md (Tim / James)
+- Add (1) Link for Methodology Papers to Resources/README.md (Tim / James)
 #### Tutorials
-- Add snippets of the output as examples for each Gaussian Error (James / Diana)
+- Add examples for each Gaussian Error (James / Diana)
 - TS Tutorial (James)
 - Orca Error Tutorial (Tim)
 - Software Treats: Visualisation Tools (Diana), Design/Graphics (Iñigo), CLI things (Tim)
