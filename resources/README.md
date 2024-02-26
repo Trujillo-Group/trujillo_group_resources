@@ -3,7 +3,7 @@ This section acts as a catalogue of all the useful resources (links, papers, or 
 
 Should you come across any useful material that you deem would fit here, please do share!
 
-> Thanks to Inigo for kickstarting the resources with his many Twitter bookmarks
+> This page might be overwhelming, so try only use it when you know what it is you're looking for guidance on!
 
 - [Density-Functional Theory](#density-functional-theory)
 - [Visualisation](#visualisation)
