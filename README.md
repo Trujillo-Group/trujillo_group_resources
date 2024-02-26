@@ -15,11 +15,11 @@ Checking the [Getting Started](tutorials/getting_started) section is highly reco
 
 # Resources
 - **[Basic UNIX Commands](tutorials/getting_started/basic_linux.md)**
-- **[Basic VI](tutorials/getting_startedbasic_vi.md)**
+- **[Basic VI](tutorials/getting_started/basic_vi.md)**
 - **[Web Resources](resources/README.md)**
 - **[Software Treats](resources/software_treats.md)**
-- **[SSH Set Up](tutorials/getting_startedssh_setup.md)**
-- **[Windows Set Up](tutorials/getting_startedwindows_users.md)**
+- **[SSH Set Up](tutorials/getting_started/ssh_setup.md)**
+- **[Windows Set Up](tutorials/getting_started/windows_users.md)**
 - **[Image Formats](resources/image_formats/README.md)**
 
 # Links to tutorials
