@@ -11,7 +11,7 @@ Should you find any gaps in this repository, be it Tutorial, Software, or Script
 > **"The whole is greater than the sum of its parts"**
 
 
-Checking the ["Getting Started" section](tutorials/getting_started) is highly recommended for new members as well. Particularly the **guidelines for good practice**.
+Checking the [Getting Started](tutorials/getting_started) section is highly recommended for new members as well. Particularly the **guidelines for good practice**.
 
 # Resources
 - **[Basic UNIX Commands](resources/basic_linux.md)**
