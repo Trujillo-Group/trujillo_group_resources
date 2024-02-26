@@ -18,5 +18,6 @@ Should you come across any useful material that you deem would fit here, please 
 ## Teaching Material
 - [Cheminformatics](https://github.com/Sulstice/Cheminformatics-Teaching-Material)
 
-## File Conversion
+## Structure Conversions
 - [Smiles to 3D Structure](https://www.novoprolabs.com/tools/smiles2pdb)
+- [Smiles to svg](https://github.com/iribirii/smiles2svg)
