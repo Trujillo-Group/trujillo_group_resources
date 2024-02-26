@@ -16,7 +16,7 @@ Should you come across any useful material that you deem would fit here, please 
 - [Dataviz Inspiration](https://www.dataviz-inspiration.com/), [Colour Hunt](https://colorhunt.co/)
 
 ## Teaching Material
-- [https://github.com/Sulstice/Cheminformatics-Teaching-Material](https://github.com/Sulstice/Cheminformatics-Teaching-Material)
+- [Cheminformatics](https://github.com/Sulstice/Cheminformatics-Teaching-Material)
 
 ## File Conversion
 - [Smiles to 3D Structure](https://www.novoprolabs.com/tools/smiles2pdb)
