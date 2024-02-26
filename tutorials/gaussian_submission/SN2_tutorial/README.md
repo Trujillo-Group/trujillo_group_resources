@@ -3,8 +3,8 @@
 # Structure
 1. Theory Introduction
 2. Getting Started
-    - [Windows set up](../../resources/windows_users.md)
-    - [SSH set up](../../resources/ssh_setup.md)
+    - [Windows set up](../../tutorials/getting_started/windows_users.md)
+    - [SSH set up](../../tutorials/getting_started/ssh_setup.md)
     - [Submission Script](../../scripts/submission/CSF3-4)
 3. Calculations for SN2
     - GaussView
