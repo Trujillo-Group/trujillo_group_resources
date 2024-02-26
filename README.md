@@ -24,7 +24,7 @@ Checking the [Getting Started](tutorials/getting_started) section is highly reco
 
 # Links to tutorials
 - **[Your first Gaussian optimisation](tutorials/gaussian_submission/README.md)**
-- **[Your first Reaction Path](tutorials/gaussian_submission/SN2_workshop/README.md)**
+- **[Your first Reaction Path](tutorials/gaussian_submission/SN2_tutorial/README.md)**
 - **[Gaussian Errors](tutorials/gaussian_errors/README.md)**
 - **[Transition State Searching](tutorials/TS/README.md)**
 - **[Molecular Electrostatic Potential](tutorials/MEP/README.md)**
