@@ -91,3 +91,8 @@ If you are working in the computational centre, you can find the corresponding s
         ![no_labels_all](./figures/mep_1_sphere.png)
         - 1 label, 1 critical point:
         ![no_labels_all](./figures/mep_1_label.png)
+
+# Using JMol
+> Ensure correct path & version
+
+To access Jmol from the command-line you only have to add ```alias jmol='java -Xmx512m -jar /Users/user/Downloads/jmol-16.1.47/Jmol.jar'``` to your .bashrc or fish.config etc.
