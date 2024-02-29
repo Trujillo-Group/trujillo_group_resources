@@ -1,3 +1,19 @@
+# Installation
+
+### [Multiwfn](http://sobereva.com/multiwfn/)
+> For this tutorial we will be using Multiwfn_No_GUI
+
+**Windows or Linux**: Follow steps on Multiwfn website
+
+
+[**MacOS**](https://github.com/digital-chemistry-laboratory/multiwfn-mac-build): ```brew install --HEAD digital-chemistry-laboratory/multiwfn/multiwfn```
+
+### [Jmol](https://jmol.sourceforge.net/)
+
+**Windows or Linux**: Follow steps on Jmol website
+
+**MacOS**: add ```alias jmol='java -Xmx512m -jar /Users/user/Downloads/jmol-16.1.47/Jmol.jar'``` to .bashrc / fish.config etc. (*Ensure correct path & version*)
+
 # MEP Steps
 
 > [!IMPORTANT]  
