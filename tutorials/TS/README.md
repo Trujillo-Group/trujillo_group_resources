@@ -1,5 +1,5 @@
 > [!IMPORTANT]  
-> This tutorial is a Work-In-Progress, but has been uploaded as a means to share some resources!
+> This tutorial is a Work-In-Progress, and is entirely from personal experience, which will differ system to system. So it must be used as advice and not trusted entirely! So feel free to add to this tutorial, as well as to question points within it.
 
 # Introduction
 This tutorial aims to provide more guidance for the **tedious** process of finding Transition States. Should you need any further help, included are some resources which provide general information on finding *pesky* Transition States.
