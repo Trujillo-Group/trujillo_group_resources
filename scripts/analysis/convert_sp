@@ -7,7 +7,7 @@
 #       This script will convert .com files from single point to NBO or MEP calculations
 
 # N.B.
-#	All .com files will be copied & pushed to a new folder. If you don't wish for this then cut out the 3rd & 4th code block!
+#       All .com files will be copied & pushed to a new folder. If you don't wish for this then cut out the 3rd & 4th code block!
 
 # Requirements:
 #       - Single-Point .com files
