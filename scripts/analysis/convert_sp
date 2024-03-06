@@ -4,19 +4,19 @@
 # 06-03-2024
 
 # Description:
-#       This script will convert .com files from single point to NBO or MEP calculations
-
-# N.B.
-#       All .com files will be copied & pushed to a new folder. If you don't wish for this then cut out the 3rd & 4th code block!
+#       This script will add NBO, MEP, or AIM keywords to .com files for Gaussian calculations.
+#       The script will create new files with the added keywords and move them to a new directory.
+#       The original files will remain in the current directory.
+#       This script was made for Gaussian16, but should work for other versions as well.
 
 # Requirements:
 #       - Single-Point .com files
 #       - Python 3.6 or higher
 #       - Run the script in the directory containing the .com files
 
-
 # Usage:
-#       convert_sp [-h] [--nbo] [--mep]
+#       convert_sp [-h] [--nbo] [--mep] [--aim]
+
 
 import os
 import shutil
@@ -26,7 +26,7 @@ import argparse
 argparser = argparse.ArgumentParser(description='Convert .com files from single point to NBO or MEP calculations')
 argparser.add_argument('-n', '--nbo', action='store_true', help='Add NBO keywords to .com files')
 argparser.add_argument('-m', '--mep', action='store_true', help='Add MEP keywords to .com files')
-
+argparser.add_argument('-a', '--aim', action='store_true', help='Add AIM keywords to .com files')
 
 args = argparser.parse_args()
 
@@ -37,6 +37,8 @@ for file in os.listdir('.'):
             shutil.copy(file, file.replace('.com', '_nbo.com'))
         if args.mep:
             shutil.copy(file, file.replace('.com', '_mep.com'))
+        if args.aim:
+            shutil.copy(file, file.replace('.com', '_aim.com'))
 
 # Add keywords to the new files
 for file in os.listdir('.'):
@@ -56,20 +58,34 @@ for file in os.listdir('.'):
             lines.append('\n' + f'{file.replace("_mep.com", "")}.wfx\n\n')
             with open(file, 'w') as f:
                 f.writelines(lines)
+    elif args.aim:
+        if file.endswith('_mep.com'):
+            with open(file, 'r') as f:
+                lines = f.readlines()
+            lines[0] = lines[0].strip() + ' output=wfx\n'
+            lines.append('\n' + f'{file.replace("_aim.com", "")}.wfx\n\n')
+            with open(file, 'w') as f:
+                f.writelines(lines)
 
 # Create a new directory for the new files
 if args.nbo:
-    if not os.path.exists('../NBO'):
-        os.makedirs('../NBO', exist_ok=True)
+    if not os.path.exists('../nbo'):
+        os.makedirs('../nbo', exist_ok=True)
 elif args.mep:
-    if not os.path.exists('../MEP'):
-        os.makedirs('../MEP', exist_ok=True)
+    if not os.path.exists('../mep'):
+        os.makedirs('../mep', exist_ok=True)
+elif args.aim:
+    if not os.path.exists('../aim'):
+        os.makedirs('../aim', exist_ok=True)
 
 # Move all new files to new directory
 for file in os.listdir('.'):
     if args.nbo:
         if file.endswith('nbo.com'):
-            shutil.move(file, os.path.join('..', 'NBO', file))
+            shutil.move(file, os.path.join('..', 'nbo', file))
     elif args.mep:
         if file.endswith('_mep.com'):
-            shutil.move(file, os.path.join('..', 'MEP', file))
+            shutil.move(file, os.path.join('..', 'nbo', file))
+    elif args.aim:
+        if file.endswith('_aim.com'):
+            shutil.move(file, os.path.join('..', 'nbo', file))
