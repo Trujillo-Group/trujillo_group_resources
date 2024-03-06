@@ -16,7 +16,7 @@ filename
  C                 -2.46248200    0.28464400   -0.44227700
 ```
 
-A quick way to do this is to copy all of your single-point files to a new folder and run ```sed -i '' '1s/$/ POP=NBO/' *.com``` to append this keyword to all of these single-point files!
+See [convert_sp](../../scripts/analysis) for a script to speed up this process!
 
 **2. Data analysis**
 
