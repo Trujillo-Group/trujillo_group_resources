@@ -15,6 +15,9 @@ filename
  C                 -2.84087900   -0.13629700    0.83103500
  C                 -2.46248200    0.28464400   -0.44227700
 ```
+
+A quick way to do this is to copy all of your single-point files to a new folder and run ```sed -i '' '1s/$/ POP=NBO/' *.com``` to append this keyword to all of these single-point files!
+
 **2. Data analysis**
 
 Once the single point calculation is complete, you may analyse the **filename.log** output file using the following commands. The examples below are studying the charge transfer from the **lone pairs (LP)** of electrons of the oxygen atom to the **antibonding orbitals BD*** of the iodine atom.
