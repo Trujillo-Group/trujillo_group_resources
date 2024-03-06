@@ -85,7 +85,7 @@ for file in os.listdir('.'):
             shutil.move(file, os.path.join('..', 'nbo', file))
     elif args.mep:
         if file.endswith('_mep.com'):
-            shutil.move(file, os.path.join('..', 'nbo', file))
+            shutil.move(file, os.path.join('..', 'mep', file))
     elif args.aim:
         if file.endswith('_aim.com'):
-            shutil.move(file, os.path.join('..', 'nbo', file))
+            shutil.move(file, os.path.join('..', 'aim', file))
