@@ -12,9 +12,9 @@ Lastly, softwares, techniques, and methodologies are constantly improving, so sh
 
 # Gaussian 
 ### Tutorials
-[The art of finding transition structures](https://thisisntnathan.github.io/dftCourse/LongCourse/transitionStructureSearch.html#verification)
+[The DFT Course by Nathan M. Lui](https://thisisntnathan.github.io/dftCourse/LongCourse/transitionStructureSearch.html#verification)
 
-[The 'art' of finding Transition States](https://joaquinbarroso.com/2016/05/26/the-art-of-finding-transition-states-part-1/)
+[The 'art' of finding Transition States by Joaquin Barroso](https://joaquinbarroso.com/2016/05/26/the-art-of-finding-transition-states-part-1/)
 
 ### Workflow
 
