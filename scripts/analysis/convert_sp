@@ -55,7 +55,7 @@ for file in os.listdir('.'):
                 lines = f.readlines()
             lines[0] = lines[0].strip() + ' output=wfx\n'
             lines.insert(0, f'%chk={file.replace(".com", "")}.chk\n')
-            lines.append('\n' + f'{file.replace("_mep.com", "")}.wfx\n\n')
+            lines.append('\n' + f'{file.replace(".com", "")}.wfx\n\n')
             with open(file, 'w') as f:
                 f.writelines(lines)
     elif args.aim:
@@ -63,7 +63,7 @@ for file in os.listdir('.'):
             with open(file, 'r') as f:
                 lines = f.readlines()
             lines[0] = lines[0].strip() + ' output=wfx\n'
-            lines.append('\n' + f'{file.replace("_aim.com", "")}.wfx\n\n')
+            lines.append('\n' + f'{file.replace(".com", "")}.wfx\n\n')
             with open(file, 'w') as f:
                 f.writelines(lines)
 
