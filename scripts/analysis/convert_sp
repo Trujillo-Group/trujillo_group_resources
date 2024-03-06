@@ -1,0 +1,75 @@
+#!/usr/bin/python3
+
+# Author: James O'Brien
+# 06-03-2024
+
+# Description:
+#       This script will convert .com files from single point to NBO or MEP calculations
+
+# N.B.
+#	All .com files will be copied & pushed to a new folder. If you don't wish for this then cut out the 3rd & 4th code block!
+
+# Requirements:
+#       - Single-Point .com files
+#       - Python 3.6 or higher
+#       - Run the script in the directory containing the .com files
+
+
+# Usage:
+#       convert_sp [-h] [--nbo] [--mep]
+
+import os
+import shutil
+import argparse
+
+# Create a parser object
+argparser = argparse.ArgumentParser(description='Convert .com files from single point to NBO or MEP calculations')
+argparser.add_argument('-n', '--nbo', action='store_true', help='Add NBO keywords to .com files')
+argparser.add_argument('-m', '--mep', action='store_true', help='Add MEP keywords to .com files')
+
+
+args = argparser.parse_args()
+
+# Copy & Rename files
+for file in os.listdir('.'):
+    if file.endswith('.com'):
+        if args.nbo:
+            shutil.copy(file, file.replace('.com', '_nbo.com'))
+        if args.mep:
+            shutil.copy(file, file.replace('.com', '_mep.com'))
+
+# Add keywords to the new files
+for file in os.listdir('.'):
+    if args.nbo:
+        if file.endswith('nbo.com'):
+            with open(file, 'r') as f:
+                lines = f.readlines()
+            lines[0] = lines[0].strip() + ' POP=NBO\n'
+            with open(file, 'w') as f:
+                f.writelines(lines)
+    elif args.mep:
+        if file.endswith('_mep.com'):
+            with open(file, 'r') as f:
+                lines = f.readlines()
+            lines[0] = lines[0].strip() + ' output=wfx\n'
+            lines.insert(0, f'%chk={file.replace(".com", "")}.chk\n')
+            lines.append('\n' + f'{file.replace("_mep.com", "")}.wfx\n\n')
+            with open(file, 'w') as f:
+                f.writelines(lines)
+
+# Create a new directory for the new files
+if args.nbo:
+    if not os.path.exists('../NBO'):
+        os.makedirs('../NBO', exist_ok=True)
+elif args.mep:
+    if not os.path.exists('../MEP'):
+        os.makedirs('../MEP', exist_ok=True)
+
+# Move all new files to new directory
+for file in os.listdir('.'):
+    if args.nbo:
+        if file.endswith('nbo.com'):
+            shutil.move(file, os.path.join('..', 'NBO', file))
+    elif args.mep:
+        if file.endswith('_mep.com'):
+            shutil.move(file, os.path.join('..', 'MEP', file))
