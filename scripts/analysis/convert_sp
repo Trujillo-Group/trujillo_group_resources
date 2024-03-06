@@ -46,7 +46,7 @@ for file in os.listdir('.'):
         if file.endswith('nbo.com'):
             with open(file, 'r') as f:
                 lines = f.readlines()
-            lines[0] = lines[0].strip() + ' POP=NBO\n'
+            lines[0] = lines[0].strip() + ' pop=NBO\n'
             with open(file, 'w') as f:
                 f.writelines(lines)
     elif args.mep:
