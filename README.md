@@ -21,7 +21,6 @@ Checking the [Getting Started](tutorials/getting_started) section is highly reco
 - **[SSH Set Up](tutorials/getting_started/ssh_setup.md)**
 - **[Windows Set Up](tutorials/getting_started/windows_users.md)**
 - **[Image Formats](resources/image_formats/README.md)**
-- **[Presentation Template](resources/presentation)**
 
 # Links to tutorials
 - **[Your first Gaussian optimisation](tutorials/gaussian_submission/README.md)**
