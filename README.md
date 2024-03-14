@@ -42,7 +42,7 @@ General scripts and modules for Trujillo Group.
 ├── resources                 
 |    ├── Image Formats        Information on image formatting
 |    ├── Web Resources        Lots of information from DFT to visualisation tools
-     ├── Software Treats      Various packages to improve quality of life in the terminal
+|    ├── Software Treats      Various packages to improve quality of life in the terminal
 |    └── Gaussian Errors      Guide to reading the "flawless" Gaussian output files
 └──tutorials                    
      ├── Getting Started      Various guides for first time setups
