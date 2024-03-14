@@ -23,7 +23,9 @@ Lastly, softwares, techniques, and methodologies are constantly improving, so sh
 flowchart TD
     A[Looking for a TS using Gaussian] ---> B[Do you know which bonds?]
     B -- Yes --> C{Scan}
-    C -- Failed --> D[TBD]
+    C -- Failed --> D{Bond Freeze at
+                     various distances}
+    D --> O[TBD]
     C -- Normal Termination --> E[Is the curve Quadratic?]
     E -- No --> F[Try a different range]
     F --> E
@@ -33,9 +35,10 @@ flowchart TD
     G -- Failed --> H(Retry with Maxstep=5)
     H --> G
     G -- Normal Termination --> I[One Imaginary Frequency?]
-    I -- No --> J[Correct Vibrational Mode?]
+    I -- Yes --> J[Correct Vibrational Mode?]
     J -- Yes --> K(Done!)
-    J -- No --> L[Below -10 cm-1?]
+    J -- No --> L[Extra img. Freq 
+                below -10 cm-1?]
     L -- Yes --> K
     L -- No --> M{Manually displace
         extra negative
