@@ -36,16 +36,22 @@ Checking the [Getting Started](tutorials/getting_started) section is highly reco
 
 General scripts and modules for Trujillo Group.
 ```
-├── scripts               may contain common bash or python useful for the group
-|    ├── submission       submission scripts for CSF3/4 and ICHEC
-|    └── analysis         scripts for quick assessment of calculation
-├── config                useful configs for setup on either local machine or cluster
-|    ├── bashrc           e.g. useful aliases
-|    ├── ssh              setup of config files
-|    └── vim              useful code highlighting or Plugins
-└──tutorials              Step by step tutorials about different things  
-     ├── basic_linux      Basic linux commands for beginners 
-     └── MEP              Step by step MEP with Gaussian, MultiWFN & Jmol
+├── scripts                   
+|    ├── submission           Submission scripts for CSF3/4 and ICHEC
+|    └── analysis             Scripts for quick assessment of calculation
+├── resources                 
+|    ├── Image Formats        Information on image formatting
+|    ├── Web Resources        Lots of information from DFT to visualisation tools
+|    └── Software Treats      Various packages to improve quality of life in the terminal
+└──tutorials                    
+     ├── getting_started      Various guides for first time setups
+     ├── gaussian_submission  Step by step guide submitted calculations using Gaussian
+     ├── Gaussian Errors      Guide to reading the "flawless" Gaussian output files
+     ├── TS                   Step by step guide to finding Transition States
+     ├── MEP                  Step by step MEP with Gaussian, MultiWFN & Jmol
+     ├── CREST                Step by step Conformational Search tutorial with CREST
+     ├── AIMAll               Step by step Atoms-In-Molecules tutorial with AIMAll & Gaussian
+     └── NBO                  Step by step Non-Bonding Orbitals tutorial with Gaussian
 ```
 
 ## Guidelines for uploading scripts
