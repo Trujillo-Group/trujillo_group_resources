@@ -21,11 +21,11 @@ Checking the [Getting Started](tutorials/getting_started) section is highly reco
 - **[SSH Set Up](tutorials/getting_started/ssh_setup.md)**
 - **[Windows Set Up](tutorials/getting_started/windows_users.md)**
 - **[Image Formats](resources/image_formats/README.md)**
+- **[Gaussian Errors](resources/gaussian_errors/README.md)**
 
 # Links to tutorials
 - **[Your first Gaussian optimisation](tutorials/gaussian_submission/README.md)**
 - **[Your first Reaction Path](tutorials/gaussian_submission/SN2_tutorial/README.md)**
-- **[Gaussian Errors](tutorials/gaussian_errors/README.md)**
 - **[Transition State Searching](tutorials/TS/README.md)**
 - **[MEP](tutorials/MEP/README.md)**
 - **[CREST](tutorials/CREST/README.md)**
@@ -42,11 +42,11 @@ General scripts and modules for Trujillo Group.
 ├── resources                 
 |    ├── Image Formats        Information on image formatting
 |    ├── Web Resources        Lots of information from DFT to visualisation tools
-|    └── Software Treats      Various packages to improve quality of life in the terminal
+     ├── Software Treats      Various packages to improve quality of life in the terminal
+|    └── Gaussian Errors      Guide to reading the "flawless" Gaussian output files
 └──tutorials                    
-     ├── getting_started      Various guides for first time setups
-     ├── gaussian_submission  Step by step guide submitted calculations using Gaussian
-     ├── Gaussian Errors      Guide to reading the "flawless" Gaussian output files
+     ├── Getting Started      Various guides for first time setups
+     ├── Gaussian Submission  Step by step guide submitted calculations using Gaussian
      ├── TS                   Step by step guide to finding Transition States
      ├── MEP                  Step by step MEP with Gaussian, MultiWFN & Jmol
      ├── CREST                Step by step Conformational Search tutorial with CREST
