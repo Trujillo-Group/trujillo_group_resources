@@ -60,6 +60,27 @@ flowchart TD
 4. Save the Gaussian input.
 5. Put in the correct input keywords, for a simple $S_{N}2$ reaction for example:
    
+```{shell}
+%nprocshared=40
+%mem=100GB
+# opt=(calcfc,ts,modredundant,noeigentest) freq wb97xd
+scrf=(smd,solvent=water) def2svp temperature=293.15
+
+filename
+
+0 1
+ C                  0.80033600   -1.45766300    0.03102400
+ C                 -0.11928200   -1.08892300   -1.15175300
+ ~
+ ~
+ H                 -1.50600200    0.59488300   -1.59539100
+
+B 3 28 F
+B 3 15 F
+```
+
+6. 
+   
 Calculate vibrational frequency of your proposed TS using Freq keyword. 
 Open output file with Gaussview and show the results of frequency calculation.
 If number of Imaginary Frequency is greater than 1, it is not TS, because TS can have only 1 IF.
@@ -68,6 +89,7 @@ Click Manual Displacement and change the valuse to the lowest value by sliding t
 Click Save Structure. Gaussview will open the new window with an adjusted molecule from previous window.
 Save it as new input and calculate frequency of new proposed TS again.
 If you found guessed TS structure, which has only 1 imaginary frequency, you can use this structure for optimization of TS to search the saddle point of state.
+
 
 
 # Orca
