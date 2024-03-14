@@ -2,7 +2,7 @@
 > This tutorial is a Work-In-Progress, and is entirely from personal experience, which will differ system to system. So it must be used as advice and not trusted entirely! So feel free to add to this tutorial, as well as to question points within it.
 
 # Introduction
-This tutorial aims to provide more guidance for the **tedious** process of finding Transition States. Should you need any further help, included are some resources which provide general information on finding *pesky* Transition States (TSs).
+This tutorial aims to provide more guidance for the **tedious** process of finding Transition States (TSs). Should you need any further help, included are some resources which provide general information on finding *pesky* TSs.
 
 Lastly, softwares, techniques, and methodologies are constantly improving, so should any section of this tutorial become outdated, **please** update it. If you can't, **please** at least place it in the [To-Do](../../README.md) section on the front page!
 
@@ -60,7 +60,7 @@ flowchart TD
 3. Save the Gaussian input as a _.com_ file.
 
 > [!Important]  
-> Given only information regarding the bond being broken and formed is typically known due to our knowledge of chemical reactions in 2D (i.e. what atoms are involved, their approximate orientation and bond distances), the orientation of the other molecular components around this TS bond formation - breaking is a mystery! To overcome this we always 'fix' the TS bonds that we know will take place using the ```B X Y F``` line which is inserted at the end of the _.com_ file where ```X Y``` represent the two atoms that we want to fix in space.
+> Given only information regarding the bond being broken and formed is typically known due to our knowledge of chemical reactions in 2D (i.e. what atoms are involved, their approximate orientation and bond distances), the orientation of the other molecular components around this TS bond formation - breaking is a mystery! To overcome this we always 'fix' the TS bonds that we know will take place using the ``` B X Y F ``` line which is inserted at the end of the _.com_ file where ``` X Y ``` represent the two atoms that we want to fix in space.
 
 4. Using a Text Editor (e.g. _Vim_) input the correct keywords for a TS search into the _.com_ file:
    
@@ -91,18 +91,18 @@ B 3 15 F
 6. **If the calculation terminates normally**, open the output _.log_ file with GaussView
 7. Check that there is only one IF that is larger than $- 10 cm^{-1} in the _Results_ > _Vibrations..._ tab.
 8. Check to make sure that this is the correct vibrational frequency that represents the bond breaking / forming vibration you are interested in
-9. If you have more than one IF, select one of those modes that does not correspond to the one you need.
+9. **If you have more than one IF**, select one of those modes that does not correspond to the one you need.
 10. Click _Start Animation_ to play the vibration of selected mode and see what sort of motion this involves.
 11. Click _Manual Displacement_ and change the value to either "1" or "-1" and press _Save Structure..._.
 12. This will open the new structure in a new window
 13. Save this as new input and add all the previous keywords used
 14. Rerun this new structure until the calcaultion completes with only one IF being returned.
-15. If the calculation terminates abnormally, check the error listed at the end of the _.log_ file and resubmit the calculation once you determine what will remove this error.
+15. **If the calculation failed**, check the error listed at the end of the _.log_ file and resubmit the calculation once you determine what will remove this error.
 
 > [!Important]  
 > The most common errors in the TS search are listed in the [Gaussian Errors](https://github.com/Trujillo-Group/trujillo_group_resources/tree/main/resources/gaussian_errors) section.
 
-16. If the calculation terminates normally, however this has no IFs; a product is most likely formed.
+16. **If the calculation terminates normally, however this has no IFs**; a product is most likely formed.
 17. If this is the case, check the _Results > Optimisation..._ tab to see what happened during the run.
 
 
