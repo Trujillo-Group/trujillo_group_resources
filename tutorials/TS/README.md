@@ -60,7 +60,9 @@ flowchart TD
 3. Save the Gaussian input as a _.com_ file.
 
 > [!Important]  
-> Given only information regarding the bond being broken and formed is typically known due to our knowledge of chemical reactions in 2D (i.e. what atoms are involved, their approximate orientation and bond distances), the orientation of the other molecular components around this TS bond formation - breaking is a mystery! To overcome this we always 'fix' the TS bonds that we know will take place using the ``` B X Y F ``` line which is inserted at the end of the _.com_ file where ``` X Y ``` represent the two atoms that we want to fix in space.
+> Given only information regarding the bond being broken and formed is typically known due to our knowledge of chemical reactions in 2D (i.e. what atoms are involved, their approximate orientation and bond distances), the orientation of the other molecular components around this TS bond formation - breaking is a mystery! One trick we use to overcome this is by 'fixing' the TS bonds that we know will take place using the ``` B X Y F ``` line that is inserted at the bottom of the _.com_ file; where ``` X Y ``` represent the two atoms that we want to fix in space.
+> Once we obtain a fully converged structure with the correct imaginary frequency (IF), we rerun that correct structure with ``` B X Y B ``` instead, to 'unfix' this bond and hopefully get the true TS we need!
+> Note that you can insert more than one ``` B X Y F ``` line, this is particularly useful for concerted reactions
 
 4. Using a Text Editor (e.g. _Vim_) input the correct keywords for a TS search into the _.com_ file:
    
