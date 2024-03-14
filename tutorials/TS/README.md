@@ -35,12 +35,10 @@ flowchart TD
     G -- Failed --> H(Retry with Maxstep=5)
     H --> G
     G -- Normal Termination --> I[One Imaginary Frequency?]
-    I -- Yes --> J[Correct Vibrational Mode?]
-    J -- Yes --> K(Done!)
-    J -- No --> L[Extra img. Freq 
+    I -- No --> J[Extra img. Freq 
                 below -10 cm-1?]
-    L -- Yes --> K
-    L -- No --> M{Manually displace
+    J -- Yes --> K(Done!)
+    J -- No --> M{Manually displace
         extra negative
         frequencies}
     M --> I
