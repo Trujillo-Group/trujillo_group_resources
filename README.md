@@ -27,7 +27,7 @@ Checking the [Getting Started](tutorials/getting_started) section is highly reco
 - **[Your first Reaction Path](tutorials/gaussian_submission/SN2_tutorial/README.md)**
 - **[Gaussian Errors](tutorials/gaussian_errors/README.md)**
 - **[Transition State Searching](tutorials/TS/README.md)**
-- **[Molecular Electrostatic Potential](tutorials/MEP/README.md)**
+- **[MEP](tutorials/MEP/README.md)**
 - **[CREST](tutorials/CREST/README.md)**
 - **[NBO](tutorials/NBO/README.md)**
 - **[AIMAll](tutorials/AIMAll/README.md)**
@@ -67,12 +67,11 @@ When you upload some scripts on the repository, you have to think that these mus
 
 ## To-Do
 #### Resources
-- Add (1) Link for Benchmark Papers (Tim / James)
-- Add (1) Link for Methodology Papers (Tim / James)
+- Add Link for Benchmark Papers (Tim / James)
+- Add Link for Methodology Papers (Tim / James)
 #### Tutorials
 - Add examples for each Gaussian Error (James / Diana)
 - TS Tutorial (James)
-- Orca Error Tutorial (Tim)
 - Software Treats: Visualisation Tools (Diana), Design/Graphics (Iñigo), CLI things (Tim)
 #### Scripts
 - CSF script for CREST Submission
