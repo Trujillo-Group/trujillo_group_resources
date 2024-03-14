@@ -16,7 +16,7 @@ Lastly, softwares, techniques, and methodologies are constantly improving, so sh
 
 [The 'art' of finding Transition States by Joaquin Barroso](https://joaquinbarroso.com/2016/05/26/the-art-of-finding-transition-states-part-1/)
 
-### Workflow
+### Workflow (when TS structure is known)
 
 
 ```mermaid
@@ -47,18 +47,50 @@ flowchart TD
 
 ```
 
-### Step-by-step
+### Workflow (when TS structure is unknown)
+
+
+```mermaid
+flowchart TD
+    A[Looking for a TS using Gaussian] ---> B[Do you know which bonds?]
+    B -- Yes --> C[Do you orientation of molecules?]
+    C -- Failed --> D{Bond Freeze at
+                     various distances}
+    D --> O[TBD]
+    C -- Normal Termination --> E[Is the curve Quadratic?]
+    E -- No --> F[Try a different range]
+    F --> E
+    E -- Yes --> G{TS Search at 
+        3 highest
+        energies}
+    G -- Failed --> H(Retry with Maxstep=5)
+    H --> G
+    G -- Normal Termination --> I[Correct no. of
+                                img. freq.?]
+    I -- No --> J[Extra img. Freq 
+                below -10 cm-1?]
+    J -- Yes --> K(Done!)
+    J -- No --> M{Manually displace
+        extra negative
+        frequencies}
+    M --> I
+    I -- Yes --> N(Done!)
+
+```
 
 1. Using GaussView or any other GUI, add all the previously optimised monomers that are involved in the TS step to a blank window.
-2. Guess and create an inital input of the TS structure using your chemical intuition, for example:
-    - using the correct hydrogen bond (HB) distance and angle if a HB interaction is involved
+2. Create an inital probable TS structure using your chemical intuition; **this is the toughest part of finding a TS!** Some tips to make life easier and ensure you are being unbiased when looking for a TS using this method are:
+    - reading into the current literature-proposed mechanisms to help you understand what orientations have been studied previously
+    - ensuring you are using the correct hydrogen bond (HB) distance & angle if a HB interaction is involved
     - ensuring lone pairs of electrons are correctly oriented to be involved in a bond formation
-    - ensuring that the TS bonds forming are slightly longer
-    - ensuring no atoms are overlapping, too close or too far apart
-    - ensuring bond angles are not at 180° as Gaussian requires linearly independent variables, which is not possible with three points on a line.
-    - using known knowledge from literature about a reaction mechanism, _e.g._ in an $S_{N}2$ reaction, the nucleophile (Nu) attacks the backside - 180° from the leaving group (LG). Thus the Nu and LG atoms forming / breaking bonds overlap when looking down the reaction plane, however the overall reaction angle is not 180° due to the previous point **insert photo example of side view and front view**
-4. Save the Gaussian input.
-5. Put in the correct input keywords, for a simple $S_{N}2$ reaction for example:
+    - ensuring the TS bonds forming are slightly longer than in a reactant or product structure - $2.00 Å$ is a good starting point!
+    - ensuring no atoms are overlapping, are too close or too far apart
+    - ensuring bond angles are not at $180°$ as Gaussian requires linearly independent variables, which is not possible with three points on a line.
+
+> [!Important]  
+> Given only information regarding the bond being broken and formed is typically known due to our knowledge of chemical reactions using curly arrow chemistry (i.e. what atoms are involved, their approximate orientation and bond distances), the orientation of the other molecular components around this TS bond formation - breaking is a mystery! To overcome this we always 'fix' the TS bonds in space as we are certain that these 
+4. Save the Gaussian input as a _.com_ file.
+5. Using a Text Editor (e.g. _Vim_) input the correct keywords for a TS search into the _.com_ file:
    
 ```{shell}
 %nprocshared=40
@@ -78,12 +110,13 @@ filename
 B 3 28 F
 B 3 15 F
 ```
-
-6. 
+> [!Important]  
+> To understand what each new keyword means you can look them up on the offical website: [Gaussian](https://gaussian.com/keywords/). It's important to remember that calculating the vibrational frequencies using the ```freq``` keyword is critical when searching for a TS as a TS has exactly one imaginary frequency (i.e. IF = 1)
+5. 
    
 Calculate vibrational frequency of your proposed TS using Freq keyword. 
 Open output file with Gaussview and show the results of frequency calculation.
-If number of Imaginary Frequency is greater than 1, it is not TS, because TS can have only 1 IF.
+
 Then open Display Vibrations and choose the vibrational mode that does not relevant to your desired TS structure. You can click Start Animation to play vibration of selected mode
 Click Manual Displacement and change the valuse to the lowest value by sliding the button to leftmost.
 Click Save Structure. Gaussview will open the new window with an adjusted molecule from previous window.
