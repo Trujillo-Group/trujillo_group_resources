@@ -23,7 +23,7 @@ Checking the [Getting Started](tutorials/getting_started) section is highly reco
 - **[Image Formats](resources/image_formats/README.md)**
 - **[Gaussian Errors](resources/gaussian_errors/README.md)**
 
-# Links to tutorials
+# Tutorials
 - **[Your first Gaussian optimisation](tutorials/gaussian_submission/README.md)**
 - **[Your first Reaction Path](tutorials/gaussian_submission/SN2_tutorial/README.md)**
 - **[Transition State Searching](tutorials/TS/README.md)**
@@ -32,9 +32,8 @@ Checking the [Getting Started](tutorials/getting_started) section is highly reco
 - **[NBO](tutorials/NBO/README.md)**
 - **[AIMAll](tutorials/AIMAll/README.md)**
 
-# Group scripts
+# Directories Overview
 
-General scripts and modules for Trujillo Group.
 ```
 ├── scripts                   
 |    ├── submission           Submission scripts for CSF3/4 and ICHEC
