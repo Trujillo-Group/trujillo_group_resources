@@ -49,8 +49,6 @@ flowchart TD
 
 ### Workflow (when TS structure is unknown)
 
-
-
 1. Using GaussView or any other GUI, add all the previously optimised monomers that are involved in the TS step to a blank window.
 2. Create an inital probable TS structure using your chemical intuition; **this is the toughest part of finding a TS!** Some tips to make life easier and ensure you are being unbiased when looking for a TS using this method are:
     - reading into the current literature-proposed mechanisms to help you understand what orientations have been studied previously
@@ -59,11 +57,12 @@ flowchart TD
     - ensuring the TS bonds forming are slightly longer than in a reactant or product structure - $2.00 Å$ is a good starting point!
     - ensuring no atoms are overlapping, are too close or too far apart
     - ensuring bond angles are not at $180°$ as Gaussian requires linearly independent variables, which is not possible with three points on a line.
+3. Save the Gaussian input as a _.com_ file.
 
 > [!Important]  
-> Given only information regarding the bond being broken and formed is typically known due to our knowledge of chemical reactions using curly arrow chemistry (i.e. what atoms are involved, their approximate orientation and bond distances), the orientation of the other molecular components around this TS bond formation - breaking is a mystery! To overcome this we always 'fix' the TS bonds in space as we are certain that these 
-4. Save the Gaussian input as a _.com_ file.
-5. Using a Text Editor (e.g. _Vim_) input the correct keywords for a TS search into the _.com_ file:
+> Given only information regarding the bond being broken and formed is typically known due to our knowledge of chemical reactions in 2D (i.e. what atoms are involved, their approximate orientation and bond distances), the orientation of the other molecular components around this TS bond formation - breaking is a mystery! To overcome this we always 'fix' the TS bonds that we know will take place using the ```B X Y F``` line which is inserted at the end of the _.com_ file where ```X Y``` represent the two atoms that we want to fix in space.
+
+4. Using a Text Editor (e.g. _Vim_) input the correct keywords for a TS search into the _.com_ file:
    
 ```{shell}
 %nprocshared=40
@@ -82,20 +81,29 @@ filename
 
 B 3 28 F
 B 3 15 F
+
 ```
+
 > [!Important]  
-> To understand what each new keyword means you can look them up on the offical website: [Gaussian](https://gaussian.com/keywords/). It's important to remember that calculating the vibrational frequencies using the ```freq``` keyword is critical when searching for a TS as a TS has exactly one imaginary frequency (i.e. IF = 1)
-5. 
-   
-Calculate vibrational frequency of your proposed TS using Freq keyword. 
-Open output file with Gaussview and show the results of frequency calculation.
+> To understand what each new keyword means you can look them up on the offical website: [Gaussian](https://gaussian.com/keywords/). It's important to remember that calculating the vibrational frequencies using the ```freq``` keyword is critical when searching for a TS in the potential energy surface of a reaction as a TS has exactly one imaginary frequency (i.e. IF = 1)
 
-Then open Display Vibrations and choose the vibrational mode that does not relevant to your desired TS structure. You can click Start Animation to play vibration of selected mode
-Click Manual Displacement and change the valuse to the lowest value by sliding the button to leftmost.
-Click Save Structure. Gaussview will open the new window with an adjusted molecule from previous window.
-Save it as new input and calculate frequency of new proposed TS again.
-If you found guessed TS structure, which has only 1 imaginary frequency, you can use this structure for optimization of TS to search the saddle point of state.
+5. Submit the calculation to be run using the _Gaussian16_ (or _Gaussian09_) software
+6. **If the calculation terminates normally**, open the output _.log_ file with GaussView
+7. Check that there is only one IF that is larger than $- 10 cm^{-1} in the _Results_ > _Vibrations..._ tab.
+8. Check to make sure that this is the correct vibrational frequency that represents the bond breaking / forming vibration you are interested in
+9. If you have more than one IF, select one of those modes that does not correspond to the one you need.
+10. Click _Start Animation_ to play the vibration of selected mode and see what sort of motion this involves.
+11. Click _Manual Displacement_ and change the value to either "1" or "-1" and press _Save Structure..._.
+12. This will open the new structure in a new window
+13. Save this as new input and add all the previous keywords used
+14. Rerun this new structure until the calcaultion completes with only one IF being returned.
+15. If the calculation terminates abnormally, check the error listed at the end of the _.log_ file and resubmit the calculation once you determine what will remove this error.
 
+> [!Important]  
+> The most common errors in the TS search are listed in the [Gaussian Errors](https://github.com/Trujillo-Group/trujillo_group_resources/tree/main/resources/gaussian_errors) section.
+
+16. If the calculation terminates normally, however this has no IFs; a product is most likely formed.
+17. If this is the case, check the _Results > Optimisation..._ tab to see what happened during the run.
 
 
 # Orca
