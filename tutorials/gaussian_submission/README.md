@@ -63,7 +63,7 @@ A detailed information of each sections, the different calculation options, comm
 Now that we have saved our input file we need top open it and change the different keywords in order to optimise the system.
 
 For convenience, in this example we will use common computational details for the type of systems that we study in the group.
-- Functional: **$\omega$B97x-D**
+- Functional: **&omega;B97x-D**
 - Karlsruhe (triple-$\zeta$ split valence polarisation with diffuse functions) basis set: **def2-tzvp**
 - Continuous solvent model **SMD**.
 
