@@ -34,7 +34,8 @@ flowchart TD
         energies}
     G -- Failed --> H(Retry with Maxstep=5)
     H --> G
-    G -- Normal Termination --> I[One Imaginary Frequency?]
+    G -- Normal Termination --> I[Correct no. of
+                                img. freq.?]
     I -- No --> J[Extra img. Freq 
                 below -10 cm-1?]
     J -- Yes --> K(Done!)
