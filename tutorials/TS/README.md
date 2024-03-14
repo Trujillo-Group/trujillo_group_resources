@@ -50,33 +50,6 @@ flowchart TD
 ### Workflow (when TS structure is unknown)
 
 
-```mermaid
-flowchart TD
-    A[Looking for a TS using Gaussian] ---> B[Do you know which bonds?]
-    B -- Yes --> C[Do you orientation of molecules?]
-    C -- Failed --> D{Bond Freeze at
-                     various distances}
-    D --> O[TBD]
-    C -- Normal Termination --> E[Is the curve Quadratic?]
-    E -- No --> F[Try a different range]
-    F --> E
-    E -- Yes --> G{TS Search at 
-        3 highest
-        energies}
-    G -- Failed --> H(Retry with Maxstep=5)
-    H --> G
-    G -- Normal Termination --> I[Correct no. of
-                                img. freq.?]
-    I -- No --> J[Extra img. Freq 
-                below -10 cm-1?]
-    J -- Yes --> K(Done!)
-    J -- No --> M{Manually displace
-        extra negative
-        frequencies}
-    M --> I
-    I -- Yes --> N(Done!)
-
-```
 
 1. Using GaussView or any other GUI, add all the previously optimised monomers that are involved in the TS step to a blank window.
 2. Create an inital probable TS structure using your chemical intuition; **this is the toughest part of finding a TS!** Some tips to make life easier and ensure you are being unbiased when looking for a TS using this method are:
