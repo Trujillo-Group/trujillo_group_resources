@@ -17,7 +17,7 @@ Should you come across any useful material that you deem would fit here, please 
 - [Databases](#Databases)
 
 ## General
-- [MUST-READs](https://lists.papersapp.com/hd8fHd8QtFmO) 
+- [MUST-READs](https://lists.papersapp.com/2w6VyZLqaxV6) 
 - [Smiles to 3D Structure](https://www.novoprolabs.com/tools/smiles2pdb)
 
 ## Density-Functional Theory
