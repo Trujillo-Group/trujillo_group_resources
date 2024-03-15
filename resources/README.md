@@ -5,19 +5,19 @@ Should you come across any useful material that you deem would fit here, please 
 
 > This page might be overwhelming, so try only use it when you know what it is you're looking for guidance on!
 
-- [Must Reads](#must-reads)
+- [General](#general)
 - [Density-Functional Theory](#density-functional-theory)
 - [Visualisation](#visualisation)
-- [Teaching Material](#teaching-material)
-- [Structure Conversion](#density-functional-theory)
 - [Python](#python)
 - [Git](#git)
 - [Blender](#blender)
 - [Bash & Unix](#bash-and-unix-in-general)
 - [Inkscape](#inkscape)
+- [Cheminformatics](#cheminformatics)
 
-## Must Reads
-- This [link](https://lists.papersapp.com/hd8fHd8QtFmO) contains papers/pdfs that have been deemed "**Must reads**" for students
+## General
+- [MUST-READs](https://lists.papersapp.com/hd8fHd8QtFmO) 
+- [Smiles to 3D Structure](https://www.novoprolabs.com/tools/smiles2pdb)
 
 ## Density-Functional Theory
 - [Best-Practice DFT Protocols](https://onlinelibrary.wiley.com/doi/10.1002/anie.202205735)
@@ -30,12 +30,6 @@ Should you come across any useful material that you deem would fit here, please 
 - Existing Colour Palettes: [MetBrewer etc.](https://twitter.com/Emil_Hvitfeldt/status/1582795210949423104), [Studio Ghibli](https://medium.com/@jchen001/r-ggplot2-color-palettes-inspired-by-hayao-miyazakis-animes-f2aeccce45fd)
 - [Dataviz Inspiration](https://www.dataviz-inspiration.com/), [Colour Hunt](https://colorhunt.co/)
 - [Contrast Checker](https://colourcontrast.cc)
-
-## Teaching Material
-- [Cheminformatics](https://github.com/Sulstice/Cheminformatics-Teaching-Material)
-
-## Structure Conversion
-- [Smiles to 3D Structure](https://www.novoprolabs.com/tools/smiles2pdb)
 
 ## Python
 - [Learn python org](https://www.learnpython.org/): Free website with plenty of basic (and not so basic) tutorials and exercises to get familiar with python.
@@ -70,3 +64,6 @@ Should you come across any useful material that you deem would fit here, please 
 - Inkscape for scientists:
     - [Part 1](https://www.youtube.com/watch?v=5pdWUB99k_0&list=PLLwKCHa0QD1piouX5680HCJZGcKwSA7ON&ab_channel=DrawBioMed)
     - [Part 2](https://www.youtube.com/watch?v=eyqH0IrzYLc&list=PLxtauMB7RON_2tg-mRQTuieFUr29IOKzW&ab_channel=InSearch)
+
+## Cheminformatics
+- [Teaching Material](https://github.com/Sulstice/Cheminformatics-Teaching-Material)
