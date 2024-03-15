@@ -14,6 +14,7 @@ Should you come across any useful material that you deem would fit here, please 
 - [Bash & Unix](#bash-and-unix-in-general)
 - [Inkscape](#inkscape)
 - [Cheminformatics](#cheminformatics)
+- [Databases](#Databases)
 
 ## General
 - [MUST-READs](https://lists.papersapp.com/hd8fHd8QtFmO) 
@@ -67,3 +68,7 @@ Should you come across any useful material that you deem would fit here, please 
 
 ## Cheminformatics
 - [Teaching Material](https://github.com/Sulstice/Cheminformatics-Teaching-Material)
+
+## Databases
+- [VERDE](https://www.verdematerialsdb.com/)
+- [Medicinal Chemistry-Relevant Ring Systems](https://pubs.acs.org/doi/10.1021/acs.jcim.3c01812?ref=pdf)
