@@ -5,6 +5,7 @@ Should you come across any useful material that you deem would fit here, please 
 
 > This page might be overwhelming, so try only use it when you know what it is you're looking for guidance on!
 
+- [Must Reads](#must-reads)
 - [Density-Functional Theory](#density-functional-theory)
 - [Visualisation](#visualisation)
 - [Teaching Material](#teaching-material)
@@ -15,9 +16,13 @@ Should you come across any useful material that you deem would fit here, please 
 - [Bash & Unix](#bash-and-unix-in-general)
 - [Inkscape](#inkscape)
 
+## Must Reads
+- This [link](https://lists.papersapp.com/hd8fHd8QtFmO) contains papers/pdfs that have been deemed "**Must reads**" for students
+
 ## Density-Functional Theory
 - [Best-Practice DFT Protocols](https://onlinelibrary.wiley.com/doi/10.1002/anie.202205735)
 - [ABCs of DFT](https://dft.uci.edu/doc/g1.pdf)
+- [An Introduction to DFT](https://www.ch.imperial.ac.uk/harrison/Teaching/DFT_NATO.pdf)
 
 ## Visualisation
 - [Text in data visualisations](https://blog.datawrapper.de/text-in-data-visualizations/)
@@ -27,7 +32,7 @@ Should you come across any useful material that you deem would fit here, please 
 - [Contrast Checker](https://colourcontrast.cc)
 
 ## Teaching Material
-- [https://github.com/Sulstice/Cheminformatics-Teaching-Material](https://github.com/Sulstice/Cheminformatics-Teaching-Material)
+- [Cheminformatics](https://github.com/Sulstice/Cheminformatics-Teaching-Material)
 
 ## Structure Conversion
 - [Smiles to 3D Structure](https://www.novoprolabs.com/tools/smiles2pdb)
