@@ -38,7 +38,7 @@ Should you come across any useful material that you deem would fit here, please 
 - [Python for scientists](https://aaltoscicomp.github.io/python-for-scicomp/): One of the courses from Code refinery. Quite good for getting used to python.
 
 ## Git
-- [Coderefinery workshop](https://www.youtube.com/watch?v=GHlF1nGfz7g&list=PLpLblYHCzJACqaFsfQiCWp0Wqy6qG4iau): Very good introduction to git: 
+- [Coderefinery workshop](https://www.youtube.com/watch?v=GHlF1nGfz7g&list=PLpLblYHCzJACqaFsfQiCWp0Wqy6qG4iau): Very good introduction to git
 
 ## Blender
 - [Blender guru donut tutorial](https://www.youtube.com/watch?v=TPrnSACiTJ4&list=PLexwJr_iILK7IkuhEeAYeN7aLV5AAXKa-): This is a must for learning blender. Literally everyone in the community has done it. 
