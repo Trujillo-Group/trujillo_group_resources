@@ -33,6 +33,8 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 
 ### Visualisation
 - **Text in Data Visualisations**: Enhance your use of [Text in Figures](https://blog.datawrapper.de/text-in-data-visualizations/) using these tips.
+- **Generate plots in Python**:
+  - Raincloud plots [guide](https://python-graph-gallery.com/raincloud-plot-with-matplotlib-and-ptitprince/)
 - **Colour Palette Creation**:
   - Generate color schemes with tools like [Coolors](https://coolors.co/) and [Colorkit](https://colorkit.co).
 - **Existing Colour Palettes**:
