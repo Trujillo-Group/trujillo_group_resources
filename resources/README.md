@@ -8,6 +8,7 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 ### Index
 - [General](#general)
 - [Density-Functional Theory](#density-functional-theory)
+- [Organic Chemistry](#organic-chemistry)
 - [Visualisation](#visualisation)
 - [Python](#python)
 - [Git](#git)
@@ -26,6 +27,9 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 - **An Introduction to DFT**: Delve into introductory material [here](https://www.ch.imperial.ac.uk/harrison/Teaching/DFT_NATO.pdf).
 - **Best-Practice DFT Protocols**: Explore recommended protocols [here](https://onlinelibrary.wiley.com/doi/10.1002/anie.202205735).
 - **ABCs of DFT**: Understand the basics with this guide [PDF](https://dft.uci.edu/doc/g1.pdf).
+
+### Organic Chemistry
+- **Synthesis Workshop**: [Large library](https://www.youtube.com/@SynthesisWorkshopVideos) of research highlights as well as an academia-focused podcast.
 
 ### Visualisation
 - **Text in Data Visualisations**: Enhance your use of [Text in Figures](https://blog.datawrapper.de/text-in-data-visualizations/) using these tips.
