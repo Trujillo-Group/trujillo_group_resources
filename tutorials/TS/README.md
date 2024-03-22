@@ -49,8 +49,8 @@ flowchart TD
 
 ### Workflow (when TS structure is unknown)
 
-1. Using GaussView or any other GUI, add all the previously optimised monomers that are involved in the TS step to a blank window.
-2. Create an inital probable TS structure using your chemical intuition; **this is the toughest part of finding a TS!** Some tips to make life easier and ensure you are being unbiased when looking for a TS using this method are:
+1. Using GaussView or any other GUI, add all the previously optimised monomers that are involved in the TS step to a new window.
+2. Create an inital probable TS structure using your chemical intuition; **this is the toughest part of finding a TS using this method!** Some tips to make life easier and ensure you are being unbiased when looking for a TS are:
     - reading into the current literature-proposed mechanisms to help you understand what orientations have been studied previously
     - ensuring you are using the correct hydrogen bond (HB) distance & angle if a HB interaction is involved
     - ensuring lone pairs of electrons are correctly oriented to be involved in a bond formation
@@ -61,10 +61,10 @@ flowchart TD
 
 > [!Important]  
 > Given only information regarding the bond being broken and formed is typically known due to our knowledge of chemical reactions in 2D (i.e. what atoms are involved, their approximate orientation and bond distances), the orientation of the other molecular components around this TS bond formation - breaking is a mystery! One trick we use to overcome this is by 'fixing' the TS bonds that we know will take place using the ``` B X Y F ``` line that is inserted at the bottom of the _.com_ file; where ``` X Y ``` represent the two atoms that we want to fix in space.
-> Once we obtain a fully converged structure with the correct imaginary frequency (IF), we rerun that correct structure with ``` B X Y B ``` instead, to 'unfix' this bond and hopefully get the true TS we need!
+> Once we obtain a fully converged structure with the correct imaginary frequency (IF), we rerun that compeleted structure with ``` B X Y B ``` instead, to 'unfix' this bond and hopefully get the true TS we need!
 > Note that you can insert more than one ``` B X Y F ``` line, this is particularly useful for concerted reactions
 
-4. Using a Text Editor (e.g. _Vim_) input the correct keywords for a TS search into the _.com_ file:
+4. Using a Text Editor (e.g. _Vim_) input the correct keywords for a TS search into the _.com_ file, a basic example being:
    
 ```{shell}
 %nprocshared=40
@@ -91,21 +91,22 @@ B 3 15 F
 
 5. Submit the calculation to be run using the _Gaussian16_ (or _Gaussian09_) software
 6. **If the calculation terminates normally**, open the output _.log_ file with GaussView
-7. Check that there is only one IF that is larger than $- 10 cm^{-1} in the _Results_ > _Vibrations..._ tab.
+7. Check that there is only one IF that is larger than $- 10 cm^{-1}$ in the _Results_ > _Vibrations..._ tab
 8. Check to make sure that this is the correct vibrational frequency that represents the bond breaking / forming vibration you are interested in
-9. **If you have more than one IF**, select one of those modes that does not correspond to the one you need.
-10. Click _Start Animation_ to play the vibration of selected mode and see what sort of motion this involves.
-11. Click _Manual Displacement_ and change the value to either "1" or "-1" and press _Save Structure..._.
+9. **If you have more than one IF**, select one of those modes that does not correspond to the one you need
+10. Click _Start Animation_ to play the vibration of the selected mode and see what sort of motion this involves
+11. Click _Manual Displacement_ and change the value to either "1" or "-1" and press _Save Structure..._
 12. This will open the new structure in a new window
 13. Save this as new input and add all the previous keywords used
 14. Rerun this new structure until the calcaultion completes with only one IF being returned.
-15. **If the calculation failed**, check the error listed at the end of the _.log_ file and resubmit the calculation once you determine what will remove this error.
+15. **If the calculation failed**, check the error listed at the end of the _.log_ file and resubmit the calculation once you determine what will solve this error.
 
 > [!Important]  
 > The most common errors in the TS search are listed in the [Gaussian Errors](https://github.com/Trujillo-Group/trujillo_group_resources/tree/main/resources/gaussian_errors) section.
 
 16. **If the calculation terminates normally, however this has no IFs**; a product is most likely formed.
 17. If this is the case, check the _Results > Optimisation..._ tab to see what happened during the run.
+18. **If the calculation terminates normally, and the TS is the one you are looking for**; congrats! you have found your first TS structure!
 
 
 # Orca
