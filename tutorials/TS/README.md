@@ -114,21 +114,17 @@ flowchart TD
     A[Do you know the TS orientation?]
     A -- Yes --> B[Use previous 'Scan' method]
     A -- No  --> C[Set up initial TS guess]
-    C -- fixed calculation --> D[Run TS]
-
+    C --> D[Run unfixed TS]
     D -- failed --> E[Check Gaussian error]
     E --> F[resubmit calculation]
-    F -- fail --> E
+    F -- failed --> E
     F -- normal termination --> G[Number of IFs below -10 cm^-1?]
-
     D -- normal termination --> G
     G -- 1 --> H[correct IF?]
-    H -- yes --> I[run unfixed calc]
+    H -- yes --> I[Run unfixed TS]
     I -- normal termination --> N[1 IF below -10 cm^-1?]
-    N -- yes --> O[done!]
-    N -- no --> P[Product formed?]
-    P --> I
-    P --> Q[Increase TS bond distances]
+    I -- failed --> R[Check error]
+    R -- resubmit --> I
     H -- no --> J[Retry with new fixed guess/orientation]
     J --> D
     G -- 0 --> K[Product formed immediately?]
@@ -137,6 +133,10 @@ flowchart TD
     L --> D
     G -- >1 --> M[vibrational manual displacement]
     M --> D
+    N -- yes --> O[done!]
+    N -- no --> P[Product formed?]
+    P --> Q[Increase TS bond distances]
+    Q -- resubmit --> I
 
 ```
 
