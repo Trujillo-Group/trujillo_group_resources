@@ -109,6 +109,38 @@ B 3 15 F
 18. **If the calculation terminates normally, and the TS is the one you are looking for**; congrats! you have found your first TS structure!
 
 
+```mermaid
+flowchart TD
+    A[Do you know the TS orientation?]
+    A -- Yes --> B[Use previous 'Scan' method]
+    A -- No  --> C[Set up initial TS guess]
+    C -- fixed calculation --> D[Run TS]
+
+    D -- failed --> E[Check Gaussian error]
+    E --> F[resubmit calculation]
+    F -- fail --> E
+    F -- normal termination --> G[Number of IFs below -10 cm^-1?]
+
+    D -- normal termination --> G
+    G -- 1 --> H[correct IF?]
+    H -- yes --> I[run unfixed calc]
+    I -- normal termination --> N[1 IF below -10 cm^-1?]
+    N -- yes --> O[done!]
+    N -- no --> P[Product formed?]
+    P --> I
+    P --> Q[Increase TS bond distances]
+    H -- no --> J[Retry with new fixed guess/orientation]
+    J --> D
+    G -- 0 --> K[Product formed immediately?]
+    K -- yes --> J
+    K -- no --> L[Change TS bond distances]
+    L --> D
+    G -- >1 --> M[vibrational manual displacement]
+    M --> D
+
+```
+
+
 # Orca
 ### Tutorials
 [Vibrational Frequencies](https://www.faccts.de/docs/orca/5.0/tutorials/prop/freq.html)
