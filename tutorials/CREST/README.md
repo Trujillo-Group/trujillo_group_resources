@@ -59,7 +59,7 @@ The following is an example of a conformer search:
 crest input.xyz --gfn2 --chrg 0 --alpb Ether --T 1
 ```
 
-It can instead be run by using the [sub_csf4_crest](../../scripts/submission/CSF3-4 submission script as follows:
+It can instead be run by using the [sub_csf4_crest](../../scripts/submission/CSF3-4) submission script as follows:
 
 ```
 sub_csf4_crest -i input.xyz -s Ether -c 1
