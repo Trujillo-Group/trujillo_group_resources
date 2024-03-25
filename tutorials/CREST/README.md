@@ -50,6 +50,21 @@ source activate crest_env
 ```
 
 ##### Done!
+
+## Using Crest
+
+The following is an example of a conformer search:
+
+```
+crest input.xyz --gfn2 --chrg 0 --alpb Ether --T 1
+```
+
+It can instead be run by using the [sub_csf4_crest](../../scripts/submission/CSF3-4 submission script as follows:
+
+```
+sub_csf4_crest -i input.xyz -s Ether -c 1
+```
+
 Commands available via the [Crest documentation](https://crest-lab.github.io/crest-docs/page/documentation)
 
 Recommended energy window: 3 kcal/mol.<sup>[Ref.](https://onlinelibrary.wiley.com/doi/10.1002/anie.202205735)</sup>
