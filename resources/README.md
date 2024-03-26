@@ -21,17 +21,18 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 
 ### General
 - **MUST-READs**: Access essential reading materials [here](https://lists.papersapp.com/2w6VyZLqaxV6).
-- **Smiles to 3D Structure**: Convert SMILES notation to 3D structures using [this tool](https://www.novoprolabs.com/tools/smiles2pdb).
 
 ### Density-Functional Theory
 - **An Introduction to DFT**: Delve into introductory material [here](https://www.ch.imperial.ac.uk/harrison/Teaching/DFT_NATO.pdf).
 - **Best-Practice DFT Protocols**: Explore recommended protocols [here](https://onlinelibrary.wiley.com/doi/10.1002/anie.202205735).
 - **ABCs of DFT**: Understand the basics with this guide [PDF](https://dft.uci.edu/doc/g1.pdf).
+- **EDS Quantification**: Electron-Density Quantification [Tool](https://github.com/Trujillo-Group/EDS_quantification) made by our previous student Dr. Iñigo Iribarren.
 
 ### Organic Chemistry
 - **Synthesis Workshop**: [Large library](https://www.youtube.com/@SynthesisWorkshopVideos) of research highlights as well as an academia-focused podcast.
 
 ### Visualisation
+- **Icons for Chemists**: An [icons repository](https://github.com/iribirii/icons-for-chemists) provided by our previous student Dr. Iñigo Iribarren.
 - **Text in Data Visualisations**: Enhance your use of [Text in Figures](https://blog.datawrapper.de/text-in-data-visualizations/) using these tips.
 - **Generate plots in Python**:
   - Raincloud plots [guide](https://python-graph-gallery.com/raincloud-plot-with-matplotlib-and-ptitprince/)
