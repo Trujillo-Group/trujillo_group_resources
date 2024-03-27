@@ -12,7 +12,9 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 
 # Index
 - [Output file different to what you're expecting?](#output-file-different-to-what-youre-expecting)
-- [L101](#l101)
+- [l1](#l1)
+    - [Internal consistency failure #1 in ROv08](#internal-consistency-failure-1-in-rov08)
+- [l101](#l101)
     - [End of file in ZSymb](#end-of-file-in-zsymb)
     - [End of file reading Connectivity](#end-of-file-reading-connectivity)
     - [Name of the Center is Too Long](#name-of-the-center-is-too-long)
@@ -26,7 +28,6 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
     - [Convergence Failure](#convergence-failure)
 - [l607](#l607)
     - [Subroutine NAOANL could not find orbital](#subroutine-naoanl-could-not-find-a-_-type-orbital-on-atom)
-- [Convergence Failure](#convergence-failure)
 - [galloc: could not allocate memory](#galloc-could-not-allocate-memory)
 - [Link9999](#link9999)
 - [No such File or Directory](#no-such-file-or-directory)
