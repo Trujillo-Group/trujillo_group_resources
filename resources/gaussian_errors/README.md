@@ -51,10 +51,12 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 
 5. Lastly, sometimes what you're looking for just may not exist! Oftentimes TS are non-existent, and this is worthwhile considering, and is a result in itself!
 
+
+
 # l1
 
 ## Internal consistency failure #1 in ROv08
-
+<!-- l1 -->
 ![Error Example](figures/internal_consistency_failure_1_in_R0v08.png)
 
 **Explanation:** This is an error due to incorrect input of functional / basis-set
@@ -62,14 +64,6 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 **Solution:** Ensure that you have input both a functional and a basis-set
 
 
-## R6DS8: Unable to choose the S8 parameter
-
-![Error Example](figures/unable_to_choose_the_S8_parameter.png)
-
-**Solution:** Consider the following
-
-1. If using Minnessota functionals (M062X etc.) you cannot use gd3bj or gd3
-So instead of ```empiricaldispersion=gd3bj``` try ```empiricaldispersion=gd3```
 
 # l101
 
@@ -109,7 +103,6 @@ So instead of ```empiricaldispersion=gd3bj``` try ```empiricaldispersion=gd3```
 
 
 
-
 # l301
 
 ## Combination of multiplicity and electrons is impossible
@@ -121,6 +114,19 @@ So instead of ```empiricaldispersion=gd3bj``` try ```empiricaldispersion=gd3```
 1. Ensure correct input for ```charge multiplicity``` & in this order.
 
 2. Check geometry of input file --> Ensure no bonds have been formed or made due to incorrect atom distances
+
+## R6DS8: Unable to choose the S8 parameter
+
+![Error Example](figures/unable_to_choose_the_S8_parameter.png)
+
+**Explanation:** This error occurs when there is a mismatch in functional and dispersion. Most commonly occurs when using Minnessota functionals
+
+**Solution:** Consider the following
+
+1. If using Minnessota functionals (M062X etc.) you cannot use gd3bj
+So instead of ```empiricaldispersion=gd3bj``` try ```empiricaldispersion=gd3```
+
+2. Ensure your functional/basis-set and dispersion are usable together.
 
 ## Reading Basis Center
 <!-- l301 -->
@@ -172,6 +178,9 @@ Charge Multiplicity
 3. Check all your atomic symbols are correctly input.
 
 4. If using peseudopotentials this error can arise as ```Unrecognised Atomic Symbol****```. Ensure you have included ```functional/gen``` in your keywords.
+
+
+
 
 # l502
 
