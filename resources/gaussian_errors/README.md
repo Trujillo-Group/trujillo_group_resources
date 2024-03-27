@@ -22,6 +22,8 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
     - [Unrecognised Atomic Symbol](#unrecognised-atomic-symbol)
     - [Combination of multiplicity and electrons](#combination-of-multiplicity-and-electrons)
     - [End of file reading PCM Input](#end-of-file-reading-pcm-input)
+- [l607](#l607)
+    - [Subroutine NAOANL could not find orbital](#subroutine-naoanl-could-not-find-a-_-type-orbital-on-atom)
 - [Convergence Failure](#convergence-failure)
 - [galloc: could not allocate memory](#galloc-could-not-allocate-memory)
 - [Link9999](#link9999)
@@ -175,7 +177,7 @@ Charge Multiplicity
 
 # l607
 ## Subroutine NAOANL could not find a _-type Orbital on atom
-
+<!-- l607 -->
 ![Example Error](subroutine_NAOANL_could_not_find_orbital.png)
 
 **Explanation:** The chosen basis-set(s) failed to include the mentioned orbital during NBO Analysis.
