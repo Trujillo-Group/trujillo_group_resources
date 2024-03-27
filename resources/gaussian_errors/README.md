@@ -51,6 +51,26 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 
 5. Lastly, sometimes what you're looking for just may not exist! Oftentimes TS are non-existent, and this is worthwhile considering, and is a result in itself!
 
+# l1
+
+## Internal consistency failure #1 in ROv08
+
+![Error Example](figures/internal_consistency_failure_1_in_R0v08.png)
+
+**Explanation:** This is an error due to incorrect input of functional / basis-set
+
+**Solution:** Ensure that you have input both a functional and a basis-set
+
+
+## R6DS8: Unable to choose the S8 parameter
+
+![Error Example](figures/unable_to_choose_the_S8_parameter.png)
+
+**Solution:** Consider the following
+
+1. If using Minnessota functionals (M062X etc.) you cannot use gd3bj or gd3
+So instead of ```empiricaldispersion=gd3bj``` try ```empiricaldispersion=gd3```
+
 # l101
 
 ## End of file in ZSymb
