@@ -173,6 +173,19 @@ Charge Multiplicity
 
 4. If using peseudopotentials this error can arise as ```Unrecognised Atomic Symbol****```. Ensure you have included ```functional/gen``` in your keywords.
 
+# l607
+## Subroutine NAOANL could not find a _-type Orbital on atom
+
+![Example Error](subroutine_NAOANL_could_not_find_orbital.png)
+
+**Explanation:** The chosen basis-set(s) failed to include the mentioned orbital during NBO Analysis.
+
+**Solution:** Consider the following:
+
+1. If you are using Effective Core Potentials:
+    - Ensure the mentioned atom is included at the bottom of your input file
+
+2. Ensure your basis-set includes all atoms in your system
 
 # TBD
 (Need examples & error codes)
