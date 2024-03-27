@@ -20,14 +20,15 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
     - [Name of the Center is Too Long](#name-of-the-center-is-too-long)
     - [Wanted an inter as input. Found a string as input.](#wanted-an-integer-as-input-found-a-string-as-input)
 - [l301](#l301)
+    - [Combination of multiplicity and electrons](#combination-of-multiplicity-and-electrons)
+    - [R6DS8: Unable to choose the S8 parameter](#r6ds8-unable-to-choose-the-s8-parameter)
     - [Reading Basis Center](#reading-basis-center)
     - [Unrecognised Atomic Symbol](#unrecognised-atomic-symbol)
-    - [Combination of multiplicity and electrons](#combination-of-multiplicity-and-electrons)
-    - [End of file reading PCM Input](#end-of-file-reading-pcm-input)
 - [l502](#l502)
     - [Convergence Failure](#convergence-failure)
 - [l607](#l607)
     - [Subroutine NAOANL could not find orbital](#subroutine-naoanl-could-not-find-a-_-type-orbital-on-atom)
+- [End of file reading PCM Input](#end-of-file-reading-pcm-input)
 - [galloc: could not allocate memory](#galloc-could-not-allocate-memory)
 - [Link9999](#link9999)
 - [No such File or Directory](#no-such-file-or-directory)
@@ -214,7 +215,7 @@ Else:
 
 ## Subroutine NAOANL could not find a _-type Orbital on atom
 <!-- l607 -->
-![Example Error](subroutine_NAOANL_could_not_find_orbital.png)
+![Example Error](figures/subroutine_NAOANL_could_not_find_orbital.png)
 
 **Explanation:** The chosen basis-set(s) failed to include the mentioned orbital during NBO Analysis.
 
