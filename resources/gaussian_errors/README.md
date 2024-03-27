@@ -22,6 +22,8 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
     - [Unrecognised Atomic Symbol](#unrecognised-atomic-symbol)
     - [Combination of multiplicity and electrons](#combination-of-multiplicity-and-electrons)
     - [End of file reading PCM Input](#end-of-file-reading-pcm-input)
+- [l502](#l502)
+    - [Convergence Failure](#convergence-failure)
 - [l607](#l607)
     - [Subroutine NAOANL could not find orbital](#subroutine-naoanl-could-not-find-a-_-type-orbital-on-atom)
 - [Convergence Failure](#convergence-failure)
@@ -87,30 +89,6 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 
 
 
-# l502
-## Convergence Failure
-<!-- l502 -->
-![Convergence Failure Example](figures/convergence_failure.png)
-
-**Explanation:** The SCF (self-consistent field) procedure failed to converge.
-
-**Solution:** Execute ```grep "Converged?" file.log -A5```
-
-If 2/4 values are consistently converged, consider the following keywords
-
-1. ```scf=xqc```
-
-2. ```MaxStep=3``` or ```MaxStep=4```
-
-Else:
-
-1. Check keywords are correct
-
-2. Poor initial geometry, therefore use an alternative initial geometry
-
-3. Run quick preoptimisation using [xtb](https://github.com/grimme-lab/xtb)
-
-4. If using Pseudopotential, check **all** elements are included at the bottom of the file
 
 # l301
 
@@ -175,7 +153,35 @@ Charge Multiplicity
 
 4. If using peseudopotentials this error can arise as ```Unrecognised Atomic Symbol****```. Ensure you have included ```functional/gen``` in your keywords.
 
+# l502
+
+## Convergence Failure
+<!-- l502 -->
+![Convergence Failure Example](figures/convergence_failure.png)
+
+**Explanation:** The SCF (self-consistent field) procedure failed to converge.
+
+**Solution:** Execute ```grep "Converged?" file.log -A5```
+
+If 2/4 values are consistently converged, consider the following keywords
+
+1. ```scf=xqc```
+
+2. ```MaxStep=3``` or ```MaxStep=4```
+
+Else:
+
+1. Check keywords are correct
+
+2. Poor initial geometry, therefore use an alternative initial geometry
+
+3. Run quick preoptimisation using [xtb](https://github.com/grimme-lab/xtb)
+
+4. If using Pseudopotential, check **all** elements are included at the bottom of the file
+
+
 # l607
+
 ## Subroutine NAOANL could not find a _-type Orbital on atom
 <!-- l607 -->
 ![Example Error](subroutine_NAOANL_could_not_find_orbital.png)
