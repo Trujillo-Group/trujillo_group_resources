@@ -1,5 +1,11 @@
 # NBO Steps
 
+This tutorial has been written for NBO version 7.0.8. For any further details see the [manual](https://nbo7.chem.wisc.edu/nboman.pdf).
+
+**0. Gaining Access**
+
+For CSF, you must [request access](https://ri.itservices.manchester.ac.uk/csf4/software/applications/nbo/) to NBO 7.0.8.
+
 **1. File generation**
 
 Run single point calculation on previously optimised system with Gaussian (submission scripts available for ICHEC and CSF3-4 found in ```trujillo_group_resources/scripts``` directory). Ensure that you include keyword **"pop=NBO"**, as shown below.
@@ -7,7 +13,7 @@ Run single point calculation on previously optimised system with Gaussian (submi
 ```{shell}
 %nprocshared=40
 %mem=100GB
-# wb97xd def2svp scrf=(smd,solvent=dichloromethane) pop=NBO
+# wb97xd def2svp scrf=(smd,solvent=dichloromethane) pop=NBO7
 
 filename
 
