@@ -46,8 +46,8 @@ program = ""
 with open(args.input, "r") as f:
     lines = f.readlines()
     for line in lines:
-         if "nbo7" in line.lower():
-            program = "nbo7"
+         if "nbo" in line.lower():
+            program = "nbo"
             break
 
 # create slurm runscript (g16)
@@ -76,7 +76,7 @@ rm -rf $GAUSS_SCRDIR"""
         return script
 
 # create slurm runscript (g16)
-elif args.input[-4:] == ".com" and program == "nbo7":
+elif args.input[-4:] == ".com" and program == "nbo":
     def create_runscript(cores_queue, cores, input_file):
         script = f"""#!/bin/bash --login
 #SBATCH -p {cores_queue}      # (or --partition) Single-node multicore
@@ -87,7 +87,7 @@ elif args.input[-4:] == ".com" and program == "nbo7":
 module load gaussian/g16c01_em64t_detectcpu
 
 # Load NBO 7.0.8
-module load nbo/7.0.8-i8
+module load nbo/7.0.8
 
 ## Set up scratch dir (please do this!)
 export GAUSS_SCRDIR=/scratch/$USER/gau_temp_$SLURM_JOB_ID
