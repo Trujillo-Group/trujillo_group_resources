@@ -13,10 +13,6 @@
 
 **MacOS**: add ```alias jmol='java -Xmx512m -jar /Users/user/Downloads/jmol-16.1.47/Jmol.jar'``` to .bashrc / fish.config etc. (*Ensure correct path & version*)
 
-## Resources
-
-**Tutorial by Sofia Kiriakidi:** [Plotting NCI and AIM with Multiwfn and VMD](https://sofki.github.io/2024-03-14-multiwfn/)
-
 # MEP Steps
 
 > [!IMPORTANT]  
