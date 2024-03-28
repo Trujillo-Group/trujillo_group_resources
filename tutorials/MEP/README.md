@@ -1,18 +1,21 @@
 # Installation
 
-### [Multiwfn](http://sobereva.com/multiwfn/)
+## [Multiwfn](http://sobereva.com/multiwfn/)
 > For this tutorial we will be using Multiwfn_No_GUI
 
 **Windows or Linux**: Follow steps on Multiwfn website
 
-
 [**MacOS**](https://github.com/digital-chemistry-laboratory/multiwfn-mac-build): ```brew install --HEAD digital-chemistry-laboratory/multiwfn/multiwfn```
 
-### [Jmol](https://jmol.sourceforge.net/)
+## [Jmol](https://jmol.sourceforge.net/)
 
 **Windows or Linux**: Follow steps on Jmol website
 
 **MacOS**: add ```alias jmol='java -Xmx512m -jar /Users/user/Downloads/jmol-16.1.47/Jmol.jar'``` to .bashrc / fish.config etc. (*Ensure correct path & version*)
+
+## Resources
+
+**Tutorial by Sofia Kiriakidi:** [Plotting NCI and AIM with Multiwfn and VMD](https://sofki.github.io/2024-03-14-multiwfn/)
 
 # MEP Steps
 
@@ -108,7 +111,7 @@ If you are working in the computational centre, you can find the corresponding s
         - 1 label, 1 critical point:
         ![no_labels_all](./figures/mep_1_label.png)
 
-# Using JMol
+# Using JMol in CLI
 > Ensure correct path & version
 
-To access Jmol from the command-line you only have to add ```alias jmol='java -Xmx512m -jar /Users/user/Downloads/jmol-16.1.47/Jmol.jar'``` to your .bashrc or fish.config etc.
+To access Jmol from the command-line on MacOS you have to add ```alias jmol='java -Xmx512m -jar /Users/user/Downloads/jmol-16.1.47/Jmol.jar'``` to your .bashrc or fish.config etc.
