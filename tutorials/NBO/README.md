@@ -24,6 +24,8 @@ filename
 
 See [convert_sp](../../scripts/analysis) for a script to speed up this process!
 
+**N.B.** It is highly advised to use the same basis set as used for optimisation.
+
 **2. Data analysis**
 
 Once the single point calculation is complete, you may analyse the **filename.log** output file using the following commands. The examples below are studying the charge transfer from the **lone pairs (LP)** of electrons of the oxygen atom to the **antibonding orbitals BD*** of the iodine atom.
