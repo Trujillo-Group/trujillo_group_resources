@@ -33,7 +33,7 @@ If you are working in the computational centre, you can find the corresponding s
 
         ```{shell}
         cubegen 0 density=scf {filename}.fchk {filename}_DENS.cube 100 h
-        cubegen 0 potential=scf {filename}.fchk {filename}_DENS.cube 100 h
+        cubegen 0 potential=scf {filename}.fchk {filename}_MEP.cube 100 h
         ```
 
     3. Extract critical points from the selected isosurface with **MultiWFN**
