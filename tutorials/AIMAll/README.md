@@ -47,6 +47,9 @@ filename.wfx
 
 ```
 
+**N.B.** It is highly advised to use the same basis set as used for optimisation.
+
+
 **1. WFN/WFX submission**
 
 Once the wfx/wfn output file has been generated, it can now be submitted to AIMAll using the script **sub_aimall** (found in ```trujillo_group_resources/scripts/submission/QTAIM``` directory
