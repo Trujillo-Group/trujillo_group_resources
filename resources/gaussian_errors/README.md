@@ -149,20 +149,20 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 
 2. Check geometry of input file --> Ensure no bonds have been formed or made due to incorrect atom distances
 
-## R6DS8: Unable to choose the S8 parameter
+## End of line while reading PCM Input.
+<!-- l301 -->
+![Error Example](figures/End_of_line_while_reading_PCM_input.png)
 
-![Error Example](figures/unable_to_choose_the_S8_parameter.png)
-
-**Explanation:** This error occurs when there is a mismatch in functional and dispersion. Most commonly occurs when using Minnessota functionals
+**Explanation:** PCM is an acronym for Polarizable Continuum Model, a.k.a. solvent modelling. This is an error that occurs typically when using ```scrf=read```
 
 **Solution:** Consider the following
 
-1. If using Minnessota functionals (M062X etc.) you cannot use gd3bj
-So instead of ```empiricaldispersion=gd3bj``` try ```empiricaldispersion=gd3```
+1. Ensure solvent is correctly included at end of file
 
-2. Ensure your functional/basis-set and dispersion are usable together.
+2. Remove ```scrf=read```
 
-## Reading Basis Center
+
+## End of File Reading Basis Center
 <!-- l301 -->
 ![Error Example](figures/end_of_file_reading_basis_center.png)
 
@@ -182,6 +182,19 @@ Basis-Set-2
 ```
 
 2. Remove the ```gen``` keyword and specify your basis set
+
+## R6DS8: Unable to choose the S8 parameter
+
+![Error Example](figures/unable_to_choose_the_S8_parameter.png)
+
+**Explanation:** This error occurs when there is a mismatch in functional and dispersion. Most commonly occurs when using Minnessota functionals
+
+**Solution:** Consider the following
+
+1. If using Minnessota functionals (M062X etc.) you cannot use gd3bj
+So instead of ```empiricaldispersion=gd3bj``` try ```empiricaldispersion=gd3```
+
+2. Ensure your functional/basis-set and dispersion are usable together.
 
 ## Unrecognised Atomic Symbol
 <!-- l301 -->
@@ -274,17 +287,6 @@ Else:
 # TBD
 
 (Need examples & error codes)
-
-
-## End of file reading PCM Input
-
-**Explanation:** PCM is an acronym for Polarizable Continuum Model, a.k.a. solvent modelling. This is an error that occurs typically when using ```scrf=read```
-
-**Solution:** Consider the following
-
-1. Ensure solvent is correctly included at end of file
-
-2. Remove ```scrf=read```
 
 ## galloc: could not allocate memory
 
