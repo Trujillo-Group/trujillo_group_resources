@@ -18,6 +18,7 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
     - [End of file in ZSymb](#end-of-file-in-zsymb)
     - [End of file reading Connectivity](#end-of-file-reading-connectivity)
     - [Name of the Center is Too Long](#name-of-the-center-is-too-long)
+    - [RedCar failed in NewRed.](#redcar-failed-in-newred)
     - [Wanted an inter as input. Found a string as input.](#wanted-an-integer-as-input-found-a-string-as-input)
 - [l301](#l301)
     - [Combination of multiplicity and electrons](#combination-of-multiplicity-and-electrons)
@@ -96,6 +97,17 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 1. All strings denoting atoms (Eg. 'H', 'O', etc.) are present 
 
 2. No misinputs were placed at the end of any coordinate lines.
+
+## RedCar failed in NewRed.
+<!-- l101 -->
+![Error Example](figures/RedCar_fails_in_NewRed.png)
+**Explanation:** There is an issue with the Redundant coordinates (opt=ModRedundant)
+
+**Solution:** Consider the following
+
+1. If this occurs at the start of the optimisation; ensure you have a blank line at the end of your input file.
+
+2. If this occurs at an optimisation step; restart the optimisation from the last step, or rotate the molecule in GaussView and resubmit.
 
 ## Wanted an integer as input. Found a string as input.
 <!-- l101 -->
