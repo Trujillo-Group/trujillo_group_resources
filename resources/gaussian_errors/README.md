@@ -105,7 +105,7 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 
 **Solution:** Consider the following
 
-1. If this occurs at the start of the optimisation; ensure you have a blank line at the end of your input file.
+1. If this occurs at the start of the optimisation; ensure you have the correct keywords at the bottom of your file. Typical mistakes include using B X X X F instead of A X X X F etc.
 
 2. If this occurs at an optimisation step; restart the optimisation from the last step, or rotate the molecule in GaussView and resubmit.
 
