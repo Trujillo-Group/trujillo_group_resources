@@ -1,4 +1,4 @@
-![group logo](docs/logo_horizontal.png)
+![group logo](docs/figures/logo_horizontal.png)
 
 Welcome to the **Trujillo Research Group**, this repository contains useful documentation, tutorials, resources and scripts useful for your daily research.
 It is especially convenient for new members of the team, either undergrad, master or PhD students.
@@ -15,7 +15,7 @@ Firstly, it is **mandatory** for members of the group to familiarise themselves 
 Secondly the [Getting Started](tutorials/getting_started) section is highly recommended for new members. Particularly the **guidelines for good practice**.
 
 # Resources
-- **[Guidelines for Conduct](resources/conduct)**
+- **[Guidelines for Conduct](docs/guidelines)**
 - **[Basic UNIX Commands](tutorials/getting_started/basic_linux.md)**
 - **[Basic VI](tutorials/getting_started/basic_vi.md)**
 - **[Web Resources](resources/README.md)**
