@@ -32,7 +32,6 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
     - [Subroutine NAOANL could not find orbital](#subroutine-naoanl-could-not-find-a-_-type-orbital-on-atom)
 - [l612](#l612)
     - [External program failed.](#external-program-failed-to-be-confirmed)
-- [End of file reading PCM Input](#end-of-file-reading-pcm-input)
 - [galloc: could not allocate memory](#galloc-could-not-allocate-memory)
 - [Link9999](#link9999)
 - [No such File or Directory](#no-such-file-or-directory)
