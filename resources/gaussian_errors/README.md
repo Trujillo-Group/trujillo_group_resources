@@ -72,6 +72,24 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 
 # l101
 
+## Coordinate type X requires x centres, not y.
+<!-- l101 -->
+![Error Example](figures/Coordinate_Type_X_Requires_x_centres.png)
+
+**Explanation:** Incorrect input of modredundandant additional line(s)
+
+**Solution:** Consider the following
+
+1. Ensure all atomic numbering for opt=modredundant additional line is in integers and not floating point numbers.
+
+> E.g.
+> A 5 6 23 F  <---- Correct
+> A 5 6 23.000 F   <---- Incorrect
+
+2. Ensure you have included the correct number of atoms that is required for the coordinates. As detailed in the error.
+
+3. Ensure you are using the correct type of descriptor. B for bond (2 atoms), A for angle (3 atoms) etc.
+
 ## End of file in ZSymb
 <!-- l101 -->
 ![Error Example](figures/ZSymb.png)
@@ -105,7 +123,7 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 
 **Solution:** Consider the following
 
-1. If this occurs at the start of the optimisation; ensure you have the correct keywords at the bottom of your file. Typical mistakes include using B X X X F instead of A X X X F etc.
+1. If this occurs at the start of the optimisation; ensure you have the correct keywords at the bottom of your file, and only integers. A combination of these mistakes will result in this error, instead of the anticipated *Modredundant* error.
 
 2. If this occurs at an optimisation step; restart the optimisation from the last step, or rotate the molecule in GaussView and resubmit.
 
