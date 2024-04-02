@@ -15,6 +15,7 @@ Firstly, it is **mandatory** for members of the group to familiarise themselves 
 Secondly the [Getting Started](tutorials/getting_started) section is highly recommended for new members. Particularly the **guidelines for good practice**.
 
 # Resources
+- **[Guidelines for Conduct](resources/conduct)**
 - **[Basic UNIX Commands](tutorials/getting_started/basic_linux.md)**
 - **[Basic VI](tutorials/getting_started/basic_vi.md)**
 - **[Web Resources](resources/README.md)**
