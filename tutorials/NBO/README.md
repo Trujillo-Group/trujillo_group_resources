@@ -8,12 +8,12 @@ For CSF, you must [request access](https://ri.itservices.manchester.ac.uk/csf4/s
 
 **1. File generation**
 
-Run single point calculation on previously optimised system with Gaussian (submission scripts available for ICHEC and CSF3-4 found in ```trujillo_group_resources/scripts``` directory). Ensure that you include keyword **"pop=NBO"**, as shown below.
+Run single point calculation on previously optimised system with Gaussian (submission scripts available for ICHEC and CSF3-4 found in ```trujillo_group_resources/scripts``` directory). Ensure that you include keyword **"pop=nbo7"**, as shown below.
 
 ```{shell}
 %nprocshared=40
 %mem=100GB
-# wb97xd def2svp scrf=(smd,solvent=dichloromethane) pop=NBO7
+# wb97xd def2svp scrf=(smd,solvent=dichloromethane) pop=nbo7
 
 filename
 
