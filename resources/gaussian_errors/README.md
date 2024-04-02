@@ -150,19 +150,6 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 
 2. Check geometry of input file --> Ensure no bonds have been formed or made due to incorrect atom distances
 
-## End of line while reading PCM Input.
-<!-- l301 -->
-![Error Example](figures/End_of_line_while_reading_PCM_input.png)
-
-**Explanation:** PCM is an acronym for Polarizable Continuum Model, a.k.a. solvent modelling. This is an error that occurs typically when using ```scrf=read```
-
-**Solution:** Consider the following
-
-1. Ensure solvent is correctly included at end of file
-
-2. Remove ```scrf=read```
-
-
 ## End of File Reading Basis Center
 <!-- l301 -->
 ![Error Example](figures/end_of_file_reading_basis_center.png)
@@ -183,6 +170,18 @@ Basis-Set-2
 ```
 
 2. Remove the ```gen``` keyword and specify your basis set
+
+## End of line while reading PCM Input.
+<!-- l301 -->
+![Error Example](figures/End_of_line_while_reading_PCM_input.png)
+
+**Explanation:** PCM is an acronym for Polarizable Continuum Model, a.k.a. solvent modelling. This is an error that occurs typically when using ```scrf=read```
+
+**Solution:** Consider the following
+
+1. Ensure solvent is correctly included at end of file
+
+2. Remove ```scrf=read```
 
 ## R6DS8: Unable to choose the S8 parameter
 
