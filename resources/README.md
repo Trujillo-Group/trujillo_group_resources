@@ -22,6 +22,7 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 ### General
 - **MUST-READs**: Access essential reading materials [here](https://lists.papersapp.com/2w6VyZLqaxV6).
 - **Software treats**: A [list](./software_treats.md) of extensions and packages curated by our group member Tim Renningholtz. Ranges from CLI tools to python packages.
+
 ### Density-Functional Theory
 - **An Introduction to DFT**: Delve into introductory material [here](https://www.ch.imperial.ac.uk/harrison/Teaching/DFT_NATO.pdf).
 - **Best-Practice DFT Protocols**: Explore recommended protocols [here](https://onlinelibrary.wiley.com/doi/10.1002/anie.202205735).
