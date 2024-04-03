@@ -1,5 +1,6 @@
 # Software that makes life easier
 This is a list of a few extensions and packages that might useful in your daily life. They range from CLI tools to Python packages. This is list is not exhaustive
+
 ## CLI
 ### [zoxide](https://github.com/ajeetdsouza/zoxide)
 The smarter `cd` command. It tracks your most used directories and allows you to jump to them without typing the full path. It also learns your habits and uses that to prioritize the most relevant directories.   
@@ -38,6 +39,8 @@ In addition to those generic search engines, there are also academic search engi
 ### [ML demos](https://github.com/MilesCranmer/awesome-ml-demos)
 
 ## QM software in Python
+### [General List](https://github.com/lmmentel/awesome-python-chemistry)
+A curated list of awesome Python frameworks, libraries, software and resources related to Chemistry.
 ### [ASE](https://wiki.fysik.dtu.dk/ase/index.html)
 The Atomic Simulation Environment is a very useful tool for computational chemistry. It allows you to write scripts to set up and run calculations. It also provides an infrastructure to analyze the results and store them in a database.
 ### [pymatgen](https://pymatgen.org/)
