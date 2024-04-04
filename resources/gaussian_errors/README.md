@@ -19,7 +19,8 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
     - [End of file reading Connectivity](#end-of-file-reading-connectivity)
     - [Name of the Center is Too Long](#name-of-the-center-is-too-long)
     - [RedCar failed in NewRed.](#redcar-failed-in-newred)
-    - [Wanted an inter as input. Found a string as input.](#wanted-an-integer-as-input-found-a-string-as-input)
+- [l103](#l103)
+    - [FormBX had a problem.](#formbx-had-a-problem)
 - [l301](#l301)
     - [Combination of multiplicity and electrons](#combination-of-multiplicity-and-electrons)
     - [End of File Reading Basis Center](#reading-basis-center)
@@ -136,6 +137,19 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 **Solution:** Ensure correct input for ```charge multiplicity``` & in this order.
 
 
+# l103
+
+## FormBX had a problem.
+<!-- l103 -->
+![Error Example](figures/FormBX_had_a_problem.png)
+
+**Explanation:** Issue regarding internal coordinates. Occasionally occurs when atoms line up linearly during optimisation process.
+
+**Solution:** Consider the following
+
+1. Use ```opt=cartesian``` (Not suitable when using ```opt=modredundant```)
+
+2. Resubmit the final structure
 
 # l301
 
@@ -143,7 +157,7 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 <!-- l301 -->
 ![Error Example](figures/combination_of_multiplicity_and_electrons.png)
 
-**Solution:** Consider the following:
+**Solution:** Consider the following
 
 1. Ensure correct input for ```charge multiplicity``` & in this order.
 
