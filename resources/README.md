@@ -28,6 +28,7 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 - **Best-Practice DFT Protocols**: Explore recommended protocols [here](https://onlinelibrary.wiley.com/doi/10.1002/anie.202205735).
 - **ABCs of DFT**: Understand the basics with this guide [PDF](https://dft.uci.edu/doc/g1.pdf).
 - **EDS Quantification**: Electron-Density Quantification [Tool](https://github.com/Trujillo-Group/EDS_quantification) made by our previous student Dr. Iñigo Iribarren.
+- **Energy Decomposition Analysis**: [Nine Questions and Answers](https://livrepository.liverpool.ac.uk/3041755/1/eda.pdf) regarding Eenergy Decomposition Analysis.
 
 ### Organic Chemistry
 - **Synthesis Workshop**: [Large library](https://www.youtube.com/@SynthesisWorkshopVideos) of research highlights as well as an academia-focused podcast.
