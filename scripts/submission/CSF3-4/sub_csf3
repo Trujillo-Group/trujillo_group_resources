@@ -8,7 +8,7 @@ parser = argparse.ArgumentParser(description='Create Orca slurm runscript')
 parser.add_argument("-i", "--input", help="Input file name", required=True, type=str)
 parser.add_argument("-n", "--nodes", help="Number of nodes. multicore=1, multinode>1, serial=0; default=1", default=1, type=int)
 parser.add_argument("-c", "--cores", help="Number of cores. default=8", default=8, type=int)
-parser.add_argument("-l", "--queue", help="Queue type: High Memory = mem512 (Max cores = 16). Short (1h) = short (Max cores = 24)", type=str)
+parser.add_argument("-l", "--queue", help="Queue type: High Memory = mem512 (Max 16 cores, 32GB per), mem256 (Max 16 cores, 16GB per). Short (1h) = short (Max 24 cores, 4GB per)", type=str, choices=['mem512', 'mem256', 'short'])
 args = parser.parse_args()
 
 # check if number of nodes is valid
@@ -23,12 +23,15 @@ elif args.cores > 1 and args.cores <= 32:
 
 # check if queue type is valid
 
-if args.queue == 'mem512' and args.cores > 16:
-    print("Number of cores for high memory CPUs must be 16 or less")
-    sys.exit()
-elif args.queue == 'short' and args.cores > 24:
-    print("Number of cores for short queue must be 24 or less")
-    sys.exit()
+# check if queue type is valid
+if args.queue == 'mem512' or args.queue == 'mem256':
+    if args.cores > 16:
+        print("Number of cores for high memory CPUs must be between 16 or less")
+        sys.exit()
+elif args.queue == 'short':
+    if args.cores > 24:
+        print("Number of cores for short queue must be 24 or less")
+        sys.exit()
 
 # check if number of cores is the same as in input file
 #def check_cores(input_file, cores):
