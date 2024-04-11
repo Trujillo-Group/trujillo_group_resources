@@ -78,7 +78,7 @@ When you upload some scripts on the repository, you have to think that these mus
 - Add Link for Methodology Papers (Tim / James)
 #### Tutorials
 - Add examples for each Gaussian Error (James / Diana)
-- TS Tutorial (James)
+- TS Tutorial (James / Diana)
 - Software Treats: Visualisation Tools (Diana), Design/Graphics (Iñigo), CLI things (Tim)
 #### Scripts
 - CSF script for CREST Submission
