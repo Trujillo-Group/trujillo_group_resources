@@ -200,6 +200,25 @@ Basis-Set-2
 
 2. Remove ```scrf=read```
 
+## EOF while reading ECP pointer card.
+<!-- L301 -->
+![Error Example](figures/EOF_while_reading_ECP_pointer_card.png)
+
+**Explanation:** This error occurs when there is an issue at the end of the file whilst reading the effective core potential.
+
+**Solution:** Consider the following:
+
+1. If using ```pseudo=read```, reread over the bottom of your input file. Ensure your ECP EOF input is similar to the following example:
+```
+H C S N O I 0
+Basis-Set-1
+****
+[Blank Line]
+I 0
+Basis-Set-2
+[Blank Line]
+```
+
 ## R6DS8: Unable to choose the S8 parameter
 <!-- L301 -->
 ![Error Example](figures/unable_to_choose_the_S8_parameter.png)
