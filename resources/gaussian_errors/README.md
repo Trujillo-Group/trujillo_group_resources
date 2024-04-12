@@ -4,6 +4,8 @@
 # Introduction
 This tutorial aims to provide more specific help for Gaussian Errors typical to our group's calculations, such as organocatalytic transition state (TS) calculations. Should you need any further help, below are some resources which provide general information on dealing with Gaussian Errors.
 
+[Gaussian 16 Link Explanations](https://gaussian.com/capabilities/?tabid=3)
+
 [Alliance Doc Wiki](https://docs.alliancecan.ca/wiki/Gaussian_error_messages)
 
 [Blog by Zhe Wang](https://wongzit.github.io/gaussian-common-errors-and-solutions/)
@@ -12,29 +14,31 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 
 # Index
 - [Output file different to what you're expecting?](#output-file-different-to-what-youre-expecting)
-- [l1](#l1)
+- [L1](#L1)
     - [Internal consistency failure #1 in ROv08](#internal-consistency-failure-1-in-rov08)
-- [l101](#l101)
+- [L101](#L101)
     - [End of file in ZSymb](#end-of-file-in-zsymb)
     - [End of file reading Connectivity](#end-of-file-reading-connectivity)
     - [Name of the Center is Too Long](#name-of-the-center-is-too-long)
     - [RedCar failed in NewRed.](#redcar-failed-in-newred)
-- [l103](#l103)
+- [L103](#L103)
     - [FormBX had a problem.](#formbx-had-a-problem)
-- [l301](#l301)
+- [L301](#L301)
     - [Combination of multiplicity and electrons](#combination-of-multiplicity-and-electrons)
     - [End of File Reading Basis Center](#reading-basis-center)
     - [End of line while Reading PCM Input](#end-of-line-while-reading-pcm-input)
     - [R6DS8: Unable to choose the S8 parameter](#r6ds8-unable-to-choose-the-s8-parameter)
     - [Unrecognised Atomic Symbol](#unrecognised-atomic-symbol)
-- [l502](#l502)
+- [L502](#L502)
     - [Convergence Failure](#convergence-failure)
-- [l607](#l607)
+- [L607](#L607)
     - [Subroutine NAOANL could not find orbital](#subroutine-naoanl-could-not-find-a-_-type-orbital-on-atom)
-- [l612](#l612)
+- [L612](#L612)
     - [External program failed.](#external-program-failed-to-be-confirmed)
+- [L9999](#L9999)
+    - [Link9999](#link9999)
 - [galloc: could not allocate memory](#galloc-could-not-allocate-memory)
-- [Link9999](#link9999)
+
 - [No such File or Directory](#no-such-file-or-directory)
 
 ## Output file different to what you're expecting?
@@ -59,10 +63,10 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 
 
 
-# l1
+# L1
 
 ## Internal consistency failure #1 in ROv08
-<!-- l1 -->
+<!-- L1 -->
 ![Error Example](figures/internal_consistency_failure_1_in_R0v08.png)
 
 **Explanation:** This is an error due to incorrect input of functional / basis-set
@@ -71,10 +75,10 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 
 
 
-# l101
+# L101
 
 ## Coordinate type X requires x centres, not y.
-<!-- l101 -->
+<!-- L101 -->
 ![Error Example](figures/Coordinate_Type_X_Requires_x_centres.png)
 
 **Explanation:** Incorrect input of modredundandant additional line(s)
@@ -92,7 +96,7 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 3. Ensure you are using the correct type of descriptor. B for bond (2 atoms), A for angle (3 atoms) etc.
 
 ## End of file in ZSymb
-<!-- l101 -->
+<!-- L101 -->
 ![Error Example](figures/ZSymb.png)
 
 **Explanation:** This is an input error. Gaussian is unable to locate the Z-matrix. 
@@ -100,14 +104,14 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 **Solution:** Add a blank line to the end of your input file.
 
 ## End of file reading Connectivity
-<!-- l101 -->
+<!-- L101 -->
 ![Error Example](figures/end_of_file_reading_connectivity.png)
 
 **Explanation:** This is an error that occurs typically when unecessarily including ```geom=connectivity```
 **Solution:** Remove ```geom=connectivity```
 
 ## Name of the center is too long
-<!-- l101 -->
+<!-- L101 -->
 ![Error Example](figures/name_of_center_too_long.png)
 
 **Explanation:** More than 3 inputs found for atomic coordinates (x,y,z)
@@ -118,7 +122,7 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 2. No misinputs were placed at the end of any coordinate lines.
 
 ## RedCar failed in NewRed.
-<!-- l101 -->
+<!-- L101 -->
 ![Error Example](figures/RedCar_fails_in_NewRed.png)
 **Explanation:** There is an issue with the Redundant coordinates (opt=ModRedundant)
 
@@ -129,7 +133,7 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 2. If this occurs at an optimisation step; restart the optimisation from the last step, or rotate the molecule in GaussView and resubmit.
 
 ## Wanted an integer as input. Found a string as input.
-<!-- l101 -->
+<!-- L101 -->
 ![Error Example](figures/wanted_integer_found_string.png)
 
 **Explanation:** Gaussian expected an integer but encountered a string. Typically an issue with charge / multiplicity. As these are expected integers
@@ -137,10 +141,10 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 **Solution:** Ensure correct input for ```charge multiplicity``` & in this order.
 
 
-# l103
+# L103
 
 ## FormBX had a problem.
-<!-- l103 -->
+<!-- L103 -->
 ![Error Example](figures/FormBX_had_a_problem.png)
 
 **Explanation:** Issue regarding internal coordinates. Occasionally occurs when atoms line up linearly during optimisation process.
@@ -151,10 +155,10 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 
 2. Resubmit the final structure
 
-# l301
+# L301
 
 ## Combination of multiplicity and electrons is impossible
-<!-- l301 -->
+<!-- L301 -->
 ![Error Example](figures/combination_of_multiplicity_and_electrons.png)
 
 **Solution:** Consider the following
@@ -164,7 +168,7 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 2. Check geometry of input file --> Ensure no bonds have been formed or made due to incorrect atom distances
 
 ## End of File Reading Basis Center
-<!-- l301 -->
+<!-- L301 -->
 ![Error Example](figures/end_of_file_reading_basis_center.png)
 
 **Explanation:** This is an input error and relates to the use of ```gen``` as the basis set. This error can be typical when using pseudopotentials. 
@@ -185,7 +189,7 @@ Basis-Set-2
 2. Remove the ```gen``` keyword and specify your basis set
 
 ## End of line while reading PCM Input.
-<!-- l301 -->
+<!-- L301 -->
 ![Error Example](figures/End_of_line_while_reading_PCM_input.png)
 
 **Explanation:** PCM is an acronym for Polarizable Continuum Model, a.k.a. solvent modelling. This is an error that occurs typically when using ```scrf=read```
@@ -197,7 +201,7 @@ Basis-Set-2
 2. Remove ```scrf=read```
 
 ## R6DS8: Unable to choose the S8 parameter
-
+<!-- L301 -->
 ![Error Example](figures/unable_to_choose_the_S8_parameter.png)
 
 **Explanation:** This error occurs when there is a mismatch in functional and dispersion. Most commonly occurs when using Minnessota functionals
@@ -210,7 +214,7 @@ So instead of ```empiricaldispersion=gd3bj``` try ```empiricaldispersion=gd3```
 2. Ensure your functional/basis-set and dispersion are usable together.
 
 ## Unrecognised Atomic Symbol
-<!-- l301 -->
+<!-- L301 -->
 ![Unrecognised Atomic Symbol Example](figures/unrecognised_atomic_symbol.png)
 
 **Explanation:** This is typically an input error.
@@ -239,13 +243,10 @@ Charge Multiplicity
 
 4. If using peseudopotentials this error can arise as ```Unrecognised Atomic Symbol****```. Ensure you have included ```functional/gen``` in your keywords.
 
-
-
-
-# l502
+# L502
 
 ## Convergence Failure
-<!-- l502 -->
+<!-- L502 -->
 ![Convergence Failure Example](figures/convergence_failure.png)
 
 **Explanation:** The SCF (self-consistent field) procedure failed to converge.
@@ -268,12 +269,19 @@ Else:
 
 4. If using Pseudopotential, check **all** elements are included at the bottom of the file
 
+## Inv3_failed_in_PCMMkU
+<!-- L502 -->
+![Error Example](figures/Inv3_failed_in_PCMMkU.png)
 
-# l607
+**Explanation:** TBD
+
+**Solution:** TBD
+
+# L607
 
 ## Subroutine NAOANL could not find a _-type Orbital on atom
-<!-- l607 -->
-![Example Error](figures/subroutine_NAOANL_could_not_find_orbital.png)
+<!-- L607 -->
+![Error Example](figures/subroutine_NAOANL_could_not_find_orbital.png)
 
 **Explanation:** The chosen basis-set(s) failed to include the mentioned orbital during NBO Analysis.
 
@@ -284,18 +292,38 @@ Else:
 
 2. Ensure your basis-set includes all atoms in your system
 
-# l612
+# L612
 
 ## External program failed. 
-
-
-<!-- l612 -->
+<!-- L612 -->
 ![Error Example](figures/external_program_failed.png)
 
-**Explanation:** (To be confirmed) You lack required permissions to access an external program.
+**Explanation:** There is an issue with the external program you are trying to use. (e.g. NBO)
 
-**Solution:** (To be confirmed) Ensure you have access to the program(s) you are trying to use. A typical of this is NBO 7.0.8
+**Solution:** Consider the following:
+1. Ensure you have input the correct program & keyword to reference this program. (e.g. ```pop=nbo7```)
 
+2. Ensure you have added the necessary module loads to the run.sh script. (e.g. ```module load apps/binapps/nbo/7.0.8```)
+
+3. Ensure you have access to the program(s) you are trying to use. A typical of this is NBO 7.0.8
+
+4. Ensure you are using the correct facility for the permissions you have. (A common issue is using CSF4 when you only have permissions on CSF3)
+
+# L9999
+
+## Link9999
+<!-- L9999 -->
+**Explanation:** This error most commonly occurs when an optimisation fails to converge. The output file will possibly show a repetitive back and forth when visualised.
+
+**N.B** This error isn't typically straightforward, and can require hands-on troubleshooting.
+
+**Solution:** Consider the following
+
+1. A poor intial geometry. Try an alternative starting geometry.
+
+2. Preoptimize the structure with a worse basis set (eg. B3LYP) or semi-empirical methods (eg. [xtb](https://github.com/grimme-lab/xtb))
+
+3. If none of the above is working, it may be worthwhile considering the pathway does not undergo via this transition state, or that it does not occur at all.
 
 # TBD
 
@@ -311,15 +339,6 @@ Else:
 
 2. Ensure amount is greater than 1GB
 
-## Link9999
-
-**Explanation:** This error most commonly occurs when an optimisation fails to converge. The output file will most likely show a repetitive back and forth when visualised. 
-
-**Solution:** Consider the following
-
-1. A poor intial geometry. Try an alternative starting geometry.
-
-2. Preoptimize the structure with a worse basis set (eg. B3LYP) or semi-empirical methods (eg. [xtb](https://github.com/grimme-lab/xtb))
 
 ## No such file or directory
 
