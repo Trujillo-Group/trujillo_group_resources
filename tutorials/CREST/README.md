@@ -63,3 +63,11 @@ Commands available via the [Crest documentation](https://crest-lab.github.io/cre
 
 Recommended energy window: 3 kcal/mol.<sup>[Ref.](https://onlinelibrary.wiley.com/doi/10.1002/anie.202205735)</sup>
 
+
+## Using RMSD
+
+Sometimes (Most times) you may obtain 100s+ of potential conformers. A lot of these are often very similar, and a method to separate conformers is to use the statistical model 'root means squared difference' (RMSD) to further distinguish the structures across their conformational space.
+
+### Setting up RMSD
+
+1. TBD
