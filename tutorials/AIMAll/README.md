@@ -1,3 +1,9 @@
+# QTAIM Theory
+
+Quantum Theory of Atoms in Molecules was primarily developed by Richard Bader in which atoms and bonds are described through a system's observable electron density distribution function. To better understand this theory the following resources have been provided:
+
+[Cryst.bbk.ac.uk "The Quantum chemical theory Atoms in Molecules"](https://www.cryst.bbk.ac.uk/PPS2/projects/loesel/chap03c.htm)
+
 # AIMAll Steps
 
 **1. WFN/WFX generation**
