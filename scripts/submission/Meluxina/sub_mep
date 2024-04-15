@@ -30,7 +30,7 @@ for file in *.chk; do
     echo "# Write stdout+stderr to file"                                              >> "$filename.job"
     echo "#SBATCH --output=$filename.txt"                                                    >> "$filename.job"
     echo "# Mail me on job start & end"                                               >> "$filename.job"
-    echo "#SBATCH --mail-user=melnyk.nicole199968@gmail.com"                              >> "$filename.job"
+    echo "#SBATCH --mail-user=email@gmail.com"                              >> "$filename.job"
     echo "#SBATCH --mail-type=BEGIN,END"                                              >> "$filename.job"
     echo 'cd $SLURM_SUBMIT_DIR'                                                       >> "$filename.job"
     echo 'echo $GAUSS_SCRDIR'                                                         >> "$filename.job"
