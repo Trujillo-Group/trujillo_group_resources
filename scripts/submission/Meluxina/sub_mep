@@ -1,0 +1,43 @@
+!/bin/bash
+
+# USAGE: this submission file submits all the files with the chk extension to generate *.fchk,*_DENS.cube and *_MEP.cube files 
+#
+# mep_sub project_code queue_name hh:mm:ss
+
+for file in *.chk; do
+    filename="${file%.chk}"
+    project=$1
+    queue_name=$2
+    queue_time=$3
+
+    # Convert hh:mm:ss to hours
+    hours=$(echo "$queue_time" | awk -F: '{print $1}')
+    minutes=$(echo "$queue_time" | awk -F: '{print $2}')
+    seconds=$(echo "$queue_time" | awk -F: '{print $3}')
+    total_hours=$((hours + (minutes / 60) + (seconds / 3600)))
+
+    echo "working with $filename"
+    echo "#!/bin/bash -l"                                                                    > "$filename.job"
+    echo "#SBATCH --job-name=$filename"                                                      >> "$filename.job"
+    echo "#SBATCH --account=$project"                                                 >> "$filename.job"
+    echo "#SBATCH --partition=cpu"                                                    >> "$filename.job"
+    echo "#SBATCH --qos=$queue_name"                                                  >> "$filename.job"
+    echo "#SBATCH --nodes=1"                                                          >> "$filename.job"
+    echo "#SBATCH --ntasks=12"                                                        >> "$filename.job"
+    echo "#SBATCH --ntasks-per-node=12"                                               >> "$filename.job"
+    echo "#SBATCH --cpus-per-task=5"                                                  >> "$filename.job"
+    echo "#SBATCH --time=$total_hours:00:00"                                              >> "$filename.job"
+    echo "# Write stdout+stderr to file"                                              >> "$filename.job"
+    echo "#SBATCH --output=$filename.txt"                                                    >> "$filename.job"
+    echo "# Mail me on job start & end"                                               >> "$filename.job"
+    echo "#SBATCH --mail-user=melnyk.nicole199968@gmail.com"                              >> "$filename.job"
+    echo "#SBATCH --mail-type=BEGIN,END"                                              >> "$filename.job"
+    echo 'cd $SLURM_SUBMIT_DIR'                                                       >> "$filename.job"
+    echo 'echo $GAUSS_SCRDIR'                                                         >> "$filename.job"
+    echo "module load gaussian/16c02"                                                 >> "$filename.job"
+    echo ""                                                                              >> "$filename.job"
+    echo "formchk $filename.chk"                                      >> "$filename.job"
+    echo "cubegen 0 density=scf $filename.fchk ${filename}_DENS.cube 100 h" >> "$filename.job"
+    echo "cubegen 0 potential=scf $filename.fchk ${filename}_MEP.cube 100 h">> "$filename.job"
+    sbatch "$filename.job"
+done
