@@ -53,21 +53,53 @@ source activate crest_env
 
 ## Using Crest
 
-The following is an example of a conformer search:
+Recommended energy window (Smaller Systems): 3 kcal/mol.<sup>[Ref.](https://onlinelibrary.wiley.com/doi/10.1002/anie.202205735)</sup> 
+Recommended energy window (Larger Systems): 6 kcal/mol.
 
+
+### Option 1
 ```
-crest input.xyz --gfn2 --chrg 0 --alpb Ether --T 1
+crest input.xyz --gfn2 --alpb Ether --T 1
 ```
 
 Commands available via the [Crest documentation](https://crest-lab.github.io/crest-docs/page/documentation)
 
-Recommended energy window: 3 kcal/mol.<sup>[Ref.](https://onlinelibrary.wiley.com/doi/10.1002/anie.202205735)</sup>
+### Option 2
 
 
-## Using RMSD
+1. Download [sub_csf4_crest](../../scripts/submission/CSF3-4/CREST/sub_csf4_crest) and put it in your CSF bin
+2. ```sub_csf4_crest -i input.xyz [-s] [solvent] [-c] [cores] [-ch] [charge] [-m] [multiplicity] [-e] [energy window (kcal/mol)]```
+
+Allows the user to run crest without requiring an interactive session.
+
+## RMSD
 
 Sometimes (Most times) you may obtain 100s+ of potential conformers. A lot of these are often very similar, and a method to separate conformers is to use the statistical model 'root means squared difference' (RMSD) to further distinguish the structures across their conformational space.
 
 ### Setting up RMSD
+> Many of these setup steps can be done in alternative/more efficient ways, the steps provided are the ones which worked for me (James), so if you know what you are doing feel free to use seperate scripts etc.
 
-1. TBD
+1. Install [RMSD](https://github.com/iribirii/rmsd) (Iribirii's version)
+2. Install [crestparse.py](https://github.com/juhesiit/crestparse)
+3. Download the [rmsd.ipynb Jupyter Notebook](tbd)
+4. Copy the following to your bin folder:
+    - rmsd/calculate_rmsd.py
+    - crestparse.py
+    - rmsd.ipynb
+
+
+### Using RMSD
+
+**N.B.** The Jupyter Notebook deletes the conformers that don't make the cutoff. It is **very** important you run this notebook on a backup of your files.
+
+1. Extract all of your .xyz files from crest_conformers.xyz to a new file called rmsd
+
+```
+mkdir rmsd
+cd rmsd
+crestparse.py ../crest_conformers.xyz -e
+```
+
+2. Run rmsd.ipynb
+
+3. Repeat with varied  ``rmnsd_cutoff`` and ```energy_cutoff``` values until you get the required number of conformers 
