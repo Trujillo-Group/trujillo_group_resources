@@ -14,24 +14,32 @@ The scripts are written in python and can be run on CSF3/4 directly or from your
 
 This will create a `run.sh` file in the current directory and will submit the calculation specified in `test.inp` to the `multicore` queue and allocates 20 cores.
 
-### Use Cases
 
-**sub_csf3** - Gaussian16, NBO7 (g16), ORCA
-
-**sub_csf3_g09** - Gaussian09
+#### CSF4
 
 **sub_csf4** - Gaussian16, NBO7 (g16), ORCA
 
 **sub_csf4_g09** - Gaussian09
 
-**sub_csf5_g16_bash** - Gaussian16
+**sub_csf4_g16_bash** - Gaussian16
 
-**sub_mep_csf4** - MEP
+**sub_csf4_mep** - MEP
 
-**sub_mep_csf3** - MEP
+**sub_csf4_crest** - CREST
 
-### Local Machine
+**sub_csf4_xtb** - xTB
+
+#### CSF3
+
+**sub_csf3** - Gaussian16, NBO7 (g16), ORCA
+
+**sub_csf3_g09** - Gaussian09
+
+**sub_csf3_mep** - MEP
+
+
+#### Local Machine
 The script can be run from a local machine as well. Store the script in `~/bin` and make it executeable. You might have to adjust the shebang to give the correct python path.
 
-## sub_aimall
+### sub_aimall
 Here you will find the submission script for the AIMAll software. Once called, it will submit the **.wfn** or **.wfx** files (must specify in the script) in the working directory to AIMAll. Please change **/home/nika/AIMAll/aimqb.ish -nogui -skipint=true -nproc=1 -naat=1 $i** to wherever you have AIMAll installed in your computer. 
