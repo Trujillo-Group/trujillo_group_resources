@@ -1,0 +1,39 @@
+#!/bin/bash
+echo 'Give me the file (*.com)'
+read filename
+echo "     " 
+
+echo 'Give me the number of cores'
+read cores
+echo "     " 
+
+file=$(echo $filename | awk -F.com '{print $1}')
+
+echo "working with $file"
+echo "#!/bin/bash --login"                                                       > $file.job
+echo "# Slurm flags                                                           " >> $file.job
+echo "#SBATCH -p multicore                                                    " >> $file.job
+echo "#SBATCH -n $cores                                                       " >> $file.job
+echo "#SBATCH --job-name=$file                                                " >> $file.job
+echo "# Charge job to myaccount                                               " >> $file.job
+echo "# Write stdout+stderr to file                                           " >> $file.job
+echo "#SBATCH -o $file.txt                                                    " >> $file.job
+echo 'cd $SLURM_SUBMIT_DIR                                                    ' >> $file.job
+echo "# Load g16 for the CPU type our job is running on                       " >> $file.job
+echo "module load gaussian/g16c01_em64t_detectcpu                             " >> $file.job
+echo "                                                                        " >> $file.job
+echo "## Set up scratch dir (please do this!)                                 " >> $file.job
+echo 'export GAUSS_SCRDIR=/scratch/$USER/gau_temp_$JOB_ID                     ' >> $file.job
+echo 'mkdir -p $GAUSS_SCRDIR                                                  ' >> $file.job
+echo "                                                                        " >> $file.job
+echo "## Say how much memory to use (4GB per core)                            " >> $file.job
+echo 'export GAUSS_MDEF=$((NSLOTS*4))GB                                       ' >> $file.job
+echo "                                                                        " >> $file.job
+echo "## Inform Gaussian how many cores to use                                " >> $file.job
+echo 'export GAUSS_PDEF=$NSLOTS                                               ' >> $file.job
+echo "                                                                        " >> $file.job
+echo '$g16root/g16/g16 < '"$file.com > $file.log                              " >> $file.job
+
+sbatch $file.job
+
+

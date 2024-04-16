@@ -1,0 +1,78 @@
+#!/bin/python3.6
+import os
+import sys
+import argparse
+
+# create parser for parsing input file name
+parser = argparse.ArgumentParser(description='Create Gaussian slurm runscript')
+parser.add_argument("-i", "--input", help="Input file name", required=True, type=str)
+parser.add_argument("-n", "--nodes", help="Number of nodes. multicore=1, multinode>1, serial=0; default=1", default=1, type=int)
+parser.add_argument("-c", "--cores", help="Number of cores. Between 2-40; default=20", type=int, default=20)
+args = parser.parse_args()
+
+# check if number of nodes is valid
+
+if args.nodes > 1: 
+    queue = "multinode"
+else:
+    queue = "multicore"
+
+if args.cores > 40 and args.nodes < 2:
+    print("Number of cores must be between 2 and 40")
+    sys.exit()
+elif args.nodes == 0 or args.cores == 1:
+    queue = "serial"
+
+# check if number of cores is the same as in input file
+# def check_cores(input_file, cores):
+    # with open(input_file, "r") as f:
+        # lines = f.readlines()
+        # for line in lines:
+            # if "nprocs" in line:
+                # if int(line.split()[2]) != cores:
+                    # print("Number of cores in input file does not match number of cores specified")
+#                    ask user if they want to change number of cores in input file
+                    # change_cores = input("Do you want to change the number of cores in the input file? (y/n)")
+                    # if change_cores == "y":
+                        # with open(input_file, "w") as f:
+                            # for line in lines:
+                                # if "nproc" in line:
+                                    # line = f"%pal   nprocs {cores}\n"
+                                # f.write(line)
+                    # else:
+                        # sys.exit()
+
+# create slurm runscript
+def create_runscript(queue, cores, input_file):
+    script = f"""#!/bin/bash --login
+#SBATCH -p {queue}      # (or --partition) Single-node multicore
+#SBATCH --ntasks {cores}             # (or --ntasks=) Number of cores (2--40)
+#SBATCH --job-name {input_file.split(".")[0]}     # Short name for the job
+
+# Load g09 for the CPU type our job is running on
+module load gaussian/g09d01_em64t
+
+## Set up scratch dir (please do this!)
+export GAUSS_SCRDIR=/scratch/$USER/gau_temp_$SLURM_JOB_ID
+mkdir -p $GAUSS_SCRDIR
+
+## Say how much memory to use (4GB per core)
+export GAUSS_MDEF=$((SLURM_NTASKS*4))GB
+
+## Inform Gaussian how many cores to use
+export GAUSS_PDEF=$SLURM_NTASKS
+
+$g09root/g09/g09 < $SLURM_JOB_NAME.com > $SLURM_JOB_NAME.log
+rm -rf $GAUSS_SCRDIR"""
+    return script
+
+# check if input file exists
+if not os.path.isfile(args.input):
+    print("Input file does not exist")
+    sys.exit()
+# if input file exists, create slurm runscript and adjust number of cores
+else:
+    # check if number of cores in input file matches number of cores specified
+    with open("run.sh", "w") as f:
+        f.write(create_runscript(queue, args.cores, args.input))
+    os.system(f"sbatch run.sh {args.input}")

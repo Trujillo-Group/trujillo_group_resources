@@ -1,0 +1,61 @@
+#!/bin/python3.6
+import os
+import sys
+import argparse
+
+# create parser for parsing input file name
+parser = argparse.ArgumentParser(description='Create Gaussian slurm runscript')
+parser.add_argument("-i", "--input", help="Input file name", required=True, type=str)
+parser.add_argument("-n", "--nodes", help="Number of nodes. multicore=1, multinode>1, serial=0; default=1", default=1, type=int)
+parser.add_argument("-c", "--cores", help="Number of cores. Between 2-40; default=20", type=int, default=20)
+parser.add_argument("-ch", "--charge", help="Charge of the molecule", type=int, default=0)
+parser.add_argument("-s", "--solvent", help="Solvent for GBSA. Default=Acetonitrile", type=str, default="Acetonitrile")
+args = parser.parse_args()
+
+# check if number of nodes is valid
+
+if args.nodes > 1:
+    queue = "multinode"
+else:
+    queue = "multicore"
+
+if args.cores > 40 and args.nodes < 2:
+    print("Number of cores must be between 2 and 40")
+    sys.exit()
+elif args.nodes == 0 or args.cores == 1:
+    queue = "serial"
+
+
+# create slurm runscript
+def create_runscript(queue, cores, input_file, charge, solvent):
+    script = f"""#!/bin/bash --login
+#SBATCH -p $1       # (or --partition=) Parallel job using cores on a single node
+#SBATCH --ntasks $2                # (or --ntasks=) Number of cores (2--40)
+#SBATCH --job-name $3  # Short name for the job
+
+# Load anaconda module for the CPU type our job is running on
+module load anaconda3/2022.10
+
+## Activate the conda environment
+source activate crest_env
+
+## Say how many threads
+export OMP_NUM_THREADS=$SLURM_NTASKS
+
+## Run the job
+xtb $3 --opt --chrg $4 --alpb $5 --T $2 > xtb.out
+source deactivate"""
+    return script
+
+# check if input file exists
+if not os.path.isfile(args.input):
+    print("Input file does not exist")
+    sys.exit()
+# if input file exists, create slurm runscript and adjust number of cores
+else:
+    # check if number of cores in input file matches number of cores specified
+    with open("run.sh", "w") as f:
+        f.write(create_runscript(queue, args.cores, args.input, args.charge, args.solvent))
+    os.system(f"sbatch run.sh {args.input}")
+# Runs alias for jobs_csf4.sh to update the jobs list
+os.system("jobs_csf4.sh")
