@@ -1,7 +1,7 @@
 !/bin/bash
 
-# USAGE: this submission file submits all the files with the chk extension to generate *.fchk,*_DENS.cube and *_MEP.cube files 
-#
+# USAGE: this submission file submits all the files with the chk extension (filename.chk) to generate filename.fchk,filename_DENS.cube and filename_MEP.cube files 
+# To execute please refer to the following
 # mep_sub project_code queue_name hh:mm:ss
 
 for file in *.chk; do
