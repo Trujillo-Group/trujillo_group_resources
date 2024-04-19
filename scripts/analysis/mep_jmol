@@ -1,0 +1,177 @@
+#!/bin/bash
+
+# Author: Inigo Iribarren
+# 06-10-2021
+
+# Updated: 03-04-2024 by James O'Brien
+# Added Multiwfn to the script to calculate the critical points of the MEP
+# Added the option to select the highest numbers to visualise
+# Fixed labelling
+
+# Description:
+# This scripts creates a basic 3D plot of the MEP of a selected molecule.
+
+# Requirements:
+# 	Formatted Chekpoint file 	$name.fchk
+# 	Density file	 			$name_DENS.cube
+# 	MEP file 	 				$name_MEP.cube
+
+# Usage:
+# 	mep_jmol filename
+read -p "Please input how many of the highest numbers you would like to visualise (leave blank for all):" num_highest
+read -p "Please input how many of the lowest numbers you would like to visualise (leave blank for all):" num_lowest
+
+file=$1
+name=$(echo $file | cut -d '.' -f 1) 
+dens=$name'_DENS.cube'
+mep=$name'_MEP.cube'
+fchk=$name'.fchk'
+n=0
+n_sphere=0
+
+# Check that the required files exist
+if [ ! -f "$fchk" ]; then
+    echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    echo '!! ERROR: FCHK FILE DOES NOT EXIST !!'
+    echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    exit 1
+elif [ ! -f "$dens" ]; then
+    echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    echo '!! ERROR: DENS FILE DOES NOT EXIST !!'
+    echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    exit 1
+elif [ ! -f "$mep" ]; then
+    echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    echo '!! ERROR: MEP FILE DOES NOT EXIST !!'
+    echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    exit 1
+fi
+
+# Run Multiwfn with the specified filename and options file
+Multiwfn $fchk < ~/bin/MEP/mep_options.txt
+mv surfanalysis.txt $name"_CRIT.txt"
+
+crit=$name"_CRIT.txt"
+
+# Set the minimum and maximum values of the MEP
+a_u_values=$(grep -E '^\s+\d+\s+([0-9]+\.[0-9]+)' $crit | awk '{print $2}')
+
+# Find the maximum and minimum a.u. values
+max_val=$(echo "$a_u_values" | sort -n | tail -n 1)
+min_val=$(echo "$a_u_values" | sort -n | head -n 1)
+
+# Add the isosurface to the .jmol file using min and max values
+echo "load $dens" >> $name.jmol
+echo "isosurface vdwden cutoff 0.001 $dens color absolute $min_val $max_val $mep" >> $name.jmol
+echo "color \$vdwden translucent" >> $name.jmol
+echo "color background white" >> $name.jmol
+
+# If CRIT file exists, create the spherical representation of the critical points
+# Blue spheres for maximas
+# Black spheres for minima
+
+if [ -f "$crit" ]; then
+    while IFS= read line
+    do
+        n=$((n+1))
+        palabra=`echo "$line" | awk '{print $4}'`
+        if [ "$palabra" = maxima: ]
+        then
+            max=$n
+        fi
+    done < "${name}_CRIT.txt"
+    
+    head -n $((max-2)) ${name}_CRIT.txt | tail -n +3 > min.txt 
+    tail -n +$((max+2)) ${name}_CRIT.txt > max.txt
+    
+    sed 's/*/ /g' min.txt > min1.txt
+    mv min1.txt min.txt
+    
+    sed 's/*/ /g' max.txt > max1.txt
+    mv max1.txt max.txt
+    
+    while IFS= read line_min
+    do
+        n_sphere=$((n_sphere+1))
+        mep=`echo $line_min | awk '{print $2}'`
+        x=`echo $line_min | awk '{print $5}'`
+        y=`echo $line_min | awk '{print $6}'`
+        z=`echo $line_min | awk '{print $7}'`
+    
+        echo "#draw sphere$n_sphere diameter 0.4 {$x $y $z} color cyan \"$mep\"  #MEP in a.u. $mep" >> $name.jmol
+        echo "#set drawHover TRUE" >> $name.jmol
+        echo "#set echo sphere$n_sphere \$sphere$n_sphere" >> $name.jmol
+    
+    done < "./min.txt"
+    
+    while IFS= read line_max
+    do
+        n_sphere=$((n_sphere+1))
+        mep=`echo $line_max | awk '{print $2}'`
+        x=`echo $line_max | awk '{print $5}'`
+        y=`echo $line_max | awk '{print $6}'`
+        z=`echo $line_max | awk '{print $7}'`
+    
+        echo "#draw sphere$n_sphere diameter 0.4 {$x $y $z} color black \"$mep\"  #MEP in a.u. $mep" >> $name.jmol
+        echo "#set drawHover TRUE" >> $name.jmol
+        echo "#set echo sphere$n_sphere \$sphere$n_sphere" >> $name.jmol
+    
+    done < "./max.txt"
+    
+    rm max.txt
+    rm min.txt
+fi
+
+### Uncomment the necessary values (Optional)
+
+jmol=$name.jmol
+
+# Read the .jmol file
+while IFS= read -r line; do
+    data+=("$line")
+done < "$jmol"
+
+# Extract the numbers following the "MEP in a.u." comments along with their line numbers
+numbers=()
+for i in "${!data[@]}"; do
+    if [[ "${data[i]}" == *"MEP in a.u."* ]]; then
+        number=$(echo "${data[i]}" | awk -F "MEP in a.u." '{print $2}' | xargs)
+        numbers+=("$i $number")
+    fi
+done
+
+# Find the highest numbers
+IFS=$'\n' sorted=($(sort -k2 -rn <<<"${numbers[*]}"))
+unset IFS
+highest_numbers=("${sorted[@]:0:num_highest}")
+
+# Find the lowest numbers
+IFS=$'\n' sorted=($(sort -k2 -n <<<"${numbers[*]}"))
+unset IFS
+lowest_numbers=("${sorted[@]:0:num_lowest}")
+
+# Uncomment the lines with the highest numbers and/or the lowest numbers
+uncommented_lines=()
+for line_number in "${highest_numbers[@]}"; do
+    index=$(echo "$line_number" | awk '{print $1}')
+    uncommented_lines+=("$index") 
+done
+for line_number in "${lowest_numbers[@]}"; do
+    index=$(echo "$line_number" | awk '{print $1}')
+    uncommented_lines+=("$index") 
+done
+
+# Write the updated data back to the file, overwriting the entire content
+for i in "${!data[@]}"; do
+    if [[ " ${uncommented_lines[@]} " =~ " $i " ]]; then
+        echo "${data[i]#*#}" >> temp_file.txt
+    else
+        echo "${data[i]}" >> temp_file.txt
+    fi
+done
+
+# Overwrite the original file with the updated data
+mv temp_file.txt "$jmol"
+
+echo "Max: $max_val"
+echo "Min: $min_val"
