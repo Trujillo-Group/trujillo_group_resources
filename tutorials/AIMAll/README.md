@@ -58,8 +58,7 @@ filename.wfx
 
 **1. WFN/WFX submission**
 
-Once the wfx/wfn output file has been generated, it can now be submitted to AIMAll using the script **sub_aimall** (found in ```trujillo_group_resources/scripts/submission/QTAIM``` directory
-).
+Once the wfx/wfn output file has been generated, it can now be submitted to AIMAll using the script **sub_aimall** (found in ```trujillo_group_resources/scripts/submission/QTAIM``` directory).
 
 
 

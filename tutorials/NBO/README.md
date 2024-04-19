@@ -8,7 +8,7 @@ For CSF, you must [request access](https://ri.itservices.manchester.ac.uk/csf4/s
 
 **1. File generation**
 
-Run single point calculation on previously optimised system with Gaussian (submission scripts available for ICHEC and CSF3-4 found in ```trujillo_group_resources/scripts``` directory). Ensure that you include keyword **"pop=nbo7"**, as shown below.
+Run single point calculation on previously optimised system with Gaussian (submission scripts available for ICHEC and CSF3-4 (No need for first 2 lines) found in ```trujillo_group_resources/scripts``` directory). Ensure that you include keyword **"pop=nbo7"**, as shown below.
 
 ```{shell}
 %nprocshared=40
@@ -21,8 +21,6 @@ filename
  C                 -2.84087900   -0.13629700    0.83103500
  C                 -2.46248200    0.28464400   -0.44227700
 ```
-
-See [convert_sp](../../scripts/analysis) for a script to speed up this process!
 
 **N.B.** It is highly advised to use the same basis set as used for optimisation.
 
