@@ -35,9 +35,11 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 
 ### Visualisation
 - **Icons for Chemists**: An [icons repository](https://github.com/iribirii/icons-for-chemists) provided by our previous student Dr. Iñigo Iribarren.
-- **Text in Data Visualisations**: Enhance your use of [Text in Figures](https://blog.datawrapper.de/text-in-data-visualizations/) using these tips.
 - **Generate plots in Python**:
-  - Raincloud plots [guide](https://python-graph-gallery.com/raincloud-plot-with-matplotlib-and-ptitprince/)
+  - Enhance your use of [Text in Figures](https://blog.datawrapper.de/text-in-data-visualizations/) using these tips.
+  - Raincloud plots [guide](https://python-graph-gallery.com/raincloud-plot-with-matplotlib-and-ptitprince/).
+  - Ridgeline plots [guide](https://python-graph-gallery.com/web-ridgeline-by-text/).
+  - Multiple line chart [guide](https://python-graph-gallery.com/web-small-multiple-with-highlights/).
 - **Colour Palette Creation**:
   - Generate color schemes with tools like [Coolors](https://coolors.co/) and [Colorkit](https://colorkit.co).
 - **Existing Colour Palettes**:
