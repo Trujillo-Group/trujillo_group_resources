@@ -77,7 +77,8 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 
 ### Cheminformatics
 - **Teaching Material**: Access [Teaching Materials](https://github.com/Sulstice/Cheminformatics-Teaching-Material) related to Cheminformatics via this GitHub repository.
-- **Practical Cheminformatics Tutorials**: [Github repository](https://github.com/PatWalters/practical_cheminformatics_tutorials) containing a set of Juptyer notebooks for learning Cheminformatics
+- **Practical Cheminformatics Tutorials**: [Github repository](https://github.com/PatWalters/practical_cheminformatics_tutorials) containing a set of Juptyer notebooks for learning Cheminformatics.
+- **Clipboard To Smiles**: [MacOS-based app](https://github.com/O-Schilter/Clipboard-to-SMILES-Converter) that allows the user to copy and paste images of molecules to SMILES / RdKit etc.
 
 ### Databases
 - **VERDE Database**: Explore materials database at [VERDE Materials DB](https://www.verdematerialsdb.com/).
