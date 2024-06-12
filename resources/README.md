@@ -30,6 +30,7 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 - **EDS Quantification**: Electron-Density Quantification [Tool](https://github.com/Trujillo-Group/EDS_quantification) made by our previous student Dr. Iñigo Iribarren.
 - **Energy Decomposition Analysis**: [Nine Questions and Answers](https://livrepository.liverpool.ac.uk/3041755/1/eda.pdf) regarding Eenergy Decomposition Analysis.
 - **Dispersion Corrections for DFT**: Stefan Grimme's [Presentation on dispersion corrections](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.researchgate.net/profile/Argenis-Soutelo/post/How_can_I_implement_in_Gaussian_the_Grimmes_dispersion_correction_with_Becke-Johnson_Damping_D3-BJ/attachment/61ba0421d248c650edb927d1/AS%253A1101295452717058%25401639580705241/download/Grimme_pdf.pdf&ved=2ahUKEwiSp5nX9o-GAxVjXUEAHcTyCEkQFnoECBQQAQ&usg=AOvVaw1dXhW_v9yqIxAVs2Fh0ePi).
+- **Information on Gaussian Theory**: [The Gaussian Blog](https://perso.math.univ-toulouse.fr/ledoux/the-gaussian-blog/) by Michael Ledoux.
 
 ### Organic Chemistry
 - **Synthesis Workshop**: [Large library](https://www.youtube.com/@SynthesisWorkshopVideos) of research highlights as well as an academia-focused podcast.
@@ -43,6 +44,7 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
   - Multiple line chart [guide](https://python-graph-gallery.com/web-small-multiple-with-highlights/).
 - **Colour Palette Creation**:
   - Generate color schemes with tools like [Coolors](https://coolors.co/) and [Colorkit](https://colorkit.co).
+  - Scroll through hundreds of available colour palettes with colour blind tests and premade graphs with [Python Graph Gallery](https://python-graph-gallery.com/color-palette-finder/).
 - **Existing Colour Palettes**:
   - Discover palettes inspired by [MetBrewer](https://twitter.com/Emil_Hvitfeldt/status/1582795210949423104) and [Studio Ghibli](https://medium.com/@jchen001/-ggplot2-color-palettes-inspired-by-hayao-miyazakis-animes-f2aeccce45fd).
 - **Data Visualization Inspiration**:
