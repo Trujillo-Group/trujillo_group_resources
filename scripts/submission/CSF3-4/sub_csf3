@@ -1,4 +1,4 @@
-#!/bin/python3.6
+#!/bin/python3
 import os
 import sys
 import argparse
@@ -241,5 +241,3 @@ else:
     else:
         os.system(f"qsub run.sh {args.input}")
 
-# Runs alias for jobs_csf4.sh to update the jobs list
-os.system("jobs_csf3.sh")    

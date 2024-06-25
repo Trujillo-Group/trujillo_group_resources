@@ -1,4 +1,4 @@
-#!/bin/python3.6
+#!/bin/python3
 import os
 import sys
 import argparse
@@ -64,5 +64,3 @@ else:
     with open("run.sh", "w") as f:
         f.write(create_runscript(queue, cores, input, charge, solvent, window))
     os.system(f"sbatch run.sh {args.input}")
-# Runs alias for jobs_csf4.sh to update the jobs list
-os.system("jobs_csf4.sh")
