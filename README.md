@@ -73,6 +73,9 @@ When you upload some scripts on the repository, you have to think that these mus
 
 
 ## To-Do
+#### Tutorials
+- Redox Potential Calculation
+- pKa Determination
 #### Resources
 - Add Link for Benchmark Papers (Tim / James)
 - Add Link for Methodology Papers (Tim / James)
