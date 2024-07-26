@@ -80,3 +80,4 @@ When you upload some scripts on the repository, you have to think that these mus
 - Add Link for Benchmark Papers (Tim / James)
 - Add Link for Methodology Papers (Tim / James)
 - Add examples for each Gaussian Error
+- Add recommended softwares/websites for organisation
