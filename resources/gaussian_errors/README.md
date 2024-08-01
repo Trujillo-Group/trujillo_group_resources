@@ -33,6 +33,8 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
     - [Unrecognised Atomic Symbol](#unrecognised-atomic-symbol)
 - [L502](#L502)
     - [Convergence Failure](#convergence-failure)
+- [l508](#L508)
+    - [No lower point found -- run aborted.](#no-lower-point-found-run-aborted)
 - [L607](#L607)
     - [Subroutine NAOANL could not find orbital](#subroutine-naoanl-could-not-find-a-_-type-orbital-on-atom)
 - [L612](#L612)
@@ -279,6 +281,7 @@ Charge Multiplicity
 4. If using peseudopotentials this error can arise as ```Unrecognised Atomic Symbol****```. Ensure you have included ```functional/gen``` in your keywords.
 
 # L502
+*Iteratively solves the SCF equations (conven. UHF & ROHF, all direct methods, SCRF)*
 
 ## Convergence Failure
 <!-- L502 -->
@@ -312,8 +315,25 @@ Else:
 
 **Solution:** TBD
 
-# L607
+# L508
+*Quadratically convergent SCF program*
 
+## No lower point found -- run aborted.
+<!-- L508 -->
+![Error Example](figures/No_lower_point_found_run_aborted.png)
+
+**Explanation:** SCF failing to converge when using a QC method.
+
+**Solution:** Consider the following:
+
+1. Increase number of SCF cycles (Default = 64) ```scf=MaxCycles=256```
+
+2. Try alternative SCF programs ```scf=QC``` ```scf=XQC```
+
+3. Remove SCF-related keywords
+
+# L607
+*Performs NBO analyses*
 ## Subroutine NAOANL could not find a _-type Orbital on atom
 <!-- L607 -->
 ![Error Example](figures/subroutine_NAOANL_could_not_find_orbital.png)
