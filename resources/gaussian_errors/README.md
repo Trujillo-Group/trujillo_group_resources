@@ -23,7 +23,7 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
     - [RedCar failed in NewRed.](#redcar-failed-in-newred)
 - [L103](#L103)
     - [FormBX had a problem.](#formbx-had-a-problem)
-- [l123](#l123)
+- [L123](#l123)
     - [Delta-x Convergence NOT Met](#delta-x-convergence-not-met)
 - [L301](#L301)
     - [Combination of multiplicity and electrons](#combination-of-multiplicity-and-electrons)
@@ -165,11 +165,13 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 <!-- L123 -->
 ![Error Example](figures/Delta-x_Convergence_Not_Met.png)
 
-**Explanation:** Failed to converge using default iteration cycles (20). Often happens in IRC calculations.
+**Explanation:** Failed to converge using default iteration cycles. Often happens in IRC calculations.
 
 **Solution:** Consider the following
 
-1. Increase the number of maximum cycles, ```IRC=MaxCycles=100```
+1. Increase the number of maximum cycles (Default = 20), ```IRC=MaxCycles=100```
+
+2. Decrease the step size (Default = 10), ```IRC=StepSize=5```
 
 2. Use alternative algorith such as ```IRC=LQA```
 
