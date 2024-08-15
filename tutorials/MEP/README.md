@@ -111,3 +111,7 @@ If you are working in the computational centre, you can find the corresponding s
 > Ensure correct path & version
 
 To access Jmol from the command-line on MacOS you have to add ```alias jmol='java -Xmx512m -jar /Users/user/Downloads/jmol-16.1.47/Jmol.jar'``` to your .bashrc or fish.config etc.
+
+## Resources
+
+[Blender tutorial for Electrostatic Potential Visualisation](https://blog.hartleygroup.org/2016/02/22/visualizing-molecular-isosurfaces-mos-etc-in-blender/)
