@@ -173,7 +173,7 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 
 2. Decrease the step size (Default = 10), ```IRC=StepSize=5```
 
-2. Use alternative algorith such as ```IRC=LQA```
+2. Use alternative algorith such as ```IRC=LQA``` or ```IRC=DVV```
 
 # L301
 
