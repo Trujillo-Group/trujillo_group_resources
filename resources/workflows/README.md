@@ -37,7 +37,7 @@ QUACC_ORCA_CMD: /opt/software/RI/rhel/apps/binapps/orca/6.0.0-avx2/orca
 ## Parsl
 How Parsl works:
 ```mermaid
-flowchart TD
+flowchart LR
     A[1. Application] ---> B[2. Data Flow Kernel]
     B ---> C[3. Provider]
     C ---> D[4. Launcher]
