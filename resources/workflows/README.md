@@ -38,19 +38,21 @@ QUACC_ORCA_CMD: /opt/software/RI/rhel/apps/binapps/orca/6.0.0-avx2/orca
 How Parsl works:
 ```mermaid
 flowchart LR
-    A[1. Application] ---> B[2. Data Flow Kernel]
-    B ---> C[3. Provider]
-    C ---> D[4. Launcher]
-    D ---> E[5. Executor]
-    E ---> F[6. Workers]
+    A[Application] ---> B[Data Flow Kernel]
+    B ---> C[Provider]
+    C ---> D[Launcher]
+    D ---> E[Executor]
+    E ---> F[Worker]
+    E ---> G[Worker]
+    E ---> H[Worker]
 ```
 
-1. Provides instructions for task
-2. Brokers task execution (local system)
-3. Writes requests to Slurm
-4. Defines how spread workers are across nodes
-5. Execute Apps
-6. Nodes/Cores
+**Application** | Provides instructions for task
+
+**Data Flow Kernel** | Brokers task execution (local system)
+**Provider** | Writes requests to Slurm
+**Launcher** | Defines how spread workers are across nodes
+**Executor** | Execute Apps
 
 ### Setting Up
 
