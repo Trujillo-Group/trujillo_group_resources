@@ -50,8 +50,11 @@ flowchart LR
 **Application** | Provides instructions for task
 
 **Data Flow Kernel** | Brokers task execution (local system)
+
 **Provider** | Writes requests to Slurm
+
 **Launcher** | Defines how spread workers are across nodes
+
 **Executor** | Execute Apps
 
 ### Setting Up
