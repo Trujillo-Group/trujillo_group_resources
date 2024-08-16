@@ -24,6 +24,7 @@ Secondly the [Getting Started](tutorials/getting_started) section is highly reco
 - **[Windows Set Up](tutorials/getting_started/windows_users.md)**
 - **[Image Formats](resources/image_formats/README.md)**
 - **[Gaussian Errors](resources/gaussian_errors/README.md)**
+- **[Submission Workflows](resources/workflows/README.md)**
 
 # Tutorials
 - **[Your first Gaussian optimisation](tutorials/gaussian_submission/README.md)**
