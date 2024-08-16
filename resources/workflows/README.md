@@ -32,11 +32,6 @@ SCRATCH_DIR: /scratch/$USER/
 CREATE_UNIQUE_DIR: false
 GZIP_FILES: false
 ```
-<!-- Failsafe: 
-```
-QUACC_ORCA_CMD: /opt/software/RI/rhel/apps/binapps/orca/6.0.0-avx2/orca
-```
--->
 
 ## Parsl
 How Parsl works:
