@@ -5,7 +5,7 @@ To be installed and used in CSF. Currently a work in progress.
 ## Requirements
 - [Quacc](https://quantum-accelerators.github.io/quacc/index.html) | Writes the workflow
 - [Parsl](https://parsl.readthedocs.io/en/stable/) | Orchestrates the rest
-<!-- - [ASE](https://wiki.fysik.dtu.dk/ase/) | Quacc Dependancy -->
+- [ASE](https://wiki.fysik.dtu.dk/ase/) | Quacc Dependancy
 <!--- [Covalent](https://docs.covalent.xyz/docs/os_main) | compute framework -->
 
 
@@ -15,11 +15,10 @@ To be installed and used in CSF. Currently a work in progress.
 
 > source .venv/workflow/bin/activate
 
-> pip install quacc
-
-> git clone https://github.com/JamesOBrien2/parsl.git
+> pip install quacc git+https://github.com/JamesOBrien2/parsl.git git+https://gitlab.com/ase/ase.git
 
 *Requires custom made version of Parsl due to issues with SLURM Provider in Parsl.*
+*Requires development version of ASE due to issues with ORCA6.*
 
 ## Quacc
 ### Setting Up
