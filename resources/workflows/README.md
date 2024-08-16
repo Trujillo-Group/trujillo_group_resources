@@ -98,6 +98,4 @@ config = Config(
 
 
 ## TBD
-- Setup JSON Parsing for ORCA 6.0.0
-- Permanent fix for SLURM ntasks issue
 - Create workflows for ORCA6 & g16
