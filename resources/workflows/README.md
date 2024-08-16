@@ -6,6 +6,8 @@ To be installed and used in CSF. Currently a work in progress.
 - [Quacc](https://quantum-accelerators.github.io/quacc/index.html) | Writes the workflow
 - [Parsl](https://parsl.readthedocs.io/en/stable/) | Orchestrates the rest
 <!-- - [ASE](https://wiki.fysik.dtu.dk/ase/) | Quacc Dependancy -->
+<!--- [Covalent](https://docs.covalent.xyz/docs/os_main) | compute framework -->
+
 
 ## Setting up Virtual Environment
 
@@ -13,7 +15,11 @@ To be installed and used in CSF. Currently a work in progress.
 
 > source .venv/workflow/bin/activate
 
-> pip install parsl quacc <!-- ase -->
+> pip install quacc
+
+> git clone https://github.com/JamesOBrien2/parsl.git
+
+*Requires custom made version of Parsl due to issues with SLURM Provider in Parsl.*
 
 ## Quacc
 ### Setting Up
@@ -59,10 +65,9 @@ flowchart LR
 
 ### Setting Up
 
-
 #### Config
 
-This section is in the making.
+**Template**
 
 ```
 from parsl.config import Config
@@ -76,14 +81,30 @@ config = Config(
         HighThroughputExecutor(
             label="tbd",
             address=address_by_interface('tbd'),
-            max_workers_per_node=$CORES,
-            provider=SlurmProvider(
-                nodes_per_block=$NODES,
-                init_blocks=tbd,
-                partition='tbd',
-                launcher=SrunLauncher(),
+            provider=SlurmProvider(                     # Necessary for CSF4 (SLURM)
+                nodes_per_block=$NODES,                 # Must be 1 if not Multinode Partition
+                tasks_per_node=$TASKS,                  # Must be equal to numbber of cores for maximum efficiency
+                init_blocks=0,                          # Advised to keep at 0
+                partition='Multicore',                  # Multinode, Multicore, Serial
+                launcher=SimpleLauncher(),
             ),
         )
     ],
 )
 ```
+
+### Workflows
+
+.
+
+.
+
+.
+
+.
+
+
+## TBD
+- Setup JSON Parsing for ORCA 6.0.0
+- Permanent fix for SLURM ntasks issue
+- Create workflows for ORCA6 & g16
