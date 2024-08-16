@@ -26,9 +26,8 @@ Put the following in a .quacc.yaml file
 
 ```
 WORKFLOW_ENGINE: parsl
-QUACC_ORCA6_CMD: /opt/software/RI/rhel/apps/binapps/orca/6.0.0-avx2/orca
-QUACC_ORCA5_CMD: /opt/software/RI/apps/ORCA/5.0.4-gompi-2021a/orca
-QUACC_GAUSSIAN_CMD: /opt/software/RI/gaussian/g16c01_em64t_detectcpu
+ORCA6_CMD: /opt/software/RI/rhel/apps/binapps/orca/6.0.0-avx2/orca
+GAUSSIAN_CMD: /opt/software/RI/gaussian/g16c01_em64t_detectcpu
 SCRATCH_DIR: /scratch/$USER/
 CREATE_UNIQUE_DIR: false
 GZIP_FILES: false
