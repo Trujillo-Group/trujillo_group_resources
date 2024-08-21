@@ -18,7 +18,9 @@ To be installed and used in CSF. Currently a work in progress.
 > pip install git+https://github.com/tire98/quacc.git git+https://github.com/JamesOBrien2/parsl.git git+https://gitlab.com/ase/ase.git
 
 *Requires custom made version of Parsl due to issues with SLURM Provider in Parsl.*
+
 *Requires custom made version of Quacc due to addition of personalised Jobs*
+
 *Requires development version of ASE due to issues with ORCA6.*
 
 ## Quacc
