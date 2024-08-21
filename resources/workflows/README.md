@@ -6,7 +6,7 @@ To be installed and used in CSF. Currently a work in progress.
 - [Quacc](https://quantum-accelerators.github.io/quacc/index.html) | Writes the workflow
 - [Parsl](https://parsl.readthedocs.io/en/stable/) | Orchestrates the rest
 - [ASE](https://wiki.fysik.dtu.dk/ase/) | Quacc Dependancy
-<!--- [Covalent](https://docs.covalent.xyz/docs/os_main) | compute framework -->
+<!--- [Covalent](https://docs.covalent.xyz/docs/os_main) | Alternative to Parsl -->
 
 
 ## Setting up Virtual Environment
@@ -15,9 +15,10 @@ To be installed and used in CSF. Currently a work in progress.
 
 > source .venv/workflow/bin/activate
 
-> pip install quacc git+https://github.com/JamesOBrien2/parsl.git git+https://gitlab.com/ase/ase.git
+> pip install git+https://github.com/tire98/quacc.git git+https://github.com/JamesOBrien2/parsl.git git+https://gitlab.com/ase/ase.git
 
 *Requires custom made version of Parsl due to issues with SLURM Provider in Parsl.*
+*Requires custom made version of Quacc due to addition of personalised Jobs*
 *Requires development version of ASE due to issues with ORCA6.*
 
 ## Quacc
@@ -86,16 +87,31 @@ config = Config(
 )
 ```
 
-### Workflows
+### Workflows (g16)
 
-.
+**Workflow A:** (tbd)
+```mermaid
+flowchart LR
+    A[XYZ] ----> B[Optimised Geometry]
+    B ---> C[Single-Point]
+```
 
-.
+**Workflow B:** (tbd)
+```mermaid
+flowchart LR
+    A[XYZ] ----> B[xTB Preoptimisation]
+    B ---> C[Optimised Geometry]
+    C ---> D[Single-Point]
+```
 
-.
+**Workflow C:** (tbd)
+```mermaid
+flowchart LR
+    A[XYZ] ----> B[TS Calculation]
+    B ---> C[IRC]
+    B ---> D[Single-Point]
+```
 
-.
 
-
-## TBD
-- Create workflows for ORCA6 & g16
+### Workflows (ORCA6)
+tbd
