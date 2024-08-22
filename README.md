@@ -10,7 +10,7 @@ Should you find any gaps in this repository, be it Tutorial, Software, or Script
 
 > **"The whole is greater than the sum of its parts"**
 
-Firstly, it is **mandatory** for members of the group to familiarise themselves with the [Guidelines for Conduct](resources/conduct).
+Firstly, it is **mandatory** for members of the group to familiarise themselves with the [Group Guidelines](docs/guidelines).
 
 Secondly the [Getting Started](tutorials/getting_started) section is highly recommended for new members. Particularly the **guidelines for good practice**.
 
