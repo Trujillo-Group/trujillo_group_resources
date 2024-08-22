@@ -31,9 +31,9 @@ Put the following in a .quacc.yaml file
 ```
 WORKFLOW_ENGINE: parsl
 ORCA6_CMD: /opt/software/RI/rhel/apps/binapps/orca/6.0.0-avx2/orca
-GAUSSIAN_CMD: /opt/software/RI/gaussian/g16c01_em64t_detectcpu
+GAUSSIAN_CMD: /opt/software/RI/gaussian/g16c01_em64t_detectcpu/g16/g16
 SCRATCH_DIR: /scratch/$USER/
-CREATE_UNIQUE_DIR: false
+CREATE_UNIQUE_DIR: true
 GZIP_FILES: false
 ```
 
