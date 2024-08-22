@@ -73,10 +73,21 @@ When you upload some scripts on the repository, you have to think that these mus
 - **From the command line**: Clone the entire repo typing on the command line `git clone git@github.com:Trujillo-Group/General.git`,  enter the repo and add the file you want to add. Then, from the root of the repo, type: `git add *` , `git commit -m "added file xy Name Surname"` , `git push origin main`.
 
 
-## To-Do
-#### Resources
+## Work in Progress
 - Workflow Manager (Tim / James)
+
+
+## To-Do
 - Add Link for Benchmark Papers (Tim / James)
 - Add Link for Methodology Papers (Tim / James)
 - Add examples for each Gaussian Error
 - Add recommended softwares/websites for organisation
+
+## Other
+> "Repo Day"
+1. Clean up Repo.
+2. Suggest/Add wanted scripts or tutorials (Wanted section?).
+3. Check over tutorials.
+4. Incorporate new scripts into old tutorials.
+5. Clean up old scripts. 
+6. Highlight underrated scripts.
