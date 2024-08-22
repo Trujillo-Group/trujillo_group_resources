@@ -122,10 +122,11 @@ flowchart LR
     B ---> C[.chk]
     B ---> D[.wfx]
     C ---> E[.fchk]
-    D ---> F[.cube]
+    E ---> F[.cube]
     E ---> G[Molecular Electrostatic
     Potential]
     F ---> G
+    D ---> G
 ```
 
 
