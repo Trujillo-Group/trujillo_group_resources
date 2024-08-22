@@ -29,6 +29,12 @@ fchk=$name'.fchk'
 n=0
 n_sphere=0
 
+if name == ""
+then
+    echo "Usage: mep_jmol filename (no extension)"
+    exit 1
+fi
+
 # Check that the required files exist
 if [ ! -f "$fchk" ]; then
     echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
@@ -120,8 +126,8 @@ max_val=$(awk '{print $1}' temp_vals.txt | sort -n | tail -n 1)
 
 # Add the isosurface to the .jmol file using min and max values
 (
-  echo "load $dens"
-  echo "isosurface vdwden cutoff 0.001 $dens color absolute $min_val $max_val $mep_file"
+  echo "load \"$dens\""
+  echo "isosurface vdwden cutoff 0.001 \"$dens\" color absolute $min_val $max_val \"$mep_file\""
   echo "color \$vdwden translucent"
   echo "color background white"
 ) | cat - $name.jmol > temp.jmol && mv temp.jmol $name.jmol
