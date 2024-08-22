@@ -115,6 +115,19 @@ flowchart LR
     B ---> D[Single-Point]
 ```
 
+**Workflow D:** (tbd)
+```mermaid
+flowchart LR
+    A[XYZ] ----> B[Optimised Geometry]
+    B ---> C[.chk]
+    B ---> D[.wfx]
+    C ---> E[.fchk]
+    D ---> F[.cube]
+    E ---> G[Molecular Electrostatic
+    Potential]
+    F ---> G
+```
+
 
 ### Workflows (ORCA6)
 tbd
