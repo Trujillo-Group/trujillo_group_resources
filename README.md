@@ -86,7 +86,7 @@ When you upload some scripts on the repository, you have to think that these mus
 ## Other
 > "Repo Day"
 1. Clean up Repo.
-2. Suggest/Add wanted scripts or tutorials (Wanted section?).
+2. Suggest/Add wanted scripts or tutorials to [bulletin board](docs/wanted.md) or [To-Do](#to-do)
 3. Check over tutorials.
 4. Incorporate new scripts into old tutorials.
 5. Clean up old scripts. 
