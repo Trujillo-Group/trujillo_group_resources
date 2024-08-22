@@ -91,3 +91,4 @@ When you upload some scripts on the repository, you have to think that these mus
 4. Incorporate new scripts into old tutorials.
 5. Clean up old scripts. 
 6. Highlight underrated scripts.
+7. Add Posters/Presentations to Group-Seminars

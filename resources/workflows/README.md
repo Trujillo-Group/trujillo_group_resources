@@ -7,6 +7,7 @@ To be installed and used in CSF. Currently a work in progress.
 - [Parsl](https://parsl.readthedocs.io/en/stable/) | Orchestrates the rest
 - [ASE](https://wiki.fysik.dtu.dk/ase/) | Quacc Dependancy
 <!--- [Covalent](https://docs.covalent.xyz/docs/os_main) | Alternative to Parsl -->
+<!--- [Maggma](https://materialsproject.github.io/maggma/) | Database management -->
 
 
 ## Setting up Virtual Environment
@@ -116,4 +117,8 @@ flowchart LR
 
 
 ### Workflows (ORCA6)
+tbd
+
+
+### Data Storage (Maggma)
 tbd
