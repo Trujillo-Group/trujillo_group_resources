@@ -54,7 +54,12 @@ elif [ ! -f "$mep" ]; then
 fi
 
 # Run Multiwfn with the specified filename and options file
-Multiwfn $fchk < ~/bin/MEP/mep_options.txt
+if [ ! -f "~/bin/mep_options.txt" ]; then
+    echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    echo '!! ERROR: ~/bin/mep_options.txt DOES NOT EXIST !!'
+    echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    exit 1
+Multiwfn $fchk < ~/bin/mep_options.txt
 mv surfanalysis.txt $name"_CRIT.txt"
 
 crit=$name"_CRIT.txt"
