@@ -35,6 +35,7 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
     - [Convergence Failure](#convergence-failure)
 - [l508](#L508)
     - [No lower point found -- run aborted.](#no-lower-point-found-run-aborted)
+    - [Gradient too large for Newton-Raphson ... Convergence Failure](#gradient-too-large-for-newton-raphson--convergence-failure)
 - [L607](#L607)
     - [Subroutine NAOANL could not find orbital](#subroutine-naoanl-could-not-find-a-_-type-orbital-on-atom)
 - [L612](#L612)
@@ -333,6 +334,21 @@ Else:
 2. Try alternative SCF programs ```scf=QC``` ```scf=XQC```
 
 3. Remove SCF-related keywords
+
+## Gradient too large for Newton-Raphson .... Convergence Failure
+<!-- L508 -->
+![Error Example](figures/gradient-too-large-for-newton-raphson-convergence-failure.png)
+
+**Explanation:** SCF failing to converge when using a QC method.
+
+**Solution:** Consider the following:
+
+1. Increase number of SCF cycles (Default = 64) ```scf=MaxCycles=256```
+
+2. Try alternative SCF programs ```scf=QC``` ```scf=XQC```
+
+3. Remove SCF-related keywords
+
 
 # L607
 *Performs NBO analyses*
