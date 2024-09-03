@@ -50,6 +50,7 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
   - Find inspiration at [Dataviz Inspiration](https://www.dataviz-inspiration.com/) and [Colour Hunt](https://colorhunt.co).
 - **Contrast Checker**: Ensure accessibility with the help of a [contrast checker](https://colourcontrast.cc).
 - **Remove Background from CLI**: [Github Repository](https://github.com/remove-bg/remove-bg-cli) thats simple to use and execute.
+- **Energy Diagram Plotter**: [Paper](https://pubs.acs.org/doi/10.1021/acs.jchemed.3c00319) introducing EveRplot.
 
 ### Python
 - **Learn Python Org**: Access free tutorials and exercises on various Python topics at [learnpython.org](https://www.learnpython.org/).
