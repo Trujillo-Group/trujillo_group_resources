@@ -86,3 +86,8 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 ### Databases
 - **VERDE Database**: Explore materials database at [VERDE Materials DB](https://www.verdematerialsdb.com/).
 - **Medicinal Chemistry-Relevant Ring Systems**: Explore a 4-million structure database on [ring systems in medicinal chemistry](https://pubs.acs.org/doi/10.1021/acs.jcim.3c01812)
+
+### ORCA
+- **Orca Manual**: Clear and thorough [Documentation](https://www.faccts.de/docs/orca/6.0/manual/) for using ORCA and all its available features.
+- **Orca Youtube [Channel](https://www.youtube.com/@orcaquantumchemistry)**: Provides many videos detailing features from ORCA 6.0 release date
+- **Orca [Forum](https://orcaforum.kofo.mpg.de/index.php)**: For any user-related questions.
