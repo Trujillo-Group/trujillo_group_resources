@@ -62,7 +62,7 @@ with open(args.input, "r") as f:
          else:
             program = ""
 
-# create slurm runscript (g16)
+# create slurm runscript (g16) without NBO
 if args.input[-4:] == '.com' and program == '':
     def create_runscript(cores_info, cores, input_file):
         script = f"""#!/bin/bash --login
@@ -91,7 +91,7 @@ $g16root/g16/g16 < ${JOB_NAME}.com > ${JOB_NAME}.log
 rm -rf $GAUSS_SCRDIR"""
         return script
 
-# create slurm runscript (g16) with nbo7
+# create slurm runscript (g16) with NBO7
 elif args.input[-4:] == '.com' and program == 'nbo':
     def create_runscript(cores_info, cores, input_file):
         script = f"""#!/bin/bash --login
@@ -131,7 +131,7 @@ elif args.input[-4:] == '.inp':
 {cores_info} {cores}          # Number of cores (2--32). Must match in your ORCA input file!
 #$ -N {input_file.split(".")[0]}      # Job name""" + """
 module purge
-module load apps/binapps/orca/5.0.4
+module load apps/binapps/orca/6.0.0-avx2
 
 ##########################
 job=${JOB_NAME}
@@ -144,7 +144,7 @@ if [ ! -d $scratchlocation/$USER ]
 
 then
 
-mkdir -p $scratchlocation/$USER
+  mkdir -p $scratchlocation/$USER
 
 fi
 ##########################

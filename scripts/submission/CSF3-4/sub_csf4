@@ -50,7 +50,7 @@ with open(args.input, "r") as f:
             program = "nbo"
             break
 
-# create slurm runscript (g16)
+# create slurm runscript (g16) without NBO
 if args.input[-4:] == ".com" and program == "":
     def create_runscript(cores_queue, cores, input_file):
         script = f"""#!/bin/bash --login
@@ -75,7 +75,7 @@ $g16root/g16/g16 < $SLURM_JOB_NAME.com > $SLURM_JOB_NAME.log
 rm -rf $GAUSS_SCRDIR"""
         return script
 
-# create slurm runscript (g16)
+# create slurm runscript (g16) with NBO
 elif args.input[-4:] == ".com" and program == "nbo":
     def create_runscript(cores_queue, cores, input_file):
         script = f"""#!/bin/bash --login
@@ -118,7 +118,7 @@ job=$(echo ${job%%.*})
 
 # Load the modulefile in a clean environment
 module purge
-module load orca/5.0.4-gompi-2021a
+module load rhel apps/binapps/orca/6.0.0-avx2
 export RSH_COMMAND=ssh
 ##########################
 export scratchlocation=/scratch
@@ -138,6 +138,10 @@ tdir=$(mktemp -d $scratchlocation/$USER/orcajob_$SLURM_JOB_ID-XXXX)
 cp  $SLURM_SUBMIT_DIR/*.inp $tdir/
 
 cp  $SLURM_SUBMIT_DIR/*.gbw $tdir/
+
+cp  $SLURM_SUBMIT_DIR/*.cmp $tdir/
+
+cp  $SLURM_SUBMIT_DIR/*.hess $tdir/
 
 cp  $SLURM_SUBMIT_DIR/*.xyz $tdir/
 #########################
@@ -205,6 +209,10 @@ cp $tdir/*.nbo $SLURM_SUBMIT_DIR
 cp $tdir/FILE.47 $SLURM_SUBMIT_DIR
 
 cp $tdir/*_property.txt $SLURM_SUBMIT_DIR
+
+cp $tdir/*json* $SLURM_SUBMIT_DIR
+
+cp $tdir/*.err $SLURM_SUBMIT_DIR
 
 cp $tdir/*spin* $SLURM_SUBMIT_DIR"""
         return script
