@@ -13,7 +13,7 @@
 
 **MacOS**: add ```alias jmol='java -Xmx512m -jar /Users/user/Downloads/jmol-16.1.47/Jmol.jar'``` to .bashrc / fish.config etc. (*Ensure correct path & version*)
 
-# MEP Steps
+# MEP Steps (g16)
 
 > [!IMPORTANT]  
 > Due to the nature of the scripts and volume of files you will be producing, keep the `{filename}` consistent, as specified in instructions below.
@@ -106,6 +106,21 @@ If you are working in the computational centre, you can find the corresponding s
         ![no_labels_all](./figures/mep_1_sphere.png)
         - 1 label, 1 critical point:
         ![no_labels_all](./figures/mep_1_label.png)
+
+# MEP Steps (ORCA)
+
+> ORCA Submission script outputs .gbw file automatically which greatly speeds up the process for the user.
+
+**1st Time Setup**
+1. Edit Multiwfn settings.ini file to contain the necessary paths for orca and orca_2mkl
+
+2. ```export Multiwfnpath=path/to/multiwfn```
+
+**Running the MEP**
+
+3. Now you are free to run ```Multiwfn file.gbw```
+
+4. Settings to create a medium density MEP: ```5 1 2 2 0 5 12 2```
 
 # Using JMol in CLI
 > Ensure correct path & version
