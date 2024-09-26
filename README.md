@@ -82,13 +82,14 @@ When you upload some scripts on the repository, you have to think that these mus
 - Add Link for Methodology Papers (Tim / James)
 - Add examples for each Gaussian Error
 - Add recommended softwares/websites for organisation
+- Update sub_csf3 to include AMD cores
 
 ## Other
 > "Repo Day"
 1. Clean up Repo.
-2. Suggest/Add wanted scripts or tutorials to [bulletin board](docs/wanted.md) or [To-Do](#to-do)
+2. Suggest/Add wanted scripts or tutorials
 3. Check over tutorials.
 4. Incorporate new scripts into old tutorials.
 5. Clean up old scripts. 
 6. Highlight underrated scripts.
-7. Add Posters/Presentations to Group-Seminars
+7. Add Posters/Presentations to Group-Seminars.
