@@ -270,7 +270,6 @@ if parsed_args.print_ensemble_properties or parsed_args.population_threshold_con
             + ".xyz",
         )
 
-
 # else terminate
 else:
     pass
