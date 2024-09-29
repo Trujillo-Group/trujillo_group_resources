@@ -298,15 +298,15 @@ cp $tdir/*.nat $SGE_O_WORKDIR
 
 cp $tdir/*.scfp_fod $SGE_O_WORKDIR
 
-cp $tdir/*.scfp $SGE_O_WORKDIR
-
-cp $tdir/*.scfr $SGE_O_WORKDIR
+cp $tdir/*.densit* $SGE_O_WORKDIR
 
 cp $tdir/*.nbo $SGE_O_WORKDIR
 
 cp $tdir/FILE.47 $SGE_O_WORKDIR
 
-cp $tdir/*_property.txt $SGE_O_WORKDIR
+cp $tdir/*.json* $SGE_O_WORKDIR
+
+cp $tdir/*property.txt $SGE_O_WORKDIR
 
 cp $tdir/*spin* $SGE_O_WORKDIR
 """

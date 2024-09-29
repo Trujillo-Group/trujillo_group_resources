@@ -35,7 +35,7 @@ parser.add_argument(
     type=int,
     default=1,
 )
-parser.add_argument("-c", "--cores", help="Number of cores", required=True, type=int)
+parser.add_argument("-c", "--cores", help="Number of cores", required=True, type=int, default=1)
 parser.add_argument(
     "-nbo",
     "--nbo",
@@ -53,16 +53,15 @@ args = parser.parse_args()
 #### Check parser arguments ####
 
 # check if number of nodes is valid
-if args.nodes > 1:
+if args.nodes > 1 and args.cores > 40:
     queue = "multinode"
-else:
+elif args.nodes == 1 and args.cores > 2 and args.cores < 40:
     queue = "multicore"
-
-if args.cores > 40 and args.nodes < 2:
-    print("Number of cores must be between 2 and 40")
-    sys.exit()
-elif args.nodes == 0:
+elif args.nodes == 1 and args.cores == 1:
     queue = "serial"
+else:
+    print("Warning: The specified configuration is not supported.")
+    sys.exit()
 
 
 # check orca and nbo modules
@@ -207,6 +206,7 @@ def create_runscript(queue, cores, input_file, nbo):
         """#!/bin/bash --login
 #SBATCH -p {}       # (or --partition=) Parallel job using cores on a single node
 #SBATCH -n {}                # (or --ntasks=) Number of cores (2--40)
+#SBATCH -N {}                # (or --nodes=) Number of nodes
 #SBATCH --job-name {}""".format(
             queue, cores, input_file.split(".")[0]
         )
@@ -306,15 +306,15 @@ cp $tdir/*.nat $SLURM_SUBMIT_DIR
 
 cp $tdir/*.scfp_fod $SLURM_SUBMIT_DIR
 
-cp $tdir/*.scfp $SLURM_SUBMIT_DIR
-
-cp $tdir/*.scfr $SLURM_SUBMIT_DIR
+cp $tdir/*.densit* $SLURM_SUBMIT_DIR
 
 cp $tdir/*.nbo $SLURM_SUBMIT_DIR
 
 cp $tdir/FILE.47 $SLURM_SUBMIT_DIR
 
-cp $tdir/*_property.txt $SLURM_SUBMIT_DIR
+cp $tdir/*property.txt $SLURM_SUBMIT_DIR
+
+cp $tdir/*.json* $SLURM_SUBMIT_DIR
 
 cp $tdir/*json* $SLURM_SUBMIT_DIR
 
