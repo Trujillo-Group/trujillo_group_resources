@@ -201,14 +201,14 @@ def check_cores_and_mem(input_file: str, c: int, cpg: int) -> None:
 
 
 # create slurm runscript
-def create_runscript(queue, cores, input_file, nbo):
+def create_runscript(queue, cores, nodes, input_file, nbo):
     script = (
         """#!/bin/bash --login
 #SBATCH -p {}       # (or --partition=) Parallel job using cores on a single node
 #SBATCH -n {}                # (or --ntasks=) Number of cores (2--40)
 #SBATCH -N {}                # (or --nodes=) Number of nodes
 #SBATCH --job-name {}""".format(
-            queue, cores, input_file.split(".")[0]
+            queue, cores, nodes, input_file.split(".")[0]
         )
         + """
 ###########################
@@ -334,4 +334,4 @@ else:
     # check if number of cores in input file matches number of cores specified
     check_cores_and_mem(args.input, args.cores, args.cores_per_group)
     with open("run.sh", "w") as f:
-        f.write(create_runscript(queue, args.cores, args.input, nbo_module))
+        f.write(create_runscript(queue, args.cores, args.nodes, args.input, nbo_module))
