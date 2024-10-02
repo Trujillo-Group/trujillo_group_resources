@@ -176,6 +176,8 @@ def check_cores_and_mem(input_file: str, c: int, cpg: int) -> None:
             print(custom_print("%maxcore has been added to your input file.", "info"))
 
     #### Adjust maxcore if necessary ####
+
+
     if int(mem) != 4096:
         mem = 4096
         lines = re.sub(mem_reg, f"%maxcore {mem}", lines)
@@ -221,7 +223,7 @@ def check_cores_and_mem(input_file: str, c: int, cpg: int) -> None:
     #### Check if nprocs and nprocs_group are in input file ####
 
 
-    cores_reg = re.compile(r"\s*nprocs\s*(\d+)")
+    cores_reg = re.compile(r"\s+nprocs\s*(\d+)")
     cores = cores_reg.search(lines).group(1)
     cores_per_group_reg = re.compile(r"nprocs_group\s*(\d+)")
     # check if cores per group is in input file
@@ -230,17 +232,15 @@ def check_cores_and_mem(input_file: str, c: int, cpg: int) -> None:
             cores_per_group = cores_per_group_reg.search(lines).group(1)
         except AttributeError:
             # add nprocs_group to input file after nprocs
-            lines = re.sub(
-                r"\s*nprocs\s*\d+", f"\tnprocs {c}\n\tnprocs_group {cpg}", lines
-            )
+            lines = re.sub(cores_reg, f" nprocs {c}\n\t nprocs_group {cpg}", lines)
             print(custom_print("nprocs_group has been added to your input file.", "info"))
             cores_per_group = cpg
     else:
         try:
-            print(custom_print("Orca 5 does not support nprocs_group.", "warn"))
+            print("nprocs_group is not supported in Orca 5.")
             cores_per_group = cores_per_group_reg.search(lines).group(1)
             # remove nprocs_group from input file
-            lines = re.sub(r"\s*nprocs_group\s*\d+", "", lines)
+            lines = re.sub(r" nprocs_group\s*\d+", "", lines)
             print(custom_print("nprocs_group has been removed from your input file.", "info"))
         except AttributeError:
             cores_per_group = 1
@@ -261,8 +261,9 @@ def check_cores_and_mem(input_file: str, c: int, cpg: int) -> None:
             ).capitalize()
             if change_cores == "N":
                 sys.exit()
+                
         with open(input_file, "w") as f:
-            string1 = re.sub(cores_reg, f"nprocs {c}", lines)
+            string1 = re.sub(cores_reg, f"\n\tnprocs {c}", lines)
             f.write(re.sub(cores_per_group_reg, f"nprocs_group {cpg}", string1))
         print(custom_print("Your input file has been modified.", "info"))
     elif int(cores) != c and args.orca5:
