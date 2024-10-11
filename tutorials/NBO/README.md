@@ -1,7 +1,7 @@
 # Natural Bonding Orbital (NBO) Analysis
 An illustration is provided to help get a very basic grasp of what this analysis is used for. NBO helps you identify natural orbital populations, as well as quantify charge-transfer between atoms, as depicted below.
 
-![Illustration of NBO](NBO_Example.png)
+![Illustration of NBO](NBO_Examples.png)
 
 ## Steps
 
