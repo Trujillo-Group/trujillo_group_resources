@@ -86,7 +86,6 @@ In the appropriate directory/subdirectory in the repo - `Add file` --> `Upload f
 **Tutorials**
 - [ ] How to calculate redox potentials (@tire98 | @JamesOBrien02)
 - [ ] Minimum-Energy Crossing Points (@tire98 | @JamesOBrien02)
-- [ ] 
 
 **Resources**
 - [ ] Add Link for Benchmark Papers (@tire98 | @JamesOBrien02)
@@ -95,10 +94,8 @@ In the appropriate directory/subdirectory in the repo - `Add file` --> `Upload f
 
 **Scripts**
 - [x] Update sub_csf3 to include AMD cores (@tire98)
+- [x] Update ORCA submission scripts for ORCA 6.0.0 (@tire98)
 - [ ] Workflow Manager (@tire98 | @JamesOBrien02)
-
-
-
 
 ## Repo Day
 1. Clean up Repo.
