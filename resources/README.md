@@ -6,17 +6,20 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 > Note: To avoid feeling overwhelmed, only use this page when seeking specific guidance.
 
 ### Index
-- [General](#general)
-- [Density-Functional Theory](#density-functional-theory)
-- [Organic Chemistry](#organic-chemistry)
-- [Visualisation](#visualisation)
-- [Python](#python)
-- [Git](#git)
-- [Blender](#blender)
-- [Bash & Unix](#bash-and-unix-in-general)
-- [Inkscape](#inkscape)
-- [Cheminformatics](#cheminformatics)
-- [Databases](#Databases)
+- [Resources](#resources)
+  - [Index](#index)
+  - [General](#general)
+  - [Density-Functional Theory](#density-functional-theory)
+  - [Organic Chemistry](#organic-chemistry)
+  - [Visualisation](#visualisation)
+  - [Python](#python)
+  - [Git](#git)
+  - [Blender](#blender)
+  - [Bash \& Unix](#bash--unix)
+  - [Inkscape](#inkscape)
+  - [Cheminformatics](#cheminformatics)
+  - [Databases](#databases)
+  - [ORCA](#orca)
 
 
 ### General
@@ -29,7 +32,7 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 - **ABCs of DFT**: Understand the basics with this guide [PDF](https://dft.uci.edu/doc/g1.pdf).
 - **EDS Quantification**: Electron-Density Quantification [Tool](https://github.com/Trujillo-Group/EDS_quantification) made by our previous student Dr. Iñigo Iribarren.
 - **Energy Decomposition Analysis**: [Nine Questions and Answers](https://livrepository.liverpool.ac.uk/3041755/1/eda.pdf) regarding Eenergy Decomposition Analysis.
-- **Dispersion Corrections for DFT**: Stefan Grimme's [Presentation on dispersion corrections](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.researchgate.net/profile/Argenis-Soutelo/post/How_can_I_implement_in_Gaussian_the_Grimmes_dispersion_correction_with_Becke-Johnson_Damping_D3-BJ/attachment/61ba0421d248c650edb927d1/AS%253A1101295452717058%25401639580705241/download/Grimme_pdf.pdf&ved=2ahUKEwiSp5nX9o-GAxVjXUEAHcTyCEkQFnoECBQQAQ&usg=AOvVaw1dXhW_v9yqIxAVs2Fh0ePi).
+- **Dispersion Corrections for DFT**: Stefan Grimme's [Presentation on dispersion corrections](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.researchgate.net/profile/Argenis-Soutelo/post/How_can_I_implement_in_Gaussian_the_Grimmes_dispersion_correction_with_Becke-Johnson_Damping_D3-BJ/attachment/61ba0421d248c650edb927d1/AS%253A1101295452717058%25401639580705241/download/Grimme_pdf.pdf&ved=2ahUKEwiSp5nX9o-GAxVjXUEAHcTyCEkQFnoECBQQAQ&usg=AOvVaw1dXhW_v9yqIxAVs2Fh0ePi), and a recorded [lecture](https://youtu.be/SkZzv2kX5fM?si=6t_-GUdKanW9N-iT)
 
 ### Organic Chemistry
 - **Synthesis Workshop**: [Large library](https://www.youtube.com/@SynthesisWorkshopVideos) of research highlights as well as an academia-focused podcast.
@@ -37,6 +40,7 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 ### Visualisation
 - **Icons for Chemists**: An [icons repository](https://github.com/iribirii/icons-for-chemists) provided by our previous student Dr. Iñigo Iribarren.
 - **Generate plots in Python**:
+  - For interactive plotting use [Plotly](https://plotly.com/python/).
   - Enhance your use of [Text in Figures](https://blog.datawrapper.de/text-in-data-visualizations/) using these tips.
   - Raincloud plots [guide](https://python-graph-gallery.com/raincloud-plot-with-matplotlib-and-ptitprince/).
   - Ridgeline plots [guide](https://python-graph-gallery.com/web-ridgeline-by-text/).
@@ -88,6 +92,7 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 - **Medicinal Chemistry-Relevant Ring Systems**: Explore a 4-million structure database on [ring systems in medicinal chemistry](https://pubs.acs.org/doi/10.1021/acs.jcim.3c01812)
 
 ### ORCA
+- **Orca 6.0 Tutorials**: [Tutorials](https://www.faccts.de/docs/orca/6.0/tutorials/) for getting started with ORCA, its features and basic molecular modeling.
 - **Orca Manual**: Clear and thorough [Documentation](https://www.faccts.de/docs/orca/6.0/manual/) for using ORCA and all its available features.
 - **Orca Youtube [Channel](https://www.youtube.com/@orcaquantumchemistry)**: Provides many videos detailing features from ORCA 6.0 release date
 - **Orca [Forum](https://orcaforum.kofo.mpg.de/index.php)**: For any user-related questions.
