@@ -128,7 +128,7 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 
 ## RedCar failed in NewRed.
 <!-- L101 -->
-![Error Example](figures/RedCar_fails_in_NewRed.png)
+![Error Example](figures/RedCar_Fails_in_NewRed.png)
 **Explanation:** There is an issue with the Redundant coordinates (opt=ModRedundant)
 
 **Solution:** Consider the following

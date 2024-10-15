@@ -82,20 +82,29 @@ In the appropriate directory/subdirectory in the repo - `Add file` --> `Upload f
 3. From the root of the repo, type - `git add *` , `git commit -m "added file / changed file for X reason"`, `git push origin main`.
 
 ## Tasks
-- Workflow Manager (Tim / James)
-- Add Link for Benchmark Papers (Tim / James)
-- Add Link for Methodology Papers (Tim / James)
-- Add examples for each Gaussian Error
-- Add recommended softwares/websites for organisation
-- Update sub_csf3 to include AMD cores
+### 2024
+**Tutorials**
+- [ ] How to calculate redox potentials (@tire98 | @JamesOBrien02)
+- [ ] Minimum-Energy Crossing Points (@tire98 | @JamesOBrien02)
+- [ ] 
+
+**Resources**
+- [ ] Add Link for Benchmark Papers (@tire98 | @JamesOBrien02)
+- [ ] Add Link for Methodology Papers (@tire98 | @JamesOBrien02)
+- [ ] Add examples for each Gaussian Error (@JamesOBrien02 | @jak713)
+
+**Scripts**
+- [x] Update sub_csf3 to include AMD cores (@tire98)
+- [ ] Workflow Manager (@tire98 | @JamesOBrien02)
+
 
 
 
 ## Repo Day
 1. Clean up Repo.
-2. Suggest/Add wanted scripts or tutorials
+2. Suggest/Add wanted scripts or tutorials.
 3. Check over tutorials.
 4. Incorporate new scripts into old tutorials.
-5. Clean up old scripts. 
-6. Highlight underrated scripts.
+5. Clean up old scripts.
+6. Highlight underused scripts.
 7. Add Posters/Presentations to Group-Seminars.
