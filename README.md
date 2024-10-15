@@ -56,33 +56,44 @@ Secondly the [Getting Started](tutorials/getting_started) section is highly reco
      └── NBO                  Step by step Non-Bonding Orbitals tutorial with Gaussian
 ```
 
-## Guidelines for uploading scripts
+## Guidelines for Uploading Scripts
 
-When you upload some scripts on the repository, you have to think that these must be understandable for the general end-user. Thus, each uploaded script must meet the following criteria:
-1. It must work and be up-to-date. 
-2. It must be documented (docstrings, comments, etc. should always be present in order to help the user).
-3. It must be human-readable (for Python, check the PEP-8 style guide, [link](https://peps.python.org/pep-0008/)).
-4. It must be general (i.e., it should work in all the possible scenarios related to the purpose of the script).
-5. It must not contain sensitive data (API keys, passwords, usernames, relative paths, etc.).
-6. It must provide information about autorship and date of creation.
+When uploading scripts to the repository, ensure they are user-friendly and meet the following criteria:
+1. **Functionality**: The script must work and be up-to-date.
+2. **Documentation**: Include docstrings and comments to assist users.
+3. **Readability**: Follow the PEP-8 style guide for Python scripts ([link](https://peps.python.org/pep-0008/)).
+4. **Generality**: The script should be applicable in various scenarios related to its purpose.
+5. **Security**: Avoid including sensitive data (API keys, passwords, usernames, etc.).
+6. **Attribution**: Provide information about authorship and the date of creation.
+
 
 ## How to upload files
 
-- **Directly from the browser**: In the page repo, move to the subdirectory where you think the file you want to upload is more adapt. On the top right, click on `Add file` and then `Upload files`.
+**Directly from the browser**
 
-- **From the command line**: Clone the entire repo typing on the command line `git clone git@github.com:Trujillo-Group/General.git`,  enter the repo and add the file you want to add. Then, from the root of the repo, type: `git add *` , `git commit -m "added file xy Name Surname"` , `git push origin main`.
+In the appropriate directory/subdirectory in the repo - `Add file` --> `Upload files`
+
+**From the Command Line**
+
+1. Clone the repository - `git clone git@github.com:Trujillo-Group/General.git`.
+
+2. Enter the repo and add the file you want to add. 
+
+3. From the root of the repo, type - `git add *` , `git commit -m "added file / changed file for X reason"`, `git push origin main`.
 
 
 ## Work in Progress
 - Workflow Manager (Tim / James)
 
 
-## To-Do
+## To-Do ()
 - Add Link for Benchmark Papers (Tim / James)
 - Add Link for Methodology Papers (Tim / James)
 - Add examples for each Gaussian Error
 - Add recommended softwares/websites for organisation
 - Update sub_csf3 to include AMD cores
+
+
 
 ## Other
 > "Repo Day"
