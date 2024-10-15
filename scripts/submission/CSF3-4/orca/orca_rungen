@@ -435,6 +435,10 @@ cp  $SLURM_SUBMIT_DIR/*.gbw $tdir/
 
 cp  $SLURM_SUBMIT_DIR/*.cmp $tdir/
 
+cp  $SLURM_SUBMIT_DIR/*.mp2nat $tdir/
+
+cp  $SLURM_SUBMIT_DIR/*.res* $tdir/
+
 cp  $SLURM_SUBMIT_DIR/*.hess $tdir/
 
 cp  $SLURM_SUBMIT_DIR/*xyz $tdir/
