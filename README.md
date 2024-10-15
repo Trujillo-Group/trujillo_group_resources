@@ -81,12 +81,8 @@ In the appropriate directory/subdirectory in the repo - `Add file` --> `Upload f
 
 3. From the root of the repo, type - `git add *` , `git commit -m "added file / changed file for X reason"`, `git push origin main`.
 
-
-## Work in Progress
+## Tasks
 - Workflow Manager (Tim / James)
-
-
-## To-Do ()
 - Add Link for Benchmark Papers (Tim / James)
 - Add Link for Methodology Papers (Tim / James)
 - Add examples for each Gaussian Error
@@ -95,8 +91,7 @@ In the appropriate directory/subdirectory in the repo - `Add file` --> `Upload f
 
 
 
-## Other
-> "Repo Day"
+## Repo Day
 1. Clean up Repo.
 2. Suggest/Add wanted scripts or tutorials
 3. Check over tutorials.
