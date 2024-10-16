@@ -4,7 +4,7 @@ Here are two python scripts that can be use as-they-are on CSF3/4 for creating a
 The settings regarding the CSF configuration and ORCA version/additional software can be passed as arguments to the scripts. You can run both scripts in an interactive mode by running it with the ```-inter```/```--interactive``` flag. The submission script will apply the settings to the ORCA input file and submit the job to the respective queue, depending on the chosen configuration.
 
 ## CSF3 
-The configuration for CSF3 outlined on the respective [documentation page](https://ri.itservices.manchester.ac.uk/csf3/overview/configuration/).If you want to run calculations in parallel, you can request up to 32 cores per node in the ```-pe smp.pe``` queue, or up to 168 cores per node in the ```-pe amd.pe``` queue. The amd queue can be selected by using the ```-amd```/```--amd``` flag or at the respective prompt in the interactive mode. 
+The configuration for CSF3 outlined on the respective [documentation page](https://ri.itservices.manchester.ac.uk/csf3/overview/configuration/). If you want to run calculations in parallel, you can request up to 32 cores per node in the ```-pe smp.pe``` queue, or up to 168 cores per node in the ```-pe amd.pe``` queue. The amd queue can be selected by using the ```-amd```/```--amd``` flag or at the respective prompt in the interactive mode. 
 The memory settings are adjusted automatically based on the chosen queue. The amd nodes have 8GB per core, while the nodes in the smp queue have 4GB of RAM per core. If your job requires more memory, the high memory queue can be accessed by submitting your job with the ```-l mem512``` flag and by setting ```%maxcore 32000``` in the orca input file. 
 #### Available options:
 ```bash
