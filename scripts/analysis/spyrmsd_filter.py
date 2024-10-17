@@ -81,6 +81,33 @@ parser.add_argument(
 
 parsed_args = parser.parse_args()
 
+
+# Print settings
+print("#" * 80)
+print("*" * 35, "Settings", "*" * 35)
+print("Input file: ", parsed_args.input)
+print("Output file: ", parsed_args.output)
+print("RMSD threshold: ", parsed_args.threshold)
+print("Symmetry correction: ", parsed_args.no_sym)
+print("Graph backend: ", parsed_args.backend)
+print("Strip hydrogens: ", parsed_args.no_strip)
+print("Center conformers: ", parsed_args.no_center)
+print("Minimize RMSD: ", parsed_args.no_minimize)
+print("Print ensemble properties: ", parsed_args.print_ensemble_properties)
+if parsed_args.population_threshold_conformers:
+    print(
+        "Population threshold for conformers: ",
+        parsed_args.population_threshold_conformers,
+    )
+    print(
+        "Temperature for population calculation: ",
+        parsed_args.population_temperature_conformers,
+    )
+    print(
+        f"Conformers with a cumulative population of {parsed_args.population_threshold_conformers} % or below will be printed."
+    )
+print("#" * 80)
+
 if (
     any(
         [
@@ -165,7 +192,7 @@ for i in range(len(df_smaller)):
         to_delete.add(df_smaller["j"][i])
 
 
-print("Structures to delete: ", to_delete)
+print(f"Structures to delete: {[str(i) for i in to_delete]}")
 for i in range(len(pybel_mols)):
     if i not in to_delete:
         filtered_structures.append(pybel_mols[i])
@@ -220,10 +247,7 @@ if parsed_args.print_ensemble_properties or parsed_args.population_threshold_con
         filtered_energy_df, parsed_args.population_temperature_conformers
     )
 
-    filtered_energy_df.to_csv(
-        parsed_args.output + "_ensemble_properties.csv", index=False
-    )
-
+    filtered_energy_df.to_csv(parsed_args.output + "_ensemble_properties.csv")
     if parsed_args.population_threshold_conformers:
         # get conformers with cumulative population below/equal to threshold
         filtered_energy_df = filtered_energy_df[
@@ -255,7 +279,7 @@ if parsed_args.print_ensemble_properties or parsed_args.population_threshold_con
             "xyz",
             parsed_args.output
             + "_populated_conformers_"
-            + str(parsed_args.population_threshold_conformers)
+            + str(parsed_args.population_threshold_conformers).replace(".", "_")
             + ".xyz",
             overwrite=True,
         )
