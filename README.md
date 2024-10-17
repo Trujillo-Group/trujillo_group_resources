@@ -90,7 +90,7 @@ In the appropriate directory/subdirectory in the repo - `Add file` --> `Upload f
 **Resources**
 - [ ] Add Link for Benchmark Papers (@tire98 | @JamesOBrien02)
 - [ ] Add Link for Methodology Papers (@tire98 | @JamesOBrien02)
-- [ ] Add examples for each Gaussian Error (@JamesOBrien02 | @jak713)
+- [ ] Add examples for each Gaussian Error (@JamesOBrien02 | @jak713 | @Diana-Bura)
 
 **Scripts**
 - [x] <del>Update sub_csf3 to include AMD cores (@tire98)</del>
