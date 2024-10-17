@@ -93,8 +93,8 @@ In the appropriate directory/subdirectory in the repo - `Add file` --> `Upload f
 - [ ] Add examples for each Gaussian Error (@JamesOBrien02 | @jak713)
 
 **Scripts**
-- [x] Update sub_csf3 to include AMD cores (@tire98)
-- [x] Update ORCA submission scripts for ORCA 6.0.0 (@tire98)
+- [x] <del>Update sub_csf3 to include AMD cores (@tire98)</del>
+- [x] <del>Update ORCA submission scripts for ORCA 6.0.0 (@tire98)</del>
 - [ ] Workflow Manager (@tire98 | @JamesOBrien02)
 
 ## Repo Day
