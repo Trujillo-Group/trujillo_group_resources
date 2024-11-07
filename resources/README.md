@@ -21,7 +21,6 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
   - [Databases](#databases)
   - [ORCA](#orca)
 
-
 ### General
 - **MUST-READs**: Access essential reading materials [here](https://lists.papersapp.com/2w6VyZLqaxV6).
 - **Software treats**: A [list](./software_treats.md) of extensions and packages curated by our group member Tim Renningholtz. Ranges from CLI tools to python packages.
