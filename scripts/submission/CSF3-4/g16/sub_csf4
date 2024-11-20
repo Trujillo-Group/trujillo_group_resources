@@ -1,0 +1,137 @@
+#!/bin/python3
+import os
+import sys
+import argparse
+import re
+
+# Create parser for parsing input file name
+parser = argparse.ArgumentParser(description='Create Gaussian or ORCA slurm runscript')
+parser.add_argument("-i", "--input", help="Input file name", required=True, type=str)
+parser.add_argument("-n", "--nodes", help="Number of nodes. multicore=1, multinode>1, serial=0; default=1", default=1, type=int)
+parser.add_argument("-c", "--cores", help="Number of cores. Between 2-40; default=8", type=int, default=8)
+args = parser.parse_args()
+
+if args.nodes > 1: 
+    cores_queue = "multinode"
+else:
+    cores_queue = "multicore"
+
+if args.cores > 40 and args.nodes < 2:
+    print("Number of cores must be between 2 and 40")
+    sys.exit()
+elif args.nodes == 0 or args.cores == 1:
+    cores_queue = "serial"
+
+# Check for program(s)
+program = ""
+with open(args.input, "r") as f:
+    lines = f.readlines()
+    for line in lines:
+         if "nbo7" in line.lower():
+            program = "nbo7"
+            break
+
+# Create SLURM runscript (g16)
+def create_runscript_g16(cores_queue, cores, input_file):
+    script = f"""#!/bin/bash --login
+#SBATCH --mail-type=END
+#SBATCH --mail-user=james.jobs.results@gmail.com
+#SBATCH -p {cores_queue}
+#SBATCH --ntasks {cores}
+#SBATCH --job-name {input_file.split(".")[0]}
+
+module load gaussian/g16c01_em64t_detectcpu
+export GAUSS_SCRDIR=/scratch/$USER/gau_temp_$SLURM_JOB_ID
+mkdir -p $GAUSS_SCRDIR
+export GAUSS_MDEF=$((SLURM_NTASKS*4))GB
+export GAUSS_PDEF=$SLURM_NTASKS
+
+$g16root/g16/g16 < $SLURM_JOB_NAME.com > $SLURM_JOB_NAME.log
+rm -rf $GAUSS_SCRDIR"""
+    return script
+
+# Create SLURM runscript (g16 with nbo7)
+def create_runscript_g16_nbo7(cores_queue, cores, input_file):
+    script = f"""#!/bin/bash --login
+#SBATCH -p {cores_queue}
+#SBATCH --ntasks {cores}
+#SBATCH --job-name {input_file.split(".")[0]}
+
+module load gaussian/g16c01_em64t_detectcpu
+module load nbo/7.0.8
+export GAUSS_SCRDIR=/scratch/$USER/gau_temp_$SLURM_JOB_ID
+mkdir -p $GAUSS_SCRDIR
+export GAUSS_MDEF=$((SLURM_NTASKS*4))GB
+export GAUSS_PDEF=$SLURM_NTASKS
+
+$g16root/g16/g16 < $SLURM_JOB_NAME.com > $SLURM_JOB_NAME.log
+rm -rf $GAUSS_SCRDIR"""
+    return script
+
+# Create SLURM runscript (orca)
+def get_orca_cores(input_file):
+    with open(input_file, 'r') as f:
+        content = f.read()
+    
+    # Check for PAL keyword
+    pal_match = re.search(r'!?\s*PAL(\d+)', content, re.IGNORECASE)
+    if pal_match:
+        return int(pal_match.group(1))
+    
+    # Check for %pal block
+    pal_block_match = re.search(r'%pal\s*nprocs\s*(\d+)\s*end', content, re.IGNORECASE)
+    if pal_block_match:
+        return int(pal_block_match.group(1))
+    
+    # If no parallelization is specified, return 1
+    return 1
+
+def create_runscript_orca(input_file):
+    cores = get_orca_cores(input_file)
+    script = f"""#!/bin/bash --login
+#SBATCH -p {cores_queue}
+#SBATCH -n {cores}
+#SBATCH --job-name {input_file.split(".")[0]}
+
+module --force purge
+module load rhel apps/binapps/orca/6.0.0-avx2
+export scratchlocation=/scratch
+
+if [ ! -d $scratchlocation/$USER ]; then
+  mkdir -p $scratchlocation/$USER
+fi
+
+tdir=$(mktemp -d $scratchlocation/$USER/orcajob_$SLURM_JOB_ID-XXXX)
+cp $SLURM_SUBMIT_DIR/*.inp $tdir/
+cp $SLURM_SUBMIT_DIR/*.xyz $tdir/
+cd $tdir
+
+$(which orca) {input_file} > $SLURM_SUBMIT_DIR/$SLURM_JOB_NAME.out
+
+cp $tdir/*.gbw $SLURM_SUBMIT_DIR
+cp $tdir/*.xyz $SLURM_SUBMIT_DIR"""
+    return script
+
+# Check if input file exists
+if not os.path.isfile(args.input):
+    print("Input file does not exist")
+    sys.exit()
+# Check input file format
+elif args.input[-4:] != ".com" and args.input[-4:] != ".inp":
+    print("Input file must be of .com (g16) or .inp (orca) format")
+    sys.exit()
+# If input file exists, create slurm runscript and adjust number of cores
+else:
+    if args.input[-4:] == ".com" and program == "nbo7":
+        runscript_content = create_runscript_g16_nbo7(cores_queue, args.cores, args.input)
+    elif args.input[-4:] == ".com":
+        runscript_content = create_runscript_g16(cores_queue, args.cores, args.input)
+    elif args.input[-4:] == ".inp":
+        runscript_content = create_runscript_orca(args.input)
+    
+    with open("run.sh", "w") as f:
+        f.write(runscript_content)
+    
+    # Submit the job and capture the job number
+    job_output = os.popen(f"sbatch run.sh {args.input}").read()
+

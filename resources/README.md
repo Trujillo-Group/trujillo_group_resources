@@ -7,6 +7,8 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 
 ## Index
 - [General](#general)
+- [Academia-related](#academia-related)
+  - [Literature](#literature)
 - [Chemistry-related](#chemistry-related)
   - [Cheminformatics](#cheminformatics)
   - [Databases](#databases)
@@ -25,6 +27,12 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 ### General
 - **MUST-READs**: Access essential reading materials [here](https://lists.papersapp.com/2w6VyZLqaxV6).
 - **Software treats**: A [list](./software_treats.md) of extensions and packages curated by our group member Tim Renningholtz. Ranges from CLI tools to python packages.
+
+## Academia-related
+
+### Literature
+- **Readcube**: [App](https:/app.reacdcube.com) for creating/managing a library of papers/reviews/pdfs etc.
+- **Litmap**: [App](https://app.litmaps.com) which creates a tree structure for relevant papers from any given doi link
 
 ## Chemistry-related
 
