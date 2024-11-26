@@ -17,6 +17,8 @@ This will create a `run.sh` file in the current directory and will submit the ca
 
 #### CSF4
 
+**orca_rungen** - ORCA 6.0.0
+
 **sub_csf4** - Gaussian16, NBO7 (g16), ORCA
 
 **sub_csf4_g09** - Gaussian09
@@ -31,7 +33,9 @@ This will create a `run.sh` file in the current directory and will submit the ca
 
 #### CSF3
 
-**sub_csf3** - Gaussian16, NBO7 (g16), ORCA
+**orca_rungen_csf3** - ORCA 6.0.0
+
+**sub_csf3** - Gaussian16
 
 **sub_csf3_g09** - Gaussian09
 
