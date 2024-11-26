@@ -17,7 +17,7 @@ This will create a `run.sh` file in the current directory and will submit the ca
 
 #### CSF4
 
-**orca_rungen** - ORCA 6.0.0
+**orca_rungen_csf4** - ORCA 6.0.0
 
 **sub_csf4** - Gaussian16, NBO7 (g16), ORCA
 
