@@ -10,8 +10,6 @@ This tutorial will introduce you to the basics of VI, including the different mo
 
 ## Modes in VI
 
-VI operates mainly in three modes: 
-
 VI operates in three main modes: Normal Mode, Insert Mode, and Command-Line Mode.
 
 - **Normal Mode**: This is the default mode when you open VI. In this mode, you can navigate through the text, delete, copy, and paste text, and perform various editing tasks.

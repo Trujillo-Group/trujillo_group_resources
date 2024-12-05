@@ -42,6 +42,7 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 - **Clipboard To Smiles**: [MacOS-based app](https://github.com/O-Schilter/Clipboard-to-SMILES-Converter) that allows the user to copy and paste images of molecules to SMILES / RdKit etc.
 
 ### Databases
+- **Noncovalent Interactions**: Wide range of NCI-based systems available from [atlas](http://www.nciatlas.org).
 - **VERDE Database**: Explore materials database at [VERDE Materials DB](https://www.verdematerialsdb.com/).
 - **Medicinal Chemistry-Relevant Ring Systems**: Explore a 4-million structure database on [ring systems in medicinal chemistry](https://pubs.acs.org/doi/10.1021/acs.jcim.3c01812)
 

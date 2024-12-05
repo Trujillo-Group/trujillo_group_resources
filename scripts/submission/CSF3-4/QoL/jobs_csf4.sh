@@ -6,14 +6,6 @@
 # Notifies of any completed jobs since last checked. (Requires consistent use)
 # Pushes completed jobs to a file in your /bin directory
 
-# Define the colors#!/bin/bash
-
-# N.B. For this script to work you must have a bin folder in your home directory on CSF. (This script will create the necessary files in this folder.)
-
-# Checks the status of your jobs on CSF4
-# Notifies of any completed jobs since last checked. (Requires consistent use)
-# Pushes completed jobs to a file in your /bin directory
-
 # Define the colors
 GREEN=$(tput setaf 2)
 RED=$(tput setaf 1)
