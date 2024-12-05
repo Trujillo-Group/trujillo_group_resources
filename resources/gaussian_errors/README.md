@@ -31,6 +31,8 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
     - [End of line while Reading PCM Input](#end-of-line-while-reading-pcm-input)
     - [R6DS8: Unable to choose the S8 parameter](#r6ds8-unable-to-choose-the-s8-parameter)
     - [Unrecognised Atomic Symbol](#unrecognised-atomic-symbol)
+- [L401](#L401)
+    - [Unable to project occupied orbitals !](#unable-to-project-occupied-orbitals)
 - [L502](#L502)
     - [Convergence Failure](#convergence-failure)
 - [l508](#L508)
@@ -282,6 +284,16 @@ Charge Multiplicity
 3. Check all your atomic symbols are correctly input.
 
 4. If using peseudopotentials this error can arise as ```Unrecognised Atomic Symbol****```. Ensure you have included ```functional/gen``` in your keywords.
+
+# L401
+*Forms the initial MO guess*
+
+## Unable to project occupied orbitals !
+<!-- L401 -->
+![Error Example](figures/Unable_to_project_occupied_orbitals.png)
+**Explanation:** You are reading in a molecular-orbital guess from the .chk file and an issue is arising between the old .chk basis set, and the new basis set.
+
+**Solution:** Don't read in MOs from the %chk file. Change to a guess keyword which doesn't rely on %chk MOs.
 
 # L502
 *Iteratively solves the SCF equations (conven. UHF & ROHF, all direct methods, SCRF)*
