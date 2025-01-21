@@ -13,6 +13,7 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
   - [Cheminformatics](#cheminformatics)
   - [Databases](#databases)
   - [Density-Functional Theory](#density-functional-theory)
+  - [Gaussian](#gaussian)
   - [ORCA](#orca)
   - [Organic Chemistry](#organic-chemistry)
 - [Code-Related](#code-related)
@@ -53,6 +54,9 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 - **EDS Quantification**: Electron-Density Quantification [Tool](https://github.com/Trujillo-Group/EDS_quantification) made by our previous student Dr. Iñigo Iribarren.
 - **Energy Decomposition Analysis**: [Nine Questions and Answers](https://livrepository.liverpool.ac.uk/3041755/1/eda.pdf) regarding Eenergy Decomposition Analysis.
 - **Dispersion Corrections for DFT**: Stefan Grimme's [Presentation on dispersion corrections](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.researchgate.net/profile/Argenis-Soutelo/post/How_can_I_implement_in_Gaussian_the_Grimmes_dispersion_correction_with_Becke-Johnson_Damping_D3-BJ/attachment/61ba0421d248c650edb927d1/AS%253A1101295452717058%25401639580705241/download/Grimme_pdf.pdf&ved=2ahUKEwiSp5nX9o-GAxVjXUEAHcTyCEkQFnoECBQQAQ&usg=AOvVaw1dXhW_v9yqIxAVs2Fh0ePi), and a recorded [lecture](https://youtu.be/SkZzv2kX5fM?si=6t_-GUdKanW9N-iT)
+
+### Gaussian
+- **Zhe Wang Blogs**: Zhe Wang offers various [Blogs](https://wongzit.github.io/blog/) related to using / dealing with Gaussian16.
 
 ### ORCA
 - **Orca 6.0 Tutorials**: [Tutorials](https://www.faccts.de/docs/orca/6.0/tutorials/) for getting started with ORCA, its features and basic molecular modeling.
