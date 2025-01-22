@@ -36,7 +36,7 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
 - [L502](#L502)
     - [Convergence Failure](#convergence-failure)
 - [l508](#L508)
-    - [No lower point found -- run aborted.](#no-lower-point-found----run-aborted.)
+    - [No lower point found -- run aborted.](#no-lower-point-found-run-aborted)
     - [Gradient too large for Newton-Raphson ... Convergence Failure](#gradient-too-large-for-newton-raphson--convergence-failure)
 - [L607](#L607)
     - [Subroutine NAOANL could not find orbital](#subroutine-naoanl-could-not-find-a-_-type-orbital-on-atom)
