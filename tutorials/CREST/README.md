@@ -26,7 +26,7 @@ conda config -n crest_env --add channels conda-forge
 srun --pty bash
 module load anaconda3/2022.10
 conda create -n crest_env python==3.9.13
-conda config -n cres_env --add channels conda-forge
+conda config -n crest_env --add channels conda-forge
 ```
 
 ## Accessing Crest
