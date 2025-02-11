@@ -327,9 +327,10 @@ Else:
 <!-- L502 -->
 ![Error Example](figures/Inv3_failed_in_PCMMkU.png)
 
-**Explanation:** TBD
+**Explanation:** PCM stands for Polarizable Continuum Model. Therefore this error relates to the solvent model.
 
-**Solution:** TBD
+**Solution:** Add `iterative` to `scrf`
+
 
 # L508
 *Quadratically convergent SCF program*
