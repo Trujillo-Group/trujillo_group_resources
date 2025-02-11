@@ -35,6 +35,7 @@ Lastly, this is by no means an exhaustive list, and should you find any alternat
     - [Unable to project occupied orbitals !](#unable-to-project-occupied-orbitals)
 - [L502](#L502)
     - [Convergence Failure](#convergence-failure)
+    - [Inv3 failed in PCMMkU](#inv3-failed-in-pcmmku)
 - [l508](#L508)
     - [No lower point found -- run aborted.](#no-lower-point-found)
     - [Gradient too large for Newton-Raphson ... Convergence Failure](#gradient-too-large-for-newton-raphson--convergence-failure)
