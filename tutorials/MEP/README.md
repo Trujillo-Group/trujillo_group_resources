@@ -46,6 +46,7 @@ ii. Generate **density** `{filname}_DENS.cube` and **potential** `{filname}_MEP.
 3. Prepare the output file from the previous calculation for visualisation using the script `mep_jmol`. This should be ran in your local computer, or wherever you have access to Multiwfn.
 
 Make sure that your folder contains all the required files for the script to work.
+
         ```
         └── working directory 
             ├── {filename}_DENS.cube
@@ -82,28 +83,27 @@ ii. Rename the surfanalysis.txt file
 
 iii.  A new file called `{filename}.jmol` will be generated containing all the information needed to visualise the **MEP**.
         
-        The default values are:
-        - Density isosurface = 0.001
-        - Color range = [most_negative_minima, most_positive_maxima]
-        - Isosurface material = translucent
-        
-        - The critical points will be shown as spheres (cyan for minima and black for maxima) 
+The default values are
+- Density isosurface = 0.001
+- Color range = [most_negative_minima, most_positive_maxima]
+- Isosurface material = translucent     
+- The critical points will be shown as spheres (cyan for minima and black for maxima) 
 
-        In the following example, the first sphere below will be shown while the second one will be hidden:
+In the following example, the first sphere below will be shown while the second one will be hidden:
 
-        ```shell
+        ```
         draw sphere1 diameter 0.4 {0.0 0.0 0.0} color black #MEP in a.u. 0.2184
         #draw sphere2 diameter 0.4 {1.0 1.0 0.0} color black #MEP in a.u. 0.3651
         ```
 
-        These are some examples of different looks you can get with the options above:
+These are some examples of different looks you can get with the options above:
 
-        - No labels, all critical points:
-        ![no_labels_all](./figures/mep_all_sphere.png)
-        - No labels, 1 critical point:
-        ![no_labels_all](./figures/mep_1_sphere.png)
-        - 1 label, 1 critical point:
-        ![no_labels_all](./figures/mep_1_label.png)
+- No labels, all critical points:
+![no_labels_all](./figures/mep_all_sphere.png)
+- No labels, 1 critical point:
+![no_labels_all](./figures/mep_1_sphere.png)
+- 1 label, 1 critical point:
+![no_labels_all](./figures/mep_1_label.png)
         
 
 # MEP Steps (ORCA)
