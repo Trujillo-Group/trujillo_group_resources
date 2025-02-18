@@ -19,26 +19,47 @@
 > Due to the nature of the scripts and volume of files you will be producing, keep the `{filename}` consistent, as specified in instructions below.
 
 1. System optimisation (or single point if already optimised) with **Gaussian** (submission scripts available for **ICHEC** and **CSF3-4** in `scripts` folder.).
-A **checkpoint** flag must be included in the calculation by adding `%chk={filename}.chk` at the beginning of the `.com` file.
-2. If **Gaussian** is locally installed you can run the following steps manually in the terminal. 
-If you are working in the computational centre, you can find the corresponding submission script in the `scripts/submission/../sub_mep` folder and do all the following steps automatically.
+A **checkpoint** flag must be included in the calculation by adding the following:
+   - `%chk={filename}.chk` at the beginning of the `.com` file
+   - `output=wfx` in the keyword line of the `.com` file
+   - `{filename}.wfx` at the end of the `.com` file
 
-    1. Format the **checkpoint** to make it human-readable 
+2. If you are working in the computational centre, you can find the corresponding submission script in the `scripts/submission/mep` folder and do all the following steps automatically.
+
+- `sub_csf3_mep` for `csf3`
+- `sub_csf4_mep` for `csf4`
+
+These scripts will do the following:
+
+i. Format the **checkpoint** to make it human-readable 
 
         ```{shell}
         formchk {filename}.chk
         ```
 
-    2. Generate **density** `{filname}_DENS.cube` and **potential** `{filname}_MEP.cube` cube files
+ii. Generate **density** `{filname}_DENS.cube` and **potential** `{filname}_MEP.cube` cube files
 
         ```{shell}
         cubegen 0 density=scf {filename}.fchk {filename}_DENS.cube 100 h
         cubegen 0 potential=scf {filename}.fchk {filename}_MEP.cube 100 h
         ```
+3. Prepare the output file from the previous calculation for visualisation using the script `mep_jmol`. This should be ran in your local computer, or wherever you have access to Multiwfn.
 
-    3. Extract critical points from the selected isosurface with **MultiWFN**
+Make sure that your folder contains all the required files for the script to work.
+        ```
+        └── working directory 
+            ├── {filename}_DENS.cube
+            ├── {filename}_MEP.cube
+            └── {filename}_CRIT.txt
+        ```
 
-        ```{shell}
+It is used as follows: `mep_jmol {filename}`
+
+This script will do the following:
+
+i. Extract critical points from the selected isosurface with **MultiWFN**
+
+        ```
         Multiwfn {filename}.fchk
         ```
 
@@ -53,43 +74,20 @@ If you are working in the computational centre, you can find the corresponding s
          -10 Exit
         ```
 
-    4. Rename the surfanalysis.txt file
+ii. Rename the surfanalysis.txt file
     
-        ```{shell}
+        ```
         mv surfanalysis.txt {filename}_CRIT.txt
         ```
 
-3. Visualise the MEP using **Jmol**
-
-    > [!WARNING]  
-    > The scripts for visualising the MEP will change and this part should be changed accordingly
-
-    1. Make sure that your folder contains all the required files for the script to work.
-        ```
-        └── working directory 
-            ├── {filename}_DENS.cube
-            ├── {filename}_MEP.cube
-            └── {filename}_CRIT.txt
-        ```
-    2. Generate the **Jmol** script
-
-        ```shell
-        mep_jmol.sh {filename}
-        ```
-
-        A new file called `{filename}.jmol` will be generated containing all the information needed to visualise the **MEP**.
+iii.  A new file called `{filename}.jmol` will be generated containing all the information needed to visualise the **MEP**.
         
         The default values are:
         - Density isosurface = 0.001
         - Color range = [most_negative_minima, most_positive_maxima]
         - Isosurface material = translucent
-
-        Two different scripts can be used for this step `mep_jmol.sh` and `men_jmol_labels.sh`.
-
-        `mep_jmol.sh` will show the critical points as spheres (cyan for minima and black for maxima) and `mep_jmol_labels.sh` will also show a label with the value of the critical point.
-
-        By default, all the critical points are shown in the visualisation. 
-        However, you can hide as many as you want by adding '#' at the beginning of the line, commenting the corresponding lines of code in the `{filename}.jmol` file. 
+        
+        - The critical points will be shown as spheres (cyan for minima and black for maxima) 
 
         In the following example, the first sphere below will be shown while the second one will be hidden:
 
@@ -106,6 +104,7 @@ If you are working in the computational centre, you can find the corresponding s
         ![no_labels_all](./figures/mep_1_sphere.png)
         - 1 label, 1 critical point:
         ![no_labels_all](./figures/mep_1_label.png)
+        
 
 # MEP Steps (ORCA)
 
