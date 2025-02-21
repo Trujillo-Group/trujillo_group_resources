@@ -1,0 +1,64 @@
+#!/bin/bash
+#
+#DAT: Extracts relevant data from log files in table format.
+# Version 1.2
+#
+# created by Fernando Blanco
+# last modification: Goar Sanchez, 13-mar-2011
+#
+num_log_files=$(ls -1 *$1*log 2>/dev/null | wc -l | tail -1 | awk '{print $1}')
+if [ "$num_log_files" == "0" ]; then echo "No *$1*.log files found in this folder."; exit; fi
+#
+echo "PG   ImFreqs           SCFEnergy       MP2Energy  ZPE              TotalEnergy    Dipole  State Filename"
+for file in *$1*log; 
+do 
+#reset variables
+sym=""
+frq=""
+scf=""
+zpe=""
+nrg=""
+dpl=""
+mp2=""
+# end of reset
+
+sym=$(sed -n '/point group/p' $file |tail -1 | awk '{ print $4 }')
+frq=$(sed -n '/Frequencies/p' $file | awk '{print " " $3 " " $4 " " $5}' | tr "\n" " " | tr "-" "\n" | wc -l | awk '{print $1}')
+scf=$(sed -n '/SCF Done/p' $file | tail -1 | awk '{print $5}')
+zpe=$(sed -n '/Zero-point cor/p' $file | awk '{print $3}')
+nrg=$(sed -n '/Sum of electronic and zero/p' $file | awk '{print $7}')
+dpl=$(sed -n '/Tot=/p' $file | tail -1 | awk '{print $8}')
+
+# goar modifications 
+calc_end=`tail -n1 $file | awk '{print $1}'`                                      # gets firts word from the last line
+calc_end_aux=`tail -n3 $file  | head -n1 | awk '{print $1}'`                      # gets third word from the las line. "Error" in not normal end calc.
+state="  "                                                                        # reset state variable with a 3 blanks
+if [ "$calc_end" == "Normal" ];then
+   state="OK "                                                                    # use "OK " to keep the same format
+elif [ "$calc_end_aux" == "Error" ];then                                          # usually, the third last line begin with Error in error terminated
+   state="ERR"                                                                    #        calculations. Check this out
+else
+   state="RUN"
+fi
+# reading the MP2 energies
+     mp2_test=`grep "EUMP2" $file | tail -1`                                                # ibon: test for mp2 energy
+     if [ "$mp2_test" != "" ]; then
+     aux_mp2=`grep "EUMP2" $file | tail -1 | awk -F= '{print $3}'`                # extract EUMP2 in format -0.8973D+05
+     Ener=`echo $aux_mp2 | awk -FD '{print $1}'`                                  # extract first field -0.8973
+     Exp=`echo $aux_mp2 | awk -FD '{print $2}' | awk -F+ '{print $2}'`            # extract second field 05
+     mp2=`echo "$Ener*10^$Exp" | bc -l | awk '{printf("%15.8f",$1)}'`  ; fi       # do -0.8973*10^05 . "%xx.yf" xx integer part, y number of decimals
+#end goar
+# test for frequency calculations
+      freq_test=`grep "Frequencies" $file | tail -1`
+      if [ "$freq_test" == "" ]; then frq="?"; fi
+  
+if [ "$sym" == "" ]; then sym=?; fi
+#if [ "$frq" == "" ]; then frq=?; fi
+if [ "$mp2" == "" ]; then mp2=" ?       "; fi
+if [ "$scf" == "" ]; then scf=" ?       "; fi
+if [ "$zpe" == "" ]; then zpe="?        "; fi
+if [ "$nrg" == "" ]; then nrg=" ?       "; fi
+if [ "$dpl" == "" ]; then dpl=?; fi
+echo "$sym      $frq    $scf    $mp2    $zpe    $nrg    $dpl    $state   $file"
+done
+

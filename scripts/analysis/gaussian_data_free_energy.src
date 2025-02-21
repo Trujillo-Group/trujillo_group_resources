@@ -1,0 +1,44 @@
+
+#!/bin/bash
+#
+#DAT: Extracts relevant data from log files in table format.
+#
+# created by Fernando Blanco
+# Modification:      MP2 reading Goar Sanchez, 13-mar-2011
+# last modification: CCSDT reading  Goar Sanchez, 22-jun-2015
+#
+num_log_files=$(ls -1 *$1*log 2>/dev/null | wc -l | tail -1 | awk '{print $1}')
+if [ "$num_log_files" == "0" ]; then echo "No *$1*.log files found in this folder."; exit; fi
+#
+echo "PG   ImFreqs    deltaG     State Filename"
+for file in *$1*log;
+do
+#reset variables
+sym=""
+frq=""
+# end of reset
+
+sym=$(sed -n '/point group/p' $file |tail -1 | awk '{ print $4 }')
+frq=$(sed -n '/Frequencies/p' $file | awk '{print " " $3 " " $4 " " $5}' | tr "\n" " " | tr "-" "\n" | wc -l | awk '{print $1}')
+dG=$(sed -n '/Sum of electronic and thermal Free Energies/p' $file | tail -1 | awk '{print $8}')
+
+# goar modifications 
+calc_end=`tail -n1 $file | awk '{print $1}'`                                      # gets firts word from the last line
+calc_end_aux=`tail -n3 $file  | head -n1 | awk '{print $1}'`                      # gets third word from the las line. "Error" in not normal end calc.
+state="  "                                                                        # reset state variable with a 3 blanks
+if [ "$calc_end" == "Normal" ];then
+   state="OK "                                                                    # use "OK " to keep the same format
+elif [ "$calc_end_aux" == "Error" ];then                                          # usually, the third last line begin with Error in error terminated
+   state="ERR"                                                                    #        calculations. Check this out
+else
+   state="RUN"
+fi
+# test for frequency calculations
+      freq_test=`grep "Frequencies" $file | tail -1`
+      if [ "$freq_test" == "" ]; then frq="?"; fi
+
+if [ "$sym" == "" ]; then sym=?; fi
+if [ "$dG" == "" ]; then dG=" ?       "; fi
+echo "$sym      $frq    $dG   $state   $file"
+done
+
