@@ -1,4 +1,3 @@
-
 # Resources
 
 This section serves as a **comprehensive catalog** of valuable resources, including links, papers, and software that our group has accumulated over the years. Feel free to contribute any materials you find useful for inclusion here.
@@ -6,6 +5,7 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 > Note: To avoid feeling overwhelmed, only use this page when seeking specific guidance.
 
 ## Index
+
 - [General](#general)
 - [Academia-related](#academia-related)
   - [Literature](#literature)
@@ -16,6 +16,7 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
   - [Gaussian](#gaussian)
   - [ORCA](#orca)
   - [Organic Chemistry](#organic-chemistry)
+  - [Partial Charges](#partial-charges)
 - [Code-Related](#code-related)
   - [Bash \& Unix](#bash--unix)
   - [Git](#git)
@@ -26,28 +27,33 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
   - [Visualisation](#visualisation)
 
 ### General
+
 - **MUST-READs**: Access essential reading materials [here](https://lists.papersapp.com/2w6VyZLqaxV6).
 - **Software treats**: A [list](./software_treats.md) of extensions and packages curated by our group member Tim Renningholtz. Ranges from CLI tools to python packages.
 
 ## Academia-related
 
 ### Literature
+
 - **Readcube**: [App](https:/app.reacdcube.com) for creating/managing a library of papers/reviews/pdfs etc.
 - **Litmap**: [App](https://app.litmaps.com) which creates a tree structure for relevant papers from any given doi link
 
 ## Chemistry-related
 
 ### Cheminformatics
+
 - **Teaching Material**: Access [Teaching Materials](https://github.com/Sulstice/Cheminformatics-Teaching-Material) related to Cheminformatics via this GitHub repository.
 - **Practical Cheminformatics Tutorials**: [Github repository](https://github.com/PatWalters/practical_cheminformatics_tutorials) containing a set of Juptyer notebooks for learning Cheminformatics.
 - **Clipboard To Smiles**: [MacOS-based app](https://github.com/O-Schilter/Clipboard-to-SMILES-Converter) that allows the user to copy and paste images of molecules to SMILES / RdKit etc.
 
 ### Databases
+
 - **Noncovalent Interactions**: Wide range of NCI-based systems available from [atlas](http://www.nciatlas.org).
 - **VERDE Database**: Explore materials database at [VERDE Materials DB](https://www.verdematerialsdb.com/).
 - **Medicinal Chemistry-Relevant Ring Systems**: Explore a 4-million structure database on [ring systems in medicinal chemistry](https://pubs.acs.org/doi/10.1021/acs.jcim.3c01812)
 
 ### Density-Functional Theory
+
 - **An Introduction to DFT**: Delve into introductory material [here](https://www.ch.imperial.ac.uk/harrison/Teaching/DFT_NATO.pdf).
 - **Best-Practice DFT Protocols**: Explore recommended protocols [here](https://onlinelibrary.wiley.com/doi/10.1002/anie.202205735).
 - **ABCs of DFT**: Understand the basics with this guide [PDF](https://dft.uci.edu/doc/g1.pdf).
@@ -56,27 +62,38 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 - **Dispersion Corrections for DFT**: Stefan Grimme's [Presentation on dispersion corrections](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.researchgate.net/profile/Argenis-Soutelo/post/How_can_I_implement_in_Gaussian_the_Grimmes_dispersion_correction_with_Becke-Johnson_Damping_D3-BJ/attachment/61ba0421d248c650edb927d1/AS%253A1101295452717058%25401639580705241/download/Grimme_pdf.pdf&ved=2ahUKEwiSp5nX9o-GAxVjXUEAHcTyCEkQFnoECBQQAQ&usg=AOvVaw1dXhW_v9yqIxAVs2Fh0ePi), and a recorded [lecture](https://youtu.be/SkZzv2kX5fM?si=6t_-GUdKanW9N-iT)
 
 ### Gaussian
+
 - **Zhe Wang Blogs**: Zhe Wang offers various [Blogs](https://wongzit.github.io/blog/) related to using / dealing with Gaussian16.
 
 ### ORCA
+
 - **Orca 6.0 Tutorials**: [Tutorials](https://www.faccts.de/docs/orca/6.0/tutorials/) for getting started with ORCA, its features and basic molecular modeling.
 - **Orca 6.0 Manual**: Clear and thorough [Documentation](https://www.faccts.de/docs/orca/6.0/manual/) for using ORCA and all its available features.
 - **Orca Youtube [Channel](https://www.youtube.com/@orcaquantumchemistry)**: Provides many videos detailing features from ORCA 6.0 release date
 - **Orca [Forum](https://orcaforum.kofo.mpg.de/index.php)**: For any user-related questions.
 
 ### Organic Chemistry
+
 - **Synthesis Workshop**: [Large library](https://www.youtube.com/@SynthesisWorkshopVideos) of research highlights as well as an academia-focused podcast.
+
+### Partial Charges
+
+- **Introduction to Partial Charges**: An introductory [blog](https://shoubhikrmaiti.medium.com/introduction-to-molecular-modelling-part-9-partial-charges-fc4eb7f9d707) is available as part of a series on Introduction to Molecular Modelling by Shoubhik R Maiti.
+- **Explanations for most Schemes**: On a forum, a [list](https://mattermodeling.stackexchange.com/questions/1439/what-are-the-types-of-charge-analysis) was curated to help explain all available partial charge schemes.
 
 ## Code-related
 
 ### Bash & Unix
+
 - **Bash Scripting**: Learn terminal basics and script writing through Bash Tutorials from [Joe Collins](https://www.youtube.com/watch?v=oxuRxtrO2Ag&t=1343s&ab_channel=JoeCollins).
 - **Distrotube & Luke Smith Channels**: Gain insights into Linux and UNIX systems through educational videos from these channels.
 
 ### Git
+
 - **Coderefinery Workshop**: Learn Git basics through this informative workshop from [CodeRefinery](https://www.youtube.com/watch?v=GHlF1nGfz7g&list=PLpLblYHCzJACqaFsfQiCWp0Wqy6qG4iau).
 
 ### Python
+
 - **Learn Python Org**: Access free tutorials and exercises on various Python topics at [learnpython.org](https://www.learnpython.org/).
 - **CS50P**: Explore Python resources from [Harvard's CS50 course](https://cs50.harvard.edu/python/2022/).
 - **FreeCodeCamp Introductory Course**: Start with a basic video course available from [FreeCodeCamp](https://www.youtube.com/watch?v=rfscVS0vtbw).
@@ -85,12 +102,14 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 ## Graphics-related
 
 ### Blender
+
 - **Blender Guru Donut Tutorial**: Master Blender basics with this popular tutorial series available from [Blender Guru](https://www.youtube.com/watch?v=TPrnSACiTJ4&list=PLexwJr_iILK7IkuhEeAYeN7aLV5AAXKa-).
 - **New Version of the Donut Tutorial**: Stay updated with newer Blender versions using this [Donut Tutorial](https://www.youtube.com/watch?v=nIoXOplUvAw&t=0s) series.
 - **Blender for Scientists Channels**:
   - Explore specialized Blender content from channels like Brady, Luminous Lab, Entropic, and CG Figures.
 
 ### Inkscape
+
 > Note: Consider upgrading to Affinity Designer for frequent use after mastering Inkscape.
 
 - **Beginner Tutorial**: Start your Inkscape journey with a [Beginner Tutorial Series](https://www.youtube.com/watch?v=8f011wdiW7g&list=PLqazFFzUAPc5lOQwDoZ4Dw2YSXtO7lWNv&ab_channel=TJFREE).
@@ -98,6 +117,7 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
   - Explore specialized tutorials for scientists in Inkscape through these informative videos.
 
 ### Visualisation
+
 - **Icons for Chemists**: An [icons repository](https://github.com/iribirii/icons-for-chemists) provided by our previous student Dr. Iñigo Iribarren.
 - **Generate plots in Python**:
   - For interactive plotting use [Plotly](https://plotly.com/python/).
