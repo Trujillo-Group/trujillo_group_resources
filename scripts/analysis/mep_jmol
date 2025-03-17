@@ -29,10 +29,11 @@ fchk=$name'.fchk'
 n=0
 n_sphere=0
 
-if name == ""
-then
+if [ $# -eq 0 ]; then
     echo "Usage: mep_jmol filename (no extension)"
     exit 1
+else
+    echo "Executing $1"
 fi
 
 # Check that the required files exist
@@ -54,11 +55,13 @@ elif [ ! -f "$mep" ]; then
 fi
 
 # Run Multiwfn with the specified filename and options file
-if [ ! -f "~/bin/mep_options.txt" ]; then
+if [ ! -f ~/bin/mep_options.txt ]; then
     echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
     echo '!! ERROR: ~/bin/mep_options.txt DOES NOT EXIST !!'
     echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
     exit 1
+fi
+
 Multiwfn $fchk < ~/bin/mep_options.txt
 mv surfanalysis.txt $name"_CRIT.txt"
 
