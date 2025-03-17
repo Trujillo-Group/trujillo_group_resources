@@ -34,8 +34,6 @@ with open(args.input, "r") as f:
 # Create SLURM runscript (g16)
 def create_runscript_g16(cores_queue, cores, input_file):
     script = f"""#!/bin/bash --login
-#SBATCH --mail-type=END
-#SBATCH --mail-user=james.jobs.results@gmail.com
 #SBATCH -p {cores_queue}
 #SBATCH --ntasks {cores}
 #SBATCH --job-name {input_file.split(".")[0]}
