@@ -67,10 +67,8 @@ flowchart TD
 4. Using a Text Editor (e.g. _Vim_) input the correct keywords for a TS search into the _.com_ file, a basic example being:
    
 ```{shell}
-%nprocshared=40
-%mem=100GB
 # opt=(calcfc,ts,modredundant,noeigentest) freq wb97xd
-scrf=(smd,solvent=water) def2svp temperature=293.15
+scrf=(smd,solvent=water) def2svp
 
 filename
 
