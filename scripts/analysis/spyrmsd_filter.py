@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 # Author: Tim Renningholtz
-# Date: 21.08.2024
+# Date: 26.03.2025
 
 # Description: This script reads the conformational ensemble obtained from a
 # conformer search and filters the conformers based on their RMSD. A symmetry
@@ -10,290 +10,553 @@
 
 # import modules
 
-import spyrmsd
-from spyrmsd import rmsd, molecule
+from spyrmsd import molecule, rmsd
+from spyrmsd.parallel import prmsdwrapper
 import numpy as np
 import os
 import pandas as pd
-from pymatgen.io.babel import BabelMolAdaptor
-from openbabel import pybel
+from ase import Atoms
+from ase.io import read, write
 import argparse
+from itertools import product
+from scipy.spatial import Voronoi
 
-# parse command line arguments
 
-parser = argparse.ArgumentParser(description="Filter conformers based on RMSD")
-parser.add_argument(
-    "--input", "-i", type=str, required=True, help=".xyz file with conformers"
-)
-parser.add_argument(
-    "--output",
-    "-o",
-    type=str,
-    required=True,
-    help="Name of the output file, format will be .xyz",
-    default="filtered_conformers",
-)
-parser.add_argument(
-    "--threshold", "-t", type=float, required=True, help="RMSD threshold for filtering"
-)
-parser.add_argument(
-    "--no_sym", action="store_false", help="Do not use symmetry correction"
-)
-parser.add_argument(
-    "--backend",
-    "-b",
-    type=str,
-    help="Graph backend, e.g. networkx or rustworkx",
-    default="rustworkx",
-)
-parser.add_argument(
-    "--no_strip",
-    action="store_false",
-    help="Do not strip hydrogens from the conformers",
-)
-parser.add_argument(
-    "--no_center", action="store_false", help="Do not center the conformers at origin"
-)
-parser.add_argument(
-    "--no_minimize", action="store_false", help="Do not calculate minimum RMSD"
-)
+CORDERO = {
+    "Ac": 2.15,
+    "Al": 1.21,
+    "Am": 1.80,
+    "Sb": 1.39,
+    "Ar": 1.06,
+    "As": 1.19,
+    "At": 1.50,
+    "Ba": 2.15,
+    "Be": 0.96,
+    "Bi": 1.48,
+    "B": 0.84,
+    "Br": 1.20,
+    "Cd": 1.44,
+    "Ca": 1.76,
+    "C": 0.76,
+    "Ce": 2.04,
+    "Cs": 2.44,
+    "Cl": 1.02,
+    "Cr": 1.39,
+    "Co": 1.50,
+    "Cu": 1.32,
+    "Cm": 1.69,
+    "Dy": 1.92,
+    "Er": 1.89,
+    "Eu": 1.98,
+    "F": 0.57,
+    "Fr": 2.60,
+    "Gd": 1.96,
+    "Ga": 1.22,
+    "Ge": 1.20,
+    "Au": 1.36,
+    "Hf": 1.75,
+    "He": 0.28,
+    "Ho": 1.92,
+    "H": 0.31,
+    "In": 1.42,
+    "I": 1.39,
+    "Ir": 1.41,
+    "Fe": 1.52,
+    "Kr": 1.16,
+    "La": 2.07,
+    "Pb": 1.46,
+    "Li": 1.28,
+    "Lu": 1.87,
+    "Mg": 1.41,
+    "Mn": 1.61,
+    "Hg": 1.32,
+    "Mo": 1.54,
+    "Ne": 0.58,
+    "Np": 1.90,
+    "Ni": 1.24,
+    "Nb": 1.64,
+    "N": 0.71,
+    "Os": 1.44,
+    "O": 0.66,
+    "Pd": 1.39,
+    "P": 1.07,
+    "Pt": 1.36,
+    "Pu": 1.87,
+    "Po": 1.40,
+    "K": 2.03,
+    "Pr": 2.03,
+    "Pm": 1.99,
+    "Pa": 2.00,
+    "Ra": 2.21,
+    "Rn": 1.50,
+    "Re": 1.51,
+    "Rh": 1.42,
+    "Rb": 2.20,
+    "Ru": 1.46,
+    "Sm": 1.98,
+    "Sc": 1.70,
+    "Se": 1.20,
+    "Si": 1.11,
+    "Ag": 1.45,
+    "Na": 1.66,
+    "Sr": 1.95,
+    "S": 1.05,
+    "Ta": 1.70,
+    "Tc": 1.47,
+    "Te": 1.38,
+    "Tb": 1.94,
+    "Tl": 1.45,
+    "Th": 2.06,
+    "Tm": 1.90,
+    "Sn": 1.39,
+    "Ti": 1.60,
+    "Wf": 1.62,
+    "U": 1.96,
+    "V": 1.53,
+    "Xe": 1.40,
+    "Yb": 1.87,
+    "Y": 1.90,
+    "Zn": 1.22,
+    "Zr": 1.75,
+}
 
-parser.add_argument(
-    "--print_ensemble_properties", "-prop", action="store_true", help="Print ensemble"
-)
-parser.add_argument(
-    "--population_threshold_conformers",
-    "-pop",
-    type=float,
-    help="Conformer structures with cummulative population below this threshold.",
-    default=None,
-    required=False,
-)
+def get_voronoi_neighbourlist(
+    atoms: Atoms,
+    tolerance: float,
+) -> np.ndarray:
+    """Get connectivity list from Voronoi analysis, considering periodic boundary conditions.
+    To have two atoms connected, these must satisfy two conditions:
+    1. They must share a Voronoi facet
+    2. The distance between them must be less than the sum of their covalent radii (plus a tolerance)
 
-parser.add_argument(
-    "--population_temperature_conformers",
-    "-temp",
-    type=float,
-    help="Temperature for population calculation in [K]",
-    default=298.15,
-    required=False,
-)
+    Args:
+        atoms (Atoms): ase Atoms object.
+        scaling_factor (float): Scaling factor for covalent radii of metal atoms.
+        tolerance (float): Tolerance for second condition.
 
-parsed_args = parser.parse_args()
+    Returns:
+        np.ndarray: N_edges x 2 array with the connectivity list.
+
+    Notes:
+        The array contains all the edges just in one direction!
+    """
+    # First condition to have two atoms connected: They must share a Voronoi facet
+    coords_arr = np.copy(atoms.get_positions())
+    coords_arr = np.expand_dims(coords_arr, axis=0)
+    coords_arr = np.repeat(coords_arr, 27, axis=0)
+    mirrors = [-1, 0, 1]
+    mirrors = np.asarray(list(product(mirrors, repeat=3)))
+    mirrors = np.expand_dims(mirrors, 1)
+    mirrors = np.repeat(mirrors, coords_arr.shape[1], axis=1)
+    corrected_coords = np.reshape(
+        coords_arr + mirrors,
+        (coords_arr.shape[0] * coords_arr.shape[1], coords_arr.shape[2]),
+    )
+    corrected_coords = np.dot(corrected_coords, atoms.get_cell())
+    translator = np.tile(np.arange(coords_arr.shape[1]), coords_arr.shape[0])
+    vor_bonds = Voronoi(atoms.get_positions())
+    pairs_corr = translator[vor_bonds.ridge_points]
+    pairs_corr = np.unique(np.sort(pairs_corr, axis=1), axis=0)
+    true_arr = pairs_corr[:, 0] == pairs_corr[:, 1]
+    true_arr = np.argwhere(true_arr)
+    pairs_corr = np.delete(pairs_corr, true_arr, axis=0)
+    # Second condition for two atoms to be connected: Their distance must be smaller than the sum of their
+    # covalent radii plus a tolerance.
+    dst_d = {}
+    pairs_lst = []
+    for pair in pairs_corr:
+        distance = atoms.get_distance(
+            pair[0], pair[1], mic=True
+        )  # mic=True for periodic boundary conditions
+        elem_pair = (atoms[pair[0]].symbol, atoms[pair[1]].symbol)
+        fr_elements = frozenset(elem_pair)
+        if fr_elements not in dst_d:
+            dst_d[fr_elements] = (
+                CORDERO[atoms[pair[0]].symbol] * 1.2
+                + CORDERO[atoms[pair[1]].symbol] * 1.2
+                + tolerance
+            )
+        if distance <= dst_d[fr_elements]:
+            pairs_lst.append(pair)
+    if len(pairs_lst) == 0:
+        return np.array([])
+    else:
+        return np.sort(np.array(pairs_lst), axis=1)
+
+# get command line arguments
+def get_args() -> argparse.Namespace:
+    """Parse command line arguments"""
+    parser = argparse.ArgumentParser(description="Filter conformers based on RMSD")
+    parser.add_argument(
+        "--input", "-i", type=str, required=True, help=".xyz file with conformers"
+    )
+    parser.add_argument(
+        "--output",
+        "-o",
+        type=str,
+        required=True,
+        help="Name of the output file, format will be .xyz",
+        default="filtered_conformers",
+    )
+    parser.add_argument(
+        "--threshold", "-t", type=float, required=True, help="RMSD threshold for filtering"
+    )
+    parser.add_argument(
+        "--no_sym", action="store_false", help="Do not use symmetry correction"
+    )
+    parser.add_argument(
+        "--backend",
+        "-b",
+        type=str,
+        help="Graph backend, e.g. networkx or rustworkx",
+        default="rustworkx",
+    )
+    parser.add_argument(
+        "--no_strip",
+        action="store_false",
+        help="Do not strip hydrogens from the conformers",
+    )
+    parser.add_argument(
+        "--no_center", action="store_false", help="Do not center the conformers at origin"
+    )
+    parser.add_argument(
+        "--no_minimize", action="store_false", help="Do not calculate minimum RMSD"
+    )
+
+    parser.add_argument(
+        "--print_ensemble_properties", "-prop", action="store_true", help="Print ensemble"
+    )
+    parser.add_argument(
+        "--population_threshold_conformers",
+        "-pop",
+        type=float,
+        help="Conformer structures with cummulative population below this threshold.",
+        default=None,
+        required=False,
+    )
+
+    parser.add_argument(
+        "--population_temperature_conformers",
+        "-temp",
+        type=float,
+        help="Temperature for population calculation in [K]",
+        default=298.15,
+        required=False,
+    )
+
+
+    parser.add_argument(
+        "--connect_atoms",
+        "-ca",
+        type=str,
+        help="""List of atom indices to connect with a bond starting at 0. If multiple atoms need to be connected,
+            every other atom index is the atom to connect to. The first atom is the atom to connect from.
+            Example: --connect_atoms 0,1,2,3 connects atom 0 to atom 1 and atom 2 to atom 3.
+            """,
+        default=None,
+        required=False,
+    )
+
+    parser.add_argument(
+        "--n_cores",
+        "-n",
+        type=int,
+        help="Number of cores to use for RMSD calculation",
+        default=1,
+        required=False,
+    )
+
+    return parser.parse_args()
 
 
 # Print settings
-print("#" * 80)
-print("*" * 35, "Settings", "*" * 35)
-print("Input file: ", parsed_args.input)
-print("Output file: ", parsed_args.output)
-print("RMSD threshold: ", parsed_args.threshold)
-print("Symmetry correction: ", parsed_args.no_sym)
-print("Graph backend: ", parsed_args.backend)
-print("Strip hydrogens: ", parsed_args.no_strip)
-print("Center conformers: ", parsed_args.no_center)
-print("Minimize RMSD: ", parsed_args.no_minimize)
-print("Print ensemble properties: ", parsed_args.print_ensemble_properties)
-if parsed_args.population_threshold_conformers:
-    print(
-        "Population threshold for conformers: ",
-        parsed_args.population_threshold_conformers,
-    )
-    print(
-        "Temperature for population calculation: ",
-        parsed_args.population_temperature_conformers,
-    )
-    print(
-        f"Conformers with a cumulative population of {parsed_args.population_threshold_conformers} % or below will be printed."
-    )
-print("#" * 80)
+def print_settings(parsed_args):
+    """Print settings from argument parser"""
 
-if (
-    any(
-        [
-            parsed_args.print_ensemble_properties,
+    print("#" * 80)
+    print("*" * 35, "Settings", "*" * 35)
+    print("Input file: ", parsed_args.input)
+    print("Output file: ", parsed_args.output)
+    print("RMSD threshold: ", parsed_args.threshold)
+    print("Symmetry correction: ", parsed_args.no_sym)
+    print("Graph backend: ", parsed_args.backend)
+    print("Strip hydrogens: ", parsed_args.no_strip)
+    print("Center conformers: ", parsed_args.no_center)
+    print("Minimize RMSD: ", parsed_args.no_minimize)
+    print("Print ensemble properties: ", parsed_args.print_ensemble_properties)
+    if parsed_args.connect_atoms:
+        print("Connect atoms: ", parsed_args.connect_atoms)
+    if parsed_args.population_threshold_conformers:
+        print(
+            "Population threshold for conformers: ",
             parsed_args.population_threshold_conformers,
-        ]
-    )
-    and not parsed_args.population_temperature_conformers
-):
-    parser.warning(
-        "Temperature for population calculation is required if ensemble properties are printed or conformers are filtered based on population. The default temperature is 298.15 K"
-    )
+        )
+        print(
+            "Temperature for population calculation: ",
+            parsed_args.population_temperature_conformers,
+        )
+        print(
+            f"Conformers with a cumulative population of {parsed_args.population_threshold_conformers} % or below will be printed."
+        )
+    print("#" * 80)
 
+    if (
+        any(
+            [
+                parsed_args.print_ensemble_properties,
+                parsed_args.population_threshold_conformers,
+            ]
+        )
+        and not parsed_args.population_temperature_conformers
+    ):
+        parsed_args.warning(
+            "Temperature for population calculation is required if ensemble properties are printed or conformers are filtered based on population. The default temperature is 298.15 K"
+        )
+
+
+def coo_to_adjacency_matrix(
+    coo_matrix: np.ndarray, n_atoms: int
+) -> np.ndarray:
+    """Convert COO matrix to adjacency matrix
+
+    Args:
+        coo_matrix (np.ndarray): COO matrix
+        n_atoms (int): number of atoms
+
+    Returns:
+        np.ndarray: adjacency matrix
+    """
+    adjacency_matrix = np.zeros((n_atoms, n_atoms), dtype=np.int8)
+    for i in range(coo_matrix.shape[0]):
+        adjacency_matrix[coo_matrix[i, 0], coo_matrix[i, 1]] = 1
+    return adjacency_matrix
 
 # read conformers from file and create openbabel molecules
-openbabel_mols = BabelMolAdaptor.from_file(parsed_args.input, return_all_molecules=True)
-openbabel_mols = [mol.openbabel_mol for mol in openbabel_mols]
-print("Read ", len(openbabel_mols), " conformers from file")
+def get_conformers(file: str, conn: str=None) -> list[Atoms, np.ndarray]:
+    """Read conformers from file and create openbabel molecules
 
-# convert to pybel molecules
-pybel_mols = [pybel.Molecule(mol) for mol in openbabel_mols]
+    Args:
+        file (str): file with conformers
+        conn (str, optional): list of atom indices to connect with a bond starting at 0. If multiple atoms need to be connected,
+            every other atom index is the atom to connect to. The first atom is the atom to connect
+            from. Example: "0,1,2,3" connects atom 0 to atom 1 and atom 2 to
+            atom 3. Defaults to None, i.e. connectivit is not changed.
 
-# try get energy from pybel molecule
-try:
-    energy_dict = {}
-    for i, mol in enumerate(pybel_mols):
-        energy = float(mol.title.split()[0])
-        # energy = (energy - min_energy) * 627.509
-        energy_dict[i] = float(energy)
-except ValueError:
-    energy_dict = None
+    Returns:
+        list[Atoms, np.ndarray]: list of ASE atoms and adjacency matrices
+    """
+    mols = read(file, ":")
+    adjacency_matrices = []
+    for mol in mols:
+        mol_info = mol.info.keys()
+        energy = float([key for key in mol_info][0])
+        mol.info["energy"] = energy
+        coo_matrix = get_voronoi_neighbourlist(mol, 0.2)
+        if conn is not None:
+            atoms_list = conn.split(",")
+            for i in range(0, len(atoms_list), 2):
+                coo_matrix = np.vstack(
+                    [
+                        coo_matrix,
+                        np.array([int(atoms_list[i]), int(atoms_list[i + 1])]),
+                    ]
+                )
+                coo_matrix = np.vstack(
+                    [
+                        coo_matrix,
+                        np.array([int(atoms_list[i+1]), int(atoms_list[i])]),
+                    ]
+                )
+        ad_matrix = coo_to_adjacency_matrix(coo_matrix, len(mol))
+        adjacency_matrices.append(ad_matrix)
 
-# set spyrmsd backend
-if spyrmsd.get_backend() != parsed_args.backend:
-    spyrmsd.set_backend(parsed_args.backend)
+    return [mols, adjacency_matrices]
 
-# create RMSD matrix and fill it
-rmsd_matrix = np.zeros((len(pybel_mols), len(pybel_mols)))
-print("Use symmetry correction: ", parsed_args.no_sym)
-for i in range(len(pybel_mols)):
-    for j in range(len(pybel_mols)):
-        mol1 = molecule.Molecule.from_obabel(pybel_mols[i])
-        mol2 = molecule.Molecule.from_obabel(pybel_mols[j])
-        x = rmsd.rmsdwrapper(
-            mol1,
-            mol2,
-            symmetry=parsed_args.no_sym,
-            strip=parsed_args.no_strip,
-            center=parsed_args.no_center,
-            minimize=parsed_args.no_minimize,
+
+def get_rmsd_matrix(mols: list[Atoms], adjacency_matrices: list[np.ndarray], **kwargs) -> np.ndarray:
+    """Get RMSD matrix from conformers
+
+    Args:
+        conformers (list[pybel.Molecule]): list of openbabel molecules
+        energy_dict (dict): dictionary with energy values and indices of conformers
+
+    Returns:
+        np.ndarray: RMSD matrix
+    """
+    n_columns = len(mols)
+    spy_mols = []
+    for i in range(n_columns):
+        adjacency_matrix = adjacency_matrices[i]
+        mol = molecule.Molecule(atomicnums=mols[i].get_atomic_numbers(), coordinates=mols[i].get_positions(), adjacency_matrix=adjacency_matrix)
+        spy_mols.append(mol)
+    rmsd_matrix = np.zeros((n_columns, n_columns), dtype=np.float16)
+    for i in range(n_columns):
+        mol = spy_mols[i]
+        result = prmsdwrapper(
+            mol,
+            spy_mols,
+            symmetry=kwargs["no_sym"],
+            strip=kwargs["no_strip"],
+            center=kwargs["no_center"],
+            minimize=kwargs["no_minimize"],
             cache=False,
+            num_workers=kwargs["n_cores"],
         )
-        # print("RMSD between ", i, " and ", j, " is ", x[0])
-        rmsd_matrix[i, j] = x[0]
-max_rmsd = np.max(rmsd_matrix)
-print("Maximum RMSD: ", max_rmsd)
-# find i,j indices where rmsd is less than threshold
-triu_rmsd_matrix = np.triu(rmsd_matrix)
-# get indices of rmsd smaller than threshold, i.e. conformers to delete
-indices_smaller = np.where(
-    (triu_rmsd_matrix < parsed_args.threshold) & (triu_rmsd_matrix > 0)
-)
-# create new dataframe with i,j indices and rmsd values
-df_smaller = pd.DataFrame(
-    {
-        "i": indices_smaller[0],
-        "j": indices_smaller[1],
-        "rmsd": triu_rmsd_matrix[indices_smaller],
-    }
-)
-df_smaller["d_energy"] = df_smaller.apply(
-    lambda x: (energy_dict[x["i"]] - energy_dict[x["j"]]) * 627.5, axis=1
-)
-
-df_smaller.to_csv(parsed_args.output + "_rmsd_matrix.csv", index=False)
-
-# get unique conformers
-filtered_structures = []
-to_delete = set()  # indices of conformers to delete, i.e. conformers below threshold
-for i in range(len(df_smaller)):
-    if df_smaller["i"][i] not in to_delete and df_smaller["j"][i] not in to_delete:
-        to_delete.add(df_smaller["j"][i])
+        rmsd_matrix[i, :] = result
+    print("Maximum RMSD: ", np.max(rmsd_matrix))
+    return rmsd_matrix
 
 
-print(f"Structures to delete: {[str(i) for i in to_delete]}")
-for i in range(len(pybel_mols)):
-    if i not in to_delete:
-        filtered_structures.append(pybel_mols[i])
+def get_to_delete_set(rmsd_matrix: np.ndarray, threshold: float) -> set:
+    """Get set of conformers to delete
 
-print("Number of conformers above RMSD threshold: ", len(filtered_structures))
+    Args:
+        rmsd_matrix (np.ndarray): RMSD matrix
+        threshold (float): RMSD threshold
 
-# write filtered conformers to file
-if os.path.exists(parsed_args.output + ".xyz"):
-    os.remove(parsed_args.output + ".xyz")
-if parsed_args.output[-4:] == ".xyz":
-    parsed_args.output = parsed_args.output[:-4]
-filtered_mol_out = pybel.Outputfile("xyz", parsed_args.output + ".xyz", overwrite=True)
-for mol in filtered_structures:
-    filtered_mol_out.write(mol)
-filtered_mol_out.close()
+    Returns:
+        set: set of conformers to delete
+    """
+    to_delete = set()
+    upper_triangle = np.triu(rmsd_matrix, k=1.0).astype(np.float16)
+    indices_smaller_than_threshold = np.where(
+        (upper_triangle < threshold) & (upper_triangle > 0)
+    )
+    array_smaller = np.array(
+        [indices_smaller_than_threshold[0], indices_smaller_than_threshold[1]],
+        dtype=np.int32,
+    ).T
+    for iter in range(array_smaller.shape[0]):
+        if (
+            array_smaller[iter, 0] not in to_delete
+            and array_smaller[iter, 1] not in to_delete
+        ):
+            to_delete.add(array_smaller[iter, 1])
+    return to_delete
 
-print("Filtered conformers written to ", parsed_args.output + ".xyz")
 
-######## print ensemble properties ########
-if parsed_args.print_ensemble_properties or parsed_args.population_threshold_conformers:
+def get_new_matrix(rmsd_matrix: np.ndarray, to_delete: set) -> np.ndarray:
+    """Get new RMSD matrix
 
-    def get_population(df: pd.DataFrame, temp: float = 298.15) -> pd.DataFrame:
-        """Add total and cumulative population columns to dataframe containing energy values
+    Args:
+        rmsd_matrix (np.ndarray): RMSD matrix
+        to_delete (set): set of conformers to delete
 
-        Args:
-            df (pd.DataFrame): dataframe containing energy values
+    Returns:
+        np.ndarray: new RMSD matrix
+    """
+    # delete rows and columns of indices in to_delete
+    new_matrix = np.delete(rmsd_matrix, list(to_delete), axis=0)
+    new_matrix = np.delete(new_matrix, list(to_delete), axis=1)
+    return new_matrix
 
-        Returns:
-            pd.DataFrame: dataframe extended with population columns
-        """
-        denominator = float()
-        for i in range(len(df)):
-            denominator += np.exp(-df["d_energy_kcal_mol"][i] / (0.0019872041 * 298.15))
-        df["population"] = df["d_energy_kcal_mol"].apply(
-            lambda x: np.exp(-x / (0.0019872041 * temp)) / denominator * 100
-        )
-        df["population"] = df["population"].round(1)
-        df["cumulative_population"] = df["population"].cumsum()
-        return df
 
-    filtered_energy_df = pd.DataFrame(
+def update_mol_list(mol_list: list[Atoms], to_delete: set) -> list[Atoms]:
+    """Update list of molecules
+    Args:
+        mol_list (list[pybel.Molecule]): list of openbabel molecules
+        to_delete (set): set of conformers to delete
+    Returns:
+        list[pybel.Molecule]: updated list of openbabel molecules
+    """
+    new_list = []
+    for i in range(len(mol_list)):
+        if i not in to_delete:
+            new_list.append(mol_list[i])
+    return new_list
+
+
+def get_population(mol_list: list[Atoms], temp: float, threshold: float) -> pd.DataFrame:
+    """Add total and cumulative population columns to dataframe containing energy values
+
+    Args:
+        df (pd.DataFrame): dataframe containing energy values
+
+    Returns:
+        pd.DataFrame: dataframe extended with population columns
+    """
+    df = pd.DataFrame(
         {
-            "energy": [float(mol.title.split()[0]) for mol in filtered_structures],
-            "conformer": [i for i in range(len(filtered_structures))],
+            "energy": [mol.info["energy"] for mol in mol_list],
+            "conformer": [i for i in range(len(mol_list))],
+            "index": [i for i in range(len(mol_list))],
         }
     )
-    filtered_energy_df["d_energy_kcal_mol"] = (
-        filtered_energy_df["energy"].astype(float)
-        - filtered_energy_df["energy"].astype(float).min()
+    df["d_energy_kcal_mol"] = (
+        df["energy"].astype(float)
+        - df["energy"].astype(float).min()
     ) * 627.509
-    filtered_energy_df = get_population(
-        filtered_energy_df, parsed_args.population_temperature_conformers
+    df["population"] = float()
+    df["cumulative_population"] = float()
+    denominator_sum = np.sum(
+        np.exp(-df["d_energy_kcal_mol"] / (0.0019872041 * 298.15))
     )
+    df["population"] = df["d_energy_kcal_mol"].apply(
+        lambda x: np.exp(-x / (0.0019872041 * temp)) / denominator_sum * 100
+    )
+    df["population"] = df["population"].round(1)
+    df["cumulative_population"] = df["population"].cumsum()
+    return df
 
-    filtered_energy_df.to_csv(parsed_args.output + "_ensemble_properties.csv")
-    if parsed_args.population_threshold_conformers:
+
+# main function
+def main():
+
+    args = get_args()
+    print_settings(args)
+    mols, adjacency_matrix = get_conformers(args.input, args.connect_atoms)
+    print("Number of conformers: ", len(mols))
+    rmsd_matrix = get_rmsd_matrix(mols, adjacency_matrix, **vars(args))
+    to_delete = get_to_delete_set(rmsd_matrix, args.threshold)
+    print("Number of conformers to delete: ", len(to_delete))
+    print("Conformers to delete: ", [str(i) for i in to_delete])
+    new_matrix = get_new_matrix(rmsd_matrix, to_delete)
+    # save new matrix as csv
+    np.savetxt(args.output + "filtered_rmsd_matrix.csv", new_matrix, delimiter=",")
+    filtered_structures = update_mol_list(mols, to_delete)
+    print("Number of conformers above RMSD threshold: ", len(filtered_structures))
+    if os.path.exists(args.output + ".xyz"):
+        os.remove(args.output + ".xyz")
+    filtered_mol_out = args.output + ".xyz"
+    for mol in filtered_structures:
+        write(filtered_mol_out, mol, append=True)
+    print("RMSD filtered conformers written to ", args.output + ".xyz")
+
+    if args.population_threshold_conformers:
         # get conformers with cumulative population below/equal to threshold
-        filtered_energy_df = filtered_energy_df[
-            filtered_energy_df["cumulative_population"]
-            <= parsed_args.population_threshold_conformers
-        ]
+        df = get_population(mol_list=filtered_structures, temp=args.population_temperature_conformers, threshold=args.population_threshold_conformers)
+        filtered_energy_df = df[df["cumulative_population"] <= args.population_threshold_conformers]
+        df.to_csv(args.output + f"_ensemble_population{args.population_temperature_conformers}.csv", index=False)
         # get conformers from filtered structures
-        filtered_structures = [
-            filtered_structures[i] for i in filtered_energy_df["conformer"]
-        ]
+        filtered_structures_pop = [filtered_structures[i] for i in filtered_energy_df["index"]]
         print(
             "Number of conformers below cumulative population threshold: ",
-            len(filtered_structures),
+            len(filtered_structures_pop),
         )
         # write filtered conformers to file
         if os.path.exists(
-            parsed_args.output
+            args.output
             + "_populated_conformers_"
-            + str(parsed_args.population_threshold_conformers)
+            + str(args.population_threshold_conformers)
             + ".xyz"
         ):
             os.remove(
-                parsed_args.output
+                args.output
                 + "_populated_conformers_"
-                + str(parsed_args.population_threshold_conformers)
+                + str(args.population_threshold_conformers)
                 + ".xyz"
             )
-        filtered_mol_out = pybel.Outputfile(
-            "xyz",
-            parsed_args.output
-            + "_populated_conformers_"
-            + str(parsed_args.population_threshold_conformers).replace(".", "_")
-            + ".xyz",
-            overwrite=True,
-        )
-        for mol in filtered_structures:
-            filtered_mol_out.write(mol)
-        filtered_mol_out.close()
+        filtered_mol_out = args.output + "_populated_conformers_" + str(args.population_threshold_conformers).replace(".", "_") + ".xyz"
+        for mol in filtered_structures_pop:
+            write(filtered_mol_out, mol, append=True)
         print(
-            "Filtered conformers written to ",
-            parsed_args.output
+            f"RMSD filtered conformers below population threshold @ {args.population_temperature_conformers} written to ",
+            args.output
             + "_populated_conformers_"
-            + str(parsed_args.population_threshold_conformers).replace(".", "_")
+            + str(args.population_threshold_conformers).replace(".", "_")
             + ".xyz",
         )
 
-# else terminate
-else:
-    pass
+
+if __name__ == "__main__":
+    main()
