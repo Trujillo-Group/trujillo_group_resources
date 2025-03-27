@@ -480,9 +480,9 @@ def main():
         "RMSD matrix of filtered conformers written to ",
         args.output + "_filtered_rmsd_matrix.csv",
     )
-    if os.path.exists(args.output + ".xyz"):
-        os.remove(args.output + ".xyz")
     filtered_mol_out = args.output + f"{args.threshold}.xyz"
+    if os.path.exists(filtered_mol_out):
+        os.remove(filtered_mol_out)
     for mol in filtered_structures:
         write(filtered_mol_out, mol, append=True)
     print("RMSD filtered conformers written to ", args.output + ".xyz")
@@ -523,24 +523,14 @@ def main():
             len(filtered_structures_pop),
         )
         # write filtered conformers to file
-        if os.path.exists(
-            args.output
-            + "_populated_conformers_"
-            + str(args.population_threshold_conformers)
-            + ".xyz"
-        ):
-            os.remove(
-                args.output
-                + "_populated_conformers_"
-                + str(args.population_threshold_conformers)
-                + ".xyz"
-            )
         filtered_mol_out = (
             args.output
             + "_populated_conformers_"
             + str(args.population_threshold_conformers).replace(".", "_")
             + ".xyz"
         )
+        if os.path.exists(filtered_mol_out):
+            os.remove(filtered_mol_out)
         for mol in filtered_structures_pop:
             write(filtered_mol_out, mol, append=True)
         print(
