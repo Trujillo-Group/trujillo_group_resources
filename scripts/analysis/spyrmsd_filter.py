@@ -10,115 +10,20 @@
 
 # import modules
 
+from platform import java_ver
 from spyrmsd import molecule, rmsd
+import warnings
 from spyrmsd.parallel import prmsdwrapper
 import numpy as np
 import os
 import pandas as pd
 from ase import Atoms
 from ase.io import read, write
+from ase.data import vdw_radii, atomic_numbers, covalent_radii
 import argparse
 from itertools import product
 from scipy.spatial import Voronoi
 
-
-CORDERO = {
-    "Ac": 2.15,
-    "Al": 1.21,
-    "Am": 1.80,
-    "Sb": 1.39,
-    "Ar": 1.06,
-    "As": 1.19,
-    "At": 1.50,
-    "Ba": 2.15,
-    "Be": 0.96,
-    "Bi": 1.48,
-    "B": 0.84,
-    "Br": 1.20,
-    "Cd": 1.44,
-    "Ca": 1.76,
-    "C": 0.76,
-    "Ce": 2.04,
-    "Cs": 2.44,
-    "Cl": 1.02,
-    "Cr": 1.39,
-    "Co": 1.50,
-    "Cu": 1.32,
-    "Cm": 1.69,
-    "Dy": 1.92,
-    "Er": 1.89,
-    "Eu": 1.98,
-    "F": 0.57,
-    "Fr": 2.60,
-    "Gd": 1.96,
-    "Ga": 1.22,
-    "Ge": 1.20,
-    "Au": 1.36,
-    "Hf": 1.75,
-    "He": 0.28,
-    "Ho": 1.92,
-    "H": 0.31,
-    "In": 1.42,
-    "I": 1.39,
-    "Ir": 1.41,
-    "Fe": 1.52,
-    "Kr": 1.16,
-    "La": 2.07,
-    "Pb": 1.46,
-    "Li": 1.28,
-    "Lu": 1.87,
-    "Mg": 1.41,
-    "Mn": 1.61,
-    "Hg": 1.32,
-    "Mo": 1.54,
-    "Ne": 0.58,
-    "Np": 1.90,
-    "Ni": 1.24,
-    "Nb": 1.64,
-    "N": 0.71,
-    "Os": 1.44,
-    "O": 0.66,
-    "Pd": 1.39,
-    "P": 1.07,
-    "Pt": 1.36,
-    "Pu": 1.87,
-    "Po": 1.40,
-    "K": 2.03,
-    "Pr": 2.03,
-    "Pm": 1.99,
-    "Pa": 2.00,
-    "Ra": 2.21,
-    "Rn": 1.50,
-    "Re": 1.51,
-    "Rh": 1.42,
-    "Rb": 2.20,
-    "Ru": 1.46,
-    "Sm": 1.98,
-    "Sc": 1.70,
-    "Se": 1.20,
-    "Si": 1.11,
-    "Ag": 1.45,
-    "Na": 1.66,
-    "Sr": 1.95,
-    "S": 1.05,
-    "Ta": 1.70,
-    "Tc": 1.47,
-    "Te": 1.38,
-    "Tb": 1.94,
-    "Tl": 1.45,
-    "Th": 2.06,
-    "Tm": 1.90,
-    "Sn": 1.39,
-    "Ti": 1.60,
-    "Wf": 1.62,
-    "U": 1.96,
-    "V": 1.53,
-    "Xe": 1.40,
-    "Yb": 1.87,
-    "Y": 1.90,
-    "Zn": 1.22,
-    "Zr": 1.75,
-}
 
 def get_voronoi_neighbourlist(
     atoms: Atoms,
@@ -135,7 +40,7 @@ def get_voronoi_neighbourlist(
         tolerance (float): Tolerance for second condition.
 
     Returns:
-        np.ndarray: N_edges x 2 array with the connectivity list.
+        np.ndarray: N_edges x 2 array with the connectivity list. COO format.
 
     Notes:
         The array contains all the edges just in one direction!
@@ -168,12 +73,14 @@ def get_voronoi_neighbourlist(
         distance = atoms.get_distance(
             pair[0], pair[1], mic=True
         )  # mic=True for periodic boundary conditions
+        atomic_num_1 = atomic_numbers[atoms[pair[0]].symbol]
+        atomic_num_2 = atomic_numbers[atoms[pair[1]].symbol]
         elem_pair = (atoms[pair[0]].symbol, atoms[pair[1]].symbol)
         fr_elements = frozenset(elem_pair)
         if fr_elements not in dst_d:
             dst_d[fr_elements] = (
-                CORDERO[atoms[pair[0]].symbol] * 1.2
-                + CORDERO[atoms[pair[1]].symbol] * 1.2
+                covalent_radii[atomic_num_1] * 1.2
+                + covalent_radii[atomic_num_2] * 1.2
                 + tolerance
             )
         if distance <= dst_d[fr_elements]:
@@ -182,6 +89,7 @@ def get_voronoi_neighbourlist(
         return np.array([])
     else:
         return np.sort(np.array(pairs_lst), axis=1)
+
 
 # get command line arguments
 def get_args() -> argparse.Namespace:
@@ -199,7 +107,11 @@ def get_args() -> argparse.Namespace:
         default="filtered_conformers",
     )
     parser.add_argument(
-        "--threshold", "-t", type=float, required=True, help="RMSD threshold for filtering"
+        "--threshold",
+        "-t",
+        type=float,
+        required=True,
+        help="RMSD threshold for filtering",
     )
     parser.add_argument(
         "--no_sym", action="store_false", help="Do not use symmetry correction"
@@ -217,14 +129,19 @@ def get_args() -> argparse.Namespace:
         help="Do not strip hydrogens from the conformers",
     )
     parser.add_argument(
-        "--no_center", action="store_false", help="Do not center the conformers at origin"
+        "--no_center",
+        action="store_false",
+        help="Do not center the conformers at origin",
     )
     parser.add_argument(
         "--no_minimize", action="store_false", help="Do not calculate minimum RMSD"
     )
 
     parser.add_argument(
-        "--print_ensemble_properties", "-prop", action="store_true", help="Print ensemble"
+        "--print_ensemble_properties",
+        "-prop",
+        action="store_true",
+        help="Print ensemble",
     )
     parser.add_argument(
         "--population_threshold_conformers",
@@ -243,7 +160,6 @@ def get_args() -> argparse.Namespace:
         default=298.15,
         required=False,
     )
-
 
     parser.add_argument(
         "--connect_atoms",
@@ -266,7 +182,16 @@ def get_args() -> argparse.Namespace:
         required=False,
     )
 
-    return parser.parse_args()
+    parser.add_argument(
+        "--rmsd_mat", action="store_true", help="Store RMSD matrix as csv"
+    )
+
+    parser = parser.parse_args()
+    if parser.connect_atoms is not None:
+        con_atoms = parser.connect_atoms.split(",")
+        assert len(con_atoms) % 2 == 0, "Number of atoms to connect must be even"
+
+    return parser
 
 
 # Print settings
@@ -314,9 +239,7 @@ def print_settings(parsed_args):
         )
 
 
-def coo_to_adjacency_matrix(
-    coo_matrix: np.ndarray, n_atoms: int
-) -> np.ndarray:
+def coo_to_adjacency_matrix(coo_matrix: np.ndarray, n_atoms: int) -> np.ndarray:
     """Convert COO matrix to adjacency matrix
 
     Args:
@@ -331,8 +254,26 @@ def coo_to_adjacency_matrix(
         adjacency_matrix[coo_matrix[i, 0], coo_matrix[i, 1]] = 1
     return adjacency_matrix
 
+
+def get_energy_from_commentline(commentline: str) -> float:
+    import re
+
+    re_pattern = re.compile(r"-?\d+\.\d+")
+    for i in commentline:
+        if re.findall(re_pattern, i):
+            return i
+        else:
+            continue
+    warnings.warn(
+        "No energy value found in comment line. Energy set to 0.0",
+        UserWarning,
+        stacklevel=1,
+    )
+    return 0.0
+
+
 # read conformers from file and create openbabel molecules
-def get_conformers(file: str, conn: str=None) -> list[Atoms, np.ndarray]:
+def get_conformers(file: str, conn: str = None) -> list[Atoms, np.ndarray]:
     """Read conformers from file and create openbabel molecules
 
     Args:
@@ -348,10 +289,9 @@ def get_conformers(file: str, conn: str=None) -> list[Atoms, np.ndarray]:
     mols = read(file, ":")
     adjacency_matrices = []
     for mol in mols:
-        mol_info = mol.info.keys()
-        energy = float([key for key in mol_info][0])
-        mol.info["energy"] = energy
-        coo_matrix = get_voronoi_neighbourlist(mol, 0.2)
+        mol.info["energy"] = get_energy_from_commentline(mol.info.keys())
+        coo_matrix = get_voronoi_neighbourlist(mol, 0.1)
+        # add connectivity from command line
         if conn is not None:
             atoms_list = conn.split(",")
             for i in range(0, len(atoms_list), 2):
@@ -364,7 +304,7 @@ def get_conformers(file: str, conn: str=None) -> list[Atoms, np.ndarray]:
                 coo_matrix = np.vstack(
                     [
                         coo_matrix,
-                        np.array([int(atoms_list[i+1]), int(atoms_list[i])]),
+                        np.array([int(atoms_list[i + 1]), int(atoms_list[i])]),
                     ]
                 )
         ad_matrix = coo_to_adjacency_matrix(coo_matrix, len(mol))
@@ -373,7 +313,9 @@ def get_conformers(file: str, conn: str=None) -> list[Atoms, np.ndarray]:
     return [mols, adjacency_matrices]
 
 
-def get_rmsd_matrix(mols: list[Atoms], adjacency_matrices: list[np.ndarray], **kwargs) -> np.ndarray:
+def get_rmsd_matrix(
+    mols: list[Atoms], adjacency_matrices: list[np.ndarray], **kwargs
+) -> np.ndarray:
     """Get RMSD matrix from conformers
 
     Args:
@@ -387,23 +329,44 @@ def get_rmsd_matrix(mols: list[Atoms], adjacency_matrices: list[np.ndarray], **k
     spy_mols = []
     for i in range(n_columns):
         adjacency_matrix = adjacency_matrices[i]
-        mol = molecule.Molecule(atomicnums=mols[i].get_atomic_numbers(), coordinates=mols[i].get_positions(), adjacency_matrix=adjacency_matrix)
+        mol = molecule.Molecule(
+            atomicnums=mols[i].get_atomic_numbers(),
+            coordinates=mols[i].get_positions(),
+            adjacency_matrix=adjacency_matrix,
+        )
         spy_mols.append(mol)
     rmsd_matrix = np.zeros((n_columns, n_columns), dtype=np.float16)
+
     for i in range(n_columns):
         mol = spy_mols[i]
+        # only calculate lower triangle
+        mols = [spy_mols[j] for j in range(n_columns) if j < i]
+        if len(mols) == 0:
+            continue
         result = prmsdwrapper(
             mol,
-            spy_mols,
+            mols,
             symmetry=kwargs["no_sym"],
             strip=kwargs["no_strip"],
             center=kwargs["no_center"],
             minimize=kwargs["no_minimize"],
             cache=False,
             num_workers=kwargs["n_cores"],
+            chunksize=1,
         )
-        rmsd_matrix[i, :] = result
+        j = len(mols)
+        rmsd_matrix[i, :j] = result
+    # mirror lower triangle to upper triangle
+    rmsd_matrix = rmsd_matrix + rmsd_matrix.T
+
+    if kwargs["rmsd_mat"]:
+        np.savetxt(
+            kwargs["output"] + "_all_rmsd_matrix.csv", rmsd_matrix, delimiter=","
+        )
+        print("RMSD matrix written to rmsd_matrix.csv")
+    print("Minimum RMSD: ", np.min(rmsd_matrix[np.nonzero(rmsd_matrix)]))
     print("Maximum RMSD: ", np.max(rmsd_matrix))
+
     return rmsd_matrix
 
 
@@ -435,8 +398,8 @@ def get_to_delete_set(rmsd_matrix: np.ndarray, threshold: float) -> set:
     return to_delete
 
 
-def get_new_matrix(rmsd_matrix: np.ndarray, to_delete: set) -> np.ndarray:
-    """Get new RMSD matrix
+def update_rmsd_matrix(rmsd_matrix: np.ndarray, to_delete: set) -> np.ndarray:
+    """Delete rows and columns of indices in to_delete
 
     Args:
         rmsd_matrix (np.ndarray): RMSD matrix
@@ -452,7 +415,7 @@ def get_new_matrix(rmsd_matrix: np.ndarray, to_delete: set) -> np.ndarray:
 
 
 def update_mol_list(mol_list: list[Atoms], to_delete: set) -> list[Atoms]:
-    """Update list of molecules
+    """Delete conformers from list
     Args:
         mol_list (list[pybel.Molecule]): list of openbabel molecules
         to_delete (set): set of conformers to delete
@@ -466,7 +429,9 @@ def update_mol_list(mol_list: list[Atoms], to_delete: set) -> list[Atoms]:
     return new_list
 
 
-def get_population(mol_list: list[Atoms], temp: float, threshold: float) -> pd.DataFrame:
+def get_population(
+    mol_list: list[Atoms], temp: float, threshold: float
+) -> pd.DataFrame:
     """Add total and cumulative population columns to dataframe containing energy values
 
     Args:
@@ -483,14 +448,11 @@ def get_population(mol_list: list[Atoms], temp: float, threshold: float) -> pd.D
         }
     )
     df["d_energy_kcal_mol"] = (
-        df["energy"].astype(float)
-        - df["energy"].astype(float).min()
+        df["energy"].astype(float) - df["energy"].astype(float).min()
     ) * 627.509
     df["population"] = float()
     df["cumulative_population"] = float()
-    denominator_sum = np.sum(
-        np.exp(-df["d_energy_kcal_mol"] / (0.0019872041 * 298.15))
-    )
+    denominator_sum = np.sum(np.exp(-df["d_energy_kcal_mol"] / (0.0019872041 * 298.15)))
     df["population"] = df["d_energy_kcal_mol"].apply(
         lambda x: np.exp(-x / (0.0019872041 * temp)) / denominator_sum * 100
     )
@@ -501,34 +463,61 @@ def get_population(mol_list: list[Atoms], temp: float, threshold: float) -> pd.D
 
 # main function
 def main():
-
     args = get_args()
     print_settings(args)
     mols, adjacency_matrix = get_conformers(args.input, args.connect_atoms)
     print("Number of conformers: ", len(mols))
     rmsd_matrix = get_rmsd_matrix(mols, adjacency_matrix, **vars(args))
     to_delete = get_to_delete_set(rmsd_matrix, args.threshold)
+    new_matrix = update_rmsd_matrix(rmsd_matrix, to_delete)
+    filtered_structures = update_mol_list(mols, to_delete)
     print("Number of conformers to delete: ", len(to_delete))
     print("Conformers to delete: ", [str(i) for i in to_delete])
-    new_matrix = get_new_matrix(rmsd_matrix, to_delete)
-    # save new matrix as csv
-    np.savetxt(args.output + "filtered_rmsd_matrix.csv", new_matrix, delimiter=",")
-    filtered_structures = update_mol_list(mols, to_delete)
     print("Number of conformers above RMSD threshold: ", len(filtered_structures))
+    # save new matrix as csv
+    np.savetxt(args.output + "_filtered_rmsd_matrix.csv", new_matrix, delimiter=",")
+    print(
+        "RMSD matrix of filtered conformers written to ",
+        args.output + "_filtered_rmsd_matrix.csv",
+    )
     if os.path.exists(args.output + ".xyz"):
         os.remove(args.output + ".xyz")
-    filtered_mol_out = args.output + ".xyz"
+    filtered_mol_out = args.output + f"{args.threshold}.xyz"
     for mol in filtered_structures:
         write(filtered_mol_out, mol, append=True)
     print("RMSD filtered conformers written to ", args.output + ".xyz")
 
     if args.population_threshold_conformers:
         # get conformers with cumulative population below/equal to threshold
-        df = get_population(mol_list=filtered_structures, temp=args.population_temperature_conformers, threshold=args.population_threshold_conformers)
-        filtered_energy_df = df[df["cumulative_population"] <= args.population_threshold_conformers]
-        df.to_csv(args.output + f"_ensemble_population{args.population_temperature_conformers}.csv", index=False)
+        if len(filtered_structures) == 1:
+            warnings.warn(
+                "Only one conformer left for population analysis. Please adjust "
+                "the RMSD threshold. The population analysis requires at least "
+                "two conformers.",
+                UserWarning,
+                stacklevel=1,
+            )
+            quit()
+        df = get_population(
+            mol_list=filtered_structures,
+            temp=args.population_temperature_conformers,
+            threshold=args.population_threshold_conformers,
+        )
+        filtered_energy_df = df[
+            df["cumulative_population"] <= args.population_threshold_conformers
+        ]
+        df.to_csv(
+            args.output
+            + f"_ensemble_population{args.population_temperature_conformers}.csv",
+            index=False,
+        )
+        print(
+            f"Ensemble properties written to {args.output}_ensemble_population{args.population_temperature_conformers}.csv"
+        )
         # get conformers from filtered structures
-        filtered_structures_pop = [filtered_structures[i] for i in filtered_energy_df["index"]]
+        filtered_structures_pop = [
+            filtered_structures[i] for i in filtered_energy_df["index"]
+        ]
         print(
             "Number of conformers below cumulative population threshold: ",
             len(filtered_structures_pop),
@@ -546,7 +535,12 @@ def main():
                 + str(args.population_threshold_conformers)
                 + ".xyz"
             )
-        filtered_mol_out = args.output + "_populated_conformers_" + str(args.population_threshold_conformers).replace(".", "_") + ".xyz"
+        filtered_mol_out = (
+            args.output
+            + "_populated_conformers_"
+            + str(args.population_threshold_conformers).replace(".", "_")
+            + ".xyz"
+        )
         for mol in filtered_structures_pop:
             write(filtered_mol_out, mol, append=True)
         print(
