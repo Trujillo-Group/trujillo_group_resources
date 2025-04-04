@@ -10,8 +10,7 @@
 
 # import modules
 
-from platform import java_ver
-from spyrmsd import molecule, rmsd
+from spyrmsd import molecule
 import warnings
 from spyrmsd.parallel import prmsdwrapper
 import numpy as np
@@ -19,7 +18,7 @@ import os
 import pandas as pd
 from ase import Atoms
 from ase.io import read, write
-from ase.data import vdw_radii, atomic_numbers, covalent_radii
+from ase.data import atomic_numbers, covalent_radii
 import argparse
 from itertools import product
 from scipy.spatial import Voronoi
