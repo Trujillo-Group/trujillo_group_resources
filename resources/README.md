@@ -61,6 +61,7 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 - **Energy Decomposition Analysis**: [Nine Questions and Answers](https://livrepository.liverpool.ac.uk/3041755/1/eda.pdf) regarding Eenergy Decomposition Analysis.
 - **Dispersion Corrections for DFT**: Stefan Grimme's [Presentation on dispersion corrections](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.researchgate.net/profile/Argenis-Soutelo/post/How_can_I_implement_in_Gaussian_the_Grimmes_dispersion_correction_with_Becke-Johnson_Damping_D3-BJ/attachment/61ba0421d248c650edb927d1/AS%253A1101295452717058%25401639580705241/download/Grimme_pdf.pdf&ved=2ahUKEwiSp5nX9o-GAxVjXUEAHcTyCEkQFnoECBQQAQ&usg=AOvVaw1dXhW_v9yqIxAVs2Fh0ePi), and a recorded [lecture](https://youtu.be/SkZzv2kX5fM?si=6t_-GUdKanW9N-iT)
 - **Journal Club**: [Posters](https://www.grynova-ccc.org/journal-club.html) representing various computational topics for internal presentations in the 'CCC' group led by Dr. Ganna Gryn'ova
+- **Charlotte's Web of DFT**: [Blog](https://rowansci.com/publications/the-charlottes-web-of-dft) by Jonathon Vandezande that looks to explain the foundational principles of DFT, the evolution of exchange–correlation functionals, and the myriad corrections developed to address DFT's limitations.
 
 ### Gaussian
 
