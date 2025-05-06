@@ -9,3 +9,4 @@ This directory contains a collection of scripts that can be used to analyse and 
 - [`mep_jmol`](mep_jmol): Generates a Jmol script for visualising a molecular electrostatic potential (MEP) surface. This script is used in the [MEP tutorial](../../tutorials/MEP/README.md).
 - [`myfunctions.py`](myfunctions.py): Contains a collection of functions used in the two gaussian scripts.
 - [`spyrmsd_filter.py`](spyrmsd_filter.py): Filters conformers based on symmetry corrected RMSD. This script is used in the [CREST tutorial](../../tutorials/CREST/README.md#symmetry-corrected-rmsd).
+- [QTAIM visualisation from multiwfn in a jupyter notebook](https://github.com/jak713/qtaim_vis)
