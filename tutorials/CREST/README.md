@@ -158,25 +158,25 @@ A script that can be used for filtering conformers based on symmetry corrected R
 This script relies on the `spyrmsd`, `numpy`, `pandas`, `pymatgen` and an `openbabel` installation. Consider creating a virtual environment to install the required packages.
 The symmetry mode can be turned off by using the `--no_sym` flag. The script has been tested on the output of CREST and GOAT conformer generation methods. In addition to structure based filtering, the script can also be used to filter conformers based on the Boltzmann distribution of the conformers and for printing the ensemble properties. This allows for selecting those conformers which are most likely to be populated at a given temperature. The population threshold can be set manually using the `--population_threshold_conformers` flag. Hence, the following flags are available:
 ```
-  -h, --help            show this help message and exit
-  --input INPUT, -i INPUT
-                        .xyz file with conformers
-  --output OUTPUT, -o OUTPUT
-                        Name of the output file, format will be .xyz and contains the filtered conformers
-  --threshold THRESHOLD, -t THRESHOLD
-                        RMSD threshold for filtering
-  --backend BACKEND, -b BACKEND for the graph used by spyrmsd, default is rustworkx
-                        Graph backend, e.g. networkx or rustworkx
-  --no_sym              Do not use symmetry correction, by default symmetry correction is used
-  --no_strip            Do not strip hydrogens from the conformers, by default hydrogens are stripped
-  --no_center           Do not center the conformers at origin, by default conformers are centered
-  --no_minimize         Do not calculate minimum RMSD, by default minimum RMSD is calculated
-  --print_ensemble_properties, -prop
-                        Print ensemble
-  --population_threshold_conformers, -pop POPULATION_THRESHOLD_CONFORMERS,  
-                        Conformer structures with cummulative population below this threshold. 
-  --population_temperature_conformers, -temp POPULATION_TEMPERATURE_CONFORMERS
-                        Temperature for population calculation in [K], default is 298.15 K
+-h, --help            show this help message and exit
+--input INPUT, -i INPUT
+                      .xyz file with conformers
+--output OUTPUT, -o OUTPUT
+                      Name of the output file, format will be .xyz and contains the filtered conformers
+--threshold THRESHOLD, -t THRESHOLD
+                      RMSD threshold for filtering
+--backend BACKEND, -b BACKEND for the graph used by spyrmsd, default is rustworkx
+                      Graph backend, e.g. networkx or rustworkx
+--no_sym              Do not use symmetry correction, by default symmetry correction is used
+--no_strip            Do not strip hydrogens from the conformers, by default hydrogens are stripped
+--no_center           Do not center the conformers at origin, by default conformers are centered
+--no_minimize         Do not calculate minimum RMSD, by default minimum RMSD is calculated
+--print_ensemble_properties, -prop
+                      Print ensemble
+--population_threshold_conformers, -pop POPULATION_THRESHOLD_CONFORMERS,  
+                      Conformer structures with cummulative population below this threshold. 
+--population_temperature_conformers, -temp POPULATION_TEMPERATURE_CONFORMERS
+                      Temperature for population calculation in [K], default is 298.15 K
 ```
 
 An example of how to use the script is as follows:
