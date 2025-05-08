@@ -11,10 +11,19 @@
 
 > Only need to do once & on either CSF **not** both
 
-### CSF3
+### CSF3 (SGE)
 
 ```
 qrsh -l short
+module load apps/binapps/anaconda3/2022.10
+conda create -n crest_env python==3.9.13
+conda config -n crest_env --add channels conda-forge
+```
+
+### CSF3 (Slurm)
+
+```
+srun --pty bash
 module load apps/binapps/anaconda3/2022.10
 conda create -n crest_env python==3.9.13
 conda config -n crest_env --add channels conda-forge
@@ -31,13 +40,33 @@ conda config -n crest_env --add channels conda-forge
 
 ## Accessing Crest
 
-### CSF3
+### CSF3 (SGE)
+
+1. Decide on No. of cores
+   Single core:
 
 ```
-qrsh -l short
-module load apps/binapps/anaconda3/2023.09
+srun --pty bash
+```
+
+Multiple cores:
+
+```
+srun -p multicore -n [No. of Cores] --pty bash
+```
+
+2. Load Conda environment
+
+```
+module load apps/binapps/anaconda3/2022.10
 source activate crest_env
 ```
+
+### CSF3 (Slurm)
+
+```
+srun --pty bash
+
 
 ### CSF4
 
