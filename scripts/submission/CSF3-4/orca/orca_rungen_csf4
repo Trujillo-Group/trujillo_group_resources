@@ -6,7 +6,7 @@
 #############################################
 # Author: Tim Renningholtz
 # Date: 27.09.2024
-# Description: This script creates a SLURM runscript for Orca 5.0.4 or 6.0.0-avx2
+# Description: This script creates a SLURM runscript for Orca 5.0.4 or 6.1.0-avx2
 # on the CSF4 cluster.
 
 #### Imports ####
@@ -117,7 +117,7 @@ def get_parser():
     elif args.orca5:
         orca_module = "module load orca/5.0.4-gompi-2021a"
     else:
-        orca_module = "module load rhel apps/binapps/orca/6.0.0-avx2"
+        orca_module = "module load rhel apps/binapps/orca/6.1.0-avx2"
 
     if args.nbo and not args.orca5:
         nbo_module = """module load nbo/7.0.8-i8
@@ -143,7 +143,7 @@ def parse_interactively():
     """Function that parses user input interactively"""
 
     input_file = input("Enter input file name: ")
-    orca_version = input("Which version of ORCA do you want to use? (enter 5 for ORCA 5.0.4 or 6 ORCA 6.0.0-avx2) ")
+    orca_version = input("Which version of ORCA do you want to use? (enter 5 for ORCA 5.0.4 or 6 ORCA 6.1.0-avx2) ")
     if orca_version == "5":
         orca5 = True
     else:
