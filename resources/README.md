@@ -69,9 +69,9 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 
 ### ORCA
 
-- **Orca 6.0 Tutorials**: [Tutorials](https://www.faccts.de/docs/orca/6.0/tutorials/) for getting started with ORCA, its features and basic molecular modeling.
-- **Orca 6.0 Manual**: Clear and thorough [Documentation](https://www.faccts.de/docs/orca/6.0/manual/) for using ORCA and all its available features.
-- **Orca Youtube [Channel](https://www.youtube.com/@orcaquantumchemistry)**: Provides many videos detailing features from ORCA 6.0 release date
+- **Orca 6.1.0 Tutorials**: [Tutorials](https://www.faccts.de/docs/orca/6.1/tutorials/) for getting started with ORCA, its features and basic molecular modeling.
+- **Orca 6.1.0 Manual**: Clear and thorough [Documentation](https://www.faccts.de/docs/orca/6.1/manual/) for using ORCA and all its available features.
+- **Orca Youtube [Channel](https://www.youtube.com/@orcaquantumchemistry)**: Provides videos detailing additional features from ORCA updates
 - **Orca [Forum](https://orcaforum.kofo.mpg.de/index.php)**: For any user-related questions.
 
 ### Organic Chemistry
