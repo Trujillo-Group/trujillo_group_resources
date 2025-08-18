@@ -54,7 +54,7 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 
 ### Density-Functional Theory
 
-- **An Introduction to DFT**: Delve into introductory material [here](https://www.ch.imperial.ac.uk/harrison/Teaching/DFT_NATO.pdf).
+- **An Introduction to DFT**: Delve into introductory material [here]([https://www.ch.imperial.ac.uk/harrison/Teaching/DFT_NATO.pdf](https://www.imperial.ac.uk/media/imperial-college/research-centres-and-groups/computational-materials-science/teaching/DFT_NATO.pdf)).
 - **Best-Practice DFT Protocols**: Explore recommended protocols [here](https://onlinelibrary.wiley.com/doi/10.1002/anie.202205735).
 - **ABCs of DFT**: Understand the basics with this guide [PDF](https://dft.uci.edu/doc/g1.pdf).
 - **EDS Quantification**: Electron-Density Quantification [Tool](https://github.com/Trujillo-Group/EDS_quantification) made by our previous student Dr. Iñigo Iribarren.
