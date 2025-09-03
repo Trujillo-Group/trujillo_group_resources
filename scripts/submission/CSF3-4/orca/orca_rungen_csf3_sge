@@ -2,12 +2,12 @@
 
 
 #############################################
-######## Create Orca SLURM runscript ##########
+######## Create Orca SGE runscript ##########
 #############################################
 # Author: Tim Renningholtz
 # Date: 27.09.2024
-# Description: This script creates a SLURM runscript for Orca 5.0.4 or 6.1.0-avx2
-# on the CSF4 cluster.
+# Description: This script creates a SGE runscript for Orca 5.0.4 or 6.1.0-avx2
+# on the CSF3 cluster.
 
 #### Imports ####
 
@@ -16,8 +16,9 @@ import sys
 import argparse
 import re
 
-
 #### Define functions ####
+
+
 
 def custom_print(string: str, print_type: str = "default") -> str:
     normal = "\u001b[0m"
@@ -26,7 +27,7 @@ def custom_print(string: str, print_type: str = "default") -> str:
         prefix = "\u001b[38;5;33m ℹ️ℹ️"
         new_string = f"{prefix}{normal}\t{string}"
     elif print_type in ["warn", "warning"]:
-        prefix = "\u001b[38;5;220m [ ⚠️] "
+        prefix = "\u001b[38;5;220m ⚠️ "
         new_string = f"{prefix}\t{string}{normal}"
         new_string = f"{prefix}\t{string}{normal}"
     elif print_type in ["done"]:
@@ -42,18 +43,18 @@ def custom_print(string: str, print_type: str = "default") -> str:
         new_string = string
     return new_string
 
+
 #### Create parser ####
 
 def get_parser():
-    """Create parser for command line arguments"""
+    """Function that creates a parser for the command line arguments."""
+
     parser = argparse.ArgumentParser(description="Create Orca slurm runscript")
-    parser.add_argument("-i", "--input", help="Input file name", required=False, type=str)
     parser.add_argument(
-        "-n",
-        "--nodes",
-        help="Number of nodes. multicore=1, multinode>1, serial=0; default=1",
-        default=1,
-        type=int,
+        "-i", "--input", help="Input file name", required=False, type=str
+    )
+    parser.add_argument(
+        "-c", "--cores", help="Number of cores", required=False, type=int
     )
     parser.add_argument(
         "-cpg",
@@ -63,13 +64,13 @@ def get_parser():
         type=int,
         default=1,
     )
-    parser.add_argument("-c", "--cores", help="Number of cores", required=False, type=int, default=1)
     parser.add_argument(
         "-nbo",
         "--nbo",
         help="Request NBO module; needed only if nbo analysis is requested in input file",
         action="store_true",
     )
+    parser.add_argument("-amd", "--amd", help="Run on AMD nodes", action="store_true")
     parser.add_argument(
         "-o5",
         "--orca5",
@@ -79,14 +80,7 @@ def get_parser():
     parser.add_argument(
         "-inter",
         "--interactive",
-        help="Run script interactively",
-        action="store_true",
-        default=False,
-    )
-    parser.add_argument(
-        "-small",
-        "--small",
-        help="Request multicore_small queue (for small jobs, e.g. 2-32 cores)",
+        help="Run interactively; default is to submit job",
         action="store_true",
         default=False,
     )
@@ -97,54 +91,47 @@ def get_parser():
         action="store_true",
         default=False,
     )
-
-
     args = parser.parse_args()
     if not any(vars(args).values()) or args.interactive:
         args = parse_interactively()
 
     #### Check parser arguments ####
 
-    # check if number of nodes is valid
-    if args.nodes > 1 and args.cores > 168:
-        queue = "multinode"
-    elif args.nodes == 1 and args.cores >= 2 and args.cores <= 168 and not args.small:
-        queue = "multicore"
-    elif args.nodes == 1 and args.cores >= 2 and args.cores <= 32 and args.small:
-        queue = "multicore_small"
-    elif args.nodes == 1 and args.cores == 1:
-        queue = "serial"
+    # check if number of cores is valid and assign queue
+    if args.cores > 32 and not args.amd:
+        print(custom_print("Number of cores must be between 1 and 32", "error"))
+        sys.exit()
+    elif args.cores == 1 and not args.amd:
+        queue = "#"
+    elif args.cores > 1 and args.cores <= 32 and not args.amd:
+        queue = "#$ -pe smp.pe"
+    elif args.amd and args.cores > 1 and args.cores <= 168:
+        queue = "#$ -pe amd.pe"
     else:
         print(custom_print("The specified configuration is not supported!", "error"))
         sys.exit()
 
-
     # check orca and nbo modules
     if args.orca5 and args.cores_per_group != 1:
-        print(custom_print("Orca 5 does not support nprocs_group.", "error"))
-        sys.exit()
+        sys.exit(custom_print('Orca 5 does not support nprocs_group', 'error'))
     elif args.orca5:
-        orca_module = "module load orca/5.0.4-gompi-2021a"
+        orca_module = "module load apps/binapps/orca/5.0.4"
     else:
         orca_module = "module load apps/binapps/orca/6.1.0-avx2"
 
     if args.nbo and not args.orca5:
         nbo_module = """module load apps/binapps/nbo/7.0.8-i8
-    export NBOEXE="/opt/software/RI/non-eb/apps/binapps/nbo/7.0.8/bin/nbo7.i8.exe"
-    export GENEXE="/opt/software/RI/non-eb/apps/binapps/nbo/7.0.8/bin/gennbo.i8.exe"
-
-        """
+    export NBOEXE="/opt/apps/apps/binapps/nbo/7.0.8/bin/nbo7.i8.exe"
+    export GENEXE="/opt/apps/apps/binapps/nbo/7.0.8/bin/gennbo.i8.exe"
+    """
     elif args.nbo and args.orca5:
         nbo_module = """module load apps/binapps/nbo/7.0.8-i4
-    export NBOEXE="/opt/software/RI/non-eb/apps/binapps/nbo/7.0.8/bin/nbo7.i4.exe"
-    export GENEXE="/opt/software/RI/non-eb/apps/binapps/nbo/7.0.8/bin/gennbo.i4.exe"
-
-        """
+    export NBOEXE="/opt/apps/apps/binapps/nbo/7.0.8/bin/nbo7.i4.exe"
+    export GENEXE="/opt/apps/apps/binapps/nbo/7.0.8/bin/gennbo.i4.exe"
+    """
     else:
         nbo_module = ""
 
-
-    # no arguments provided or interactive mode is selected get arguments interactively
     return args, queue, orca_module, nbo_module
 
 
@@ -152,17 +139,21 @@ def parse_interactively():
     """Function that parses user input interactively"""
 
     input_file = input("Enter input file name: ")
+
+    # Ask for software version and additional modules
     orca_version = input("Which version of ORCA do you want to use? (enter 5 for ORCA 5.0.4 or 6 ORCA 6.1.0-avx2) ")
     if orca_version == "5":
         orca5 = True
     else:
         orca5 = False
+
     nbo = input("Do you want to use the NBO module? (Y/n) ").capitalize()
     if nbo == "N":
         nbo = False
     else:
         nbo = True
 
+    # get information on parallelism
     parallel = input("Do you want to run the job in parallel? (Y/n) ").capitalize()
     if parallel == "N":
         cores = 1
@@ -184,12 +175,13 @@ def parse_interactively():
     else:
         cores_per_group = 1
 
-    if cores > 40:
-        nodes = int(input("You have selected more than 40 cores. Enter number of nodes: "))
-    elif cores >= 2 and cores <= 40:
-        nodes = 1
-    else:
-        nodes = 1
+    # get information on queue
+    if parallel != "N":
+        amd = input("Do you want to run the job on AMD nodes? (Y/n) ").capitalize()
+        if amd != "N":
+            amd = True
+        else:
+            amd = False
 
     submit = input("Do you want to submit the job? (Y/n) ").capitalize()
     if submit == "N":
@@ -197,24 +189,24 @@ def parse_interactively():
     else:
         submit = True
 
-
-    # create parser arguments
     args = argparse.Namespace(
         input=input_file,
-        nodes=nodes,
         cores=cores,
         cores_per_group=cores_per_group,
         nbo=nbo,
+        amd=amd,
         orca5=orca5,
         interactive=True,
         submit=submit,
     )
 
     return args
+
+
 #### Check cores and memory in input file ####
 
 
-def check_cores_and_mem(input_file: str, c: int, cpg: int) -> None:
+def check_cores_and_mem(input_file: str, c: int, cpg: int, queue) -> None:
     """Function that checks number of cores in input file and adjusts if necessary.
 
     Args:
@@ -227,26 +219,22 @@ def check_cores_and_mem(input_file: str, c: int, cpg: int) -> None:
 
     if int(c) % int(cpg) != 0:
         print(custom_print("Number of cores must be divisible by number of cores per group", "error"))
-        new_cpg = input(custom_print("Re-enter number of cores per group or press any key to exit.", "att"))
-        if new_cpg.isdigit():
-            cpg = int(new_cpg)
-        else:
-            sys.exit()
+        sys.exit()
 
 
     #### Check for maxcore in input file ####
 
-    mem_reg = re.compile(r"\s*\%maxcore\s*(\d+)\n")
+    mem_reg = re.compile(r"\%maxcore\s*(\d+)\n")
     # get line with last keyword line
     try:
         mem = mem_reg.search(lines).group(1)
     except AttributeError:
-        mem = 8192
-        mem_string = f"\n%maxcore {mem}\n\n"
+        mem = 4096
+        mem_string = f"%maxcore {mem}\n\n"
         try:
             first_input_line_reg = re.compile(r"!\s*(.*)")
             first_input_line = first_input_line_reg.findall(lines)[-1]
-            new_string = first_input_line +  mem_string
+            new_string = first_input_line + "\n" + mem_string
             lines = lines.replace(first_input_line, new_string)
             print(custom_print("%maxcore has been added to your input file.", "info"))
         except IndexError:
@@ -260,18 +248,21 @@ def check_cores_and_mem(input_file: str, c: int, cpg: int) -> None:
     #### Adjust maxcore if necessary ####
 
 
-    if int(mem) != 8192:
+    if queue == "#$ -pe amd.pe" and int(mem) != 8192:
         mem = 8192
-        mem_string = f"\n%maxcore {mem}\n\n"
-        lines = re.sub(mem_reg, mem_string, lines)
+        lines = re.sub(mem_reg, f"%maxcore {mem}\n", lines)
         print(custom_print("%maxcore has been set to 8192.", "info"))
+    elif queue != "#$ -pe amd.pe" and int(mem) != 4096:
+        mem = 4096
+        lines = re.sub(mem_reg, f"%maxcore {mem}\n", lines)
+        print(custom_print("%maxcore has been set to 4096.", "info"))
 
 
 
     #### Check if pal block is in input file ####
 
 
-    pal_reg = re.compile(r"\%pal\S*\n?")
+    pal_reg = re.compile(r"\%pal")
     if not pal_reg.search(lines) and args.cores:
         print(
             custom_print(
@@ -289,16 +280,16 @@ def check_cores_and_mem(input_file: str, c: int, cpg: int) -> None:
             if add_pal == "N":
                 sys.exit()
 
-        lines = re.sub(mem_reg, f"\n%maxcore {mem}\n\n%pal\n\nend\n", lines)
+        lines = re.sub(mem_reg, f"%maxcore {mem}\n\n%pal\nend\n", lines)
 
         if not args.orca5:
             lines = re.sub(pal_reg,
-                f"%pal\n\tnprocs {c}\n\tnprocs_group {cpg}\n",
+                f"%pal\n\tnprocs {c}\n\tnprocs_group {cpg}",
                 lines,
             )
             print(custom_print("%pal block has been added to your input file.", "info"))
         else:
-            lines = re.sub(r"\s*\%pal", f"\n%pal\n\tnprocs {c}\n", lines)
+            lines = re.sub(r"\%pal", f"%pal\n\tnprocs {c} ", lines)
 
             print(custom_print("%pal block has been added to your input file.", "info"))
 
@@ -306,7 +297,7 @@ def check_cores_and_mem(input_file: str, c: int, cpg: int) -> None:
     #### Check if nprocs and nprocs_group are in input file ####
 
 
-    cores_reg = re.compile(r"\s*nprocs\s*(\d+)\s*")
+    cores_reg = re.compile(r"\s+nprocs\s*(\d+)\s*")
     try:
         cores = cores_reg.search(lines).group(1)
     except AttributeError:
@@ -323,7 +314,7 @@ def check_cores_and_mem(input_file: str, c: int, cpg: int) -> None:
         lines = re.sub(r"\s*\%pal", f"\n%pal\n\tnprocs {c}\n", lines)
         print(custom_print("nprocs has been added to your input file.", "info"))
         cores = c
-    
+
     cores_per_group_reg = re.compile(r"nprocs_group\s*(\d+)")
     # check if cores per group is in input file
     if not args.orca5 and cpg != 1:
@@ -370,7 +361,7 @@ def check_cores_and_mem(input_file: str, c: int, cpg: int) -> None:
                 sys.exit()
 
         with open(input_file, "w") as f:
-            string1 = re.sub(cores_reg, f"\n\tnprocs {c}\n", lines)
+            string1 = re.sub(cores_reg, f"\n\tnprocs {c} ", lines)
             f.write(re.sub(cores_per_group_reg, f"nprocs_group {cpg}\n", string1))
         print(custom_print("Your input file has been modified.", "info"))
     elif int(cores) != c and args.orca5:
@@ -385,7 +376,7 @@ def check_cores_and_mem(input_file: str, c: int, cpg: int) -> None:
             if change_cores == "N":
                 sys.exit()
         with open(input_file, "w") as f:
-            string1 = re.sub(cores_reg, f"nprocs {c}\n", lines)
+            string1 = re.sub(cores_reg, f"nprocs {c} ", lines)
             f.write(string1)
         print(custom_print("Your input file has been modified.", "info"))
     else:
@@ -394,39 +385,30 @@ def check_cores_and_mem(input_file: str, c: int, cpg: int) -> None:
     return
 
 
+### Create runscript ###
 
-#### Create runscript ####
 
-
-def create_runscript(queue, cores, nodes, input_file, nbo):
+def create_runscript(queue, cores, input_file, nbo):
     script = (
-        """#!/bin/bash --login
-#SBATCH -p {}       # (or --partition=) Parallel job using cores on a single node
-#SBATCH -n {}                # (or --ntasks=) Number of cores (2--40)
-#SBATCH -N {}                # (or --nodes=) Number of nodes
-#SBATCH -t 7-0
-#SBATCH --job-name {}""".format(
-            queue, cores, nodes, input_file.split(".")[0]
-        )
+        f"""#!/bin/bash --login
+#$ -cwd
+{queue} {cores}          # Number of cores (2--32). Must match in your ORCA input file!
+#$ -N {input_file.split(".")[0]}      # Job name"""
         + """
-###########################
-job=${SLURM_JOB_NAME}
-
-job=$(echo ${job%%.*})
-##########################
-
-# Load the modulefile in a clean environment
-module purge"""
-        + "\n"
+module purge """
+        "\n"
         + orca_module
         + "\n"
         + nbo
         + """
 
-export RSH_COMMAND=ssh
+##########################
+job=${JOB_NAME}
+
+job=$(echo ${job%%.*})
 ##########################
 export scratchlocation=/scratch
-
+export RSH_COMMAND=ssh
 if [ ! -d $scratchlocation/$USER ]
 
 then
@@ -435,24 +417,28 @@ then
 
 fi
 ##########################
-tdir=$(mktemp -d $scratchlocation/$USER/orcajob_$SLURM_JOB_ID-XXXX)
+tdir=$(mktemp -d $scratchlocation/$USER/orcajob_$JOB_ID-XXXX)
 
 # Copy only the necessary stuff in submit directory to scratch directory. Add more here if needed.
 
-cp  $SLURM_SUBMIT_DIR/*.inp $tdir/
+cp  $SGE_O_WORKDIR/*.inp $tdir/
 
-cp  $SLURM_SUBMIT_DIR/*.gbw $tdir/
+cp  $SGE_O_WORKDIR/*.gbw $tdir/
 
-cp  $SLURM_SUBMIT_DIR/*.cmp $tdir/
+cp  $SGE_O_WORKDIR/*.mp2nat $tdir/
 
-cp  $SLURM_SUBMIT_DIR/*.hess $tdir/
+cp  $SGE_O_WORKDIR/*.res* $tdir/
 
-cp  $SLURM_SUBMIT_DIR/*xyz $tdir/
+cp  $SGE_O_WORKDIR/*.hess $tdir/
+
+cp  $SGE_O_WORKDIR/*.cmp $tdir/
+
+cp  $SGE_O_WORKDIR/*xyz $tdir/
 #########################
 
 # Creating nodefile in scratch
 
-# echo $SLURM_NODELIST > $tdir/$job.nodes
+# echo $HOSTNAME > $tdir/$job.nodes
 
 # cd to scratch
 
@@ -460,65 +446,62 @@ cd $tdir
 
 # Copy job and node info to beginning of outputfile
 
-echo "Job execution start: $(date)" >>  $SLURM_SUBMIT_DIR/$job.out
+echo "Job execution start: $(date)" >>  $SGE_O_WORKDIR/$job.out
 
-echo "Shared library path: $LD_LIBRARY_PATH" >>  $SLURM_SUBMIT_DIR/$job.out
+echo "Shared library path: $LD_LIBRARY_PATH" >>  $SGE_O_WORKDIR/$job.out
 
-echo "Slurm Job ID is: ${SLURM_JOB_ID}" >>  $SLURM_SUBMIT_DIR/$job.out
+echo "Slurm Job ID is: ${JOB_ID}" >>  $SGE_O_WORKDIR/$job.out
 
-echo "Slurm Job name is: ${SLURM_JOB_NAME}" >>  $SLURM_SUBMIT_DIR/$job.out
+echo "Slurm Job name is: ${JOB_NAME}" >>  $SGE_O_WORKDIR/$job.out
 
-echo $SLURM_NODELIST >> $SLURM_SUBMIT_DIR/$job.out
+echo $HOSTNAME >> $SGE_O_WORKDIR/$job.out
 
 #Start ORCA job. ORCA is started using full pathname (necessary for parallel execution). Output file is written directly to submit directory on frontnode.
 
-$(which orca) $job.inp >  $SLURM_SUBMIT_DIR/$job.out
+$(which orca) $job.inp >  $SGE_O_WORKDIR/$job.out
 
 # ORCA has finished here. Now copy important stuff back (xyz files, GBW files etc.). Add more here if needed.
 
-cp $tdir/*.gbw $SLURM_SUBMIT_DIR
+cp $tdir/*.gbw $SGE_O_WORKDIR
 
-#cp $tdir/*.engrad $SLURM_SUBMIT_DIR
+cp $tdir/*.engrad $SGE_O_WORKDIR
 
-cp $tdir/*.xyz $SLURM_SUBMIT_DIR
+cp $tdir/*.xyz $SGE_O_WORKDIR
 
-cp $tdir/*.loc $SLURM_SUBMIT_DIR
+cp $tdir/*.loc $SGE_O_WORKDIR
 
-cp $tdir/*.qro $SLURM_SUBMIT_DIR
+cp $tdir/*.qro $SGE_O_WORKDIR
 
-cp $tdir/*.uno $SLURM_SUBMIT_DIR
+cp $tdir/*.uno $SGE_O_WORKDIR
 
-cp $tdir/*.unso $SLURM_SUBMIT_DIR
+cp $tdir/*.unso $SGE_O_WORKDIR
 
-cp $tdir/*.uco $SLURM_SUBMIT_DIR
+cp $tdir/*.uco $SGE_O_WORKDIR
 
-cp $tdir/*.hess $SLURM_SUBMIT_DIR
+cp $tdir/*.hess $SGE_O_WORKDIR
 
-cp $tdir/*.cis $SLURM_SUBMIT_DIR
+cp $tdir/*.cis $SGE_O_WORKDIR
 
-cp $tdir/*.dat $SLURM_SUBMIT_DIR
+cp $tdir/*.dat $SGE_O_WORKDIR
 
-cp $tdir/*.mp2nat $SLURM_SUBMIT_DIR
+cp $tdir/*.mp2nat $SGE_O_WORKDIR
 
-cp $tdir/*.nat $SLURM_SUBMIT_DIR
+cp $tdir/*.nat $SGE_O_WORKDIR
 
-cp $tdir/*.scfp_fod $SLURM_SUBMIT_DIR
+cp $tdir/*.scfp_fod $SGE_O_WORKDIR
 
-#cp $tdir/*.densit* $SLURM_SUBMIT_DIR
+cp $tdir/*.densit* $SGE_O_WORKDIR
 
-cp $tdir/*.nbo $SLURM_SUBMIT_DIR
+cp $tdir/*.nbo $SGE_O_WORKDIR
 
-cp $tdir/FILE.47 $SLURM_SUBMIT_DIR
+cp $tdir/FILE.47 $SGE_O_WORKDIR
 
-cp $tdir/*property.txt $SLURM_SUBMIT_DIR
+cp $tdir/*.json* $SGE_O_WORKDIR
 
-cp $tdir/*.json* $SLURM_SUBMIT_DIR
+cp $tdir/*property.txt $SGE_O_WORKDIR
 
-cp $tdir/*json* $SLURM_SUBMIT_DIR
-
-cp $tdir/*.err $SLURM_SUBMIT_DIR
-
-cp $tdir/*spin* $SLURM_SUBMIT_DIR"""
+cp $tdir/*spin* $SGE_O_WORKDIR
+"""
     )
     return script
 
@@ -532,29 +515,28 @@ if __name__ == "__main__":
 
     # check if input file exists
     if not os.path.isfile(args.input):
-        print(custom_print("Input file does not exist.", "error"))
+        print(custom_print("Input file does not exist", "error"))
         sys.exit()
     # if input file exists, create slurm runscript and adjust number of cores
     else:
         # check if number of cores in input file matches number of cores specified
-        check_cores_and_mem(args.input, args.cores, args.cores_per_group)
+        check_cores_and_mem(args.input, args.cores, args.cores_per_group, queue)
         with open("run.sh", "w") as f:
-            f.write(create_runscript(queue, args.cores, args.nodes, args.input, nbo_module))
-        print(custom_print("Runscript has been created.", "done"))
+            f.write(create_runscript(queue, args.cores, args.input, nbo_module))
 
         if not args.interactive and args.submit:
-            os.system("sbatch run.sh")
+            os.system("qsub run.sh")
             print(custom_print("Job has been submitted.", "done"))
         elif args.interactive and not args.submit:
             print(custom_print("Runscript has been created. Please check it before submitting the job.", "done"))
             submit = input(custom_print("Do you want to submit the job? (Y/n) now?", "att")).capitalize()
             if submit == "Y":
-                os.system("sbatch run.sh")
+                os.system("qsub run.sh")
                 print(custom_print("Job has been submitted.", "done"))
             else:
                 sys.exit()
         elif args.interactive and args.submit:
-            os.system("sbatch run.sh")
+            os.system("qsub run.sh")
             print(custom_print("Job has been submitted.", "done"))
         else:
             sys.exit()
