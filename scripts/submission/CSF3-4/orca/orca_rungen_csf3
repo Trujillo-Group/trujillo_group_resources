@@ -64,6 +64,7 @@ def get_parser():
         default=1,
     )
     parser.add_argument("-c", "--cores", help="Number of cores", required=False, type=int, default=1)
+    parser.add_argument("-t", "--time", help="Number of Days", required=False, type=int, default=7)
     parser.add_argument(
         "-nbo",
         "--nbo",
@@ -118,6 +119,10 @@ def get_parser():
         print(custom_print("The specified configuration is not supported!", "error"))
         sys.exit()
 
+    # check if number of days is valid
+    if args.time < 0 or args.time > 7:
+        print(custom_print("Time must be between 1 and 7 days!", "error"))
+        sys.exit()
 
     # check orca and nbo modules
     if args.orca5 and args.cores_per_group != 1:
@@ -398,15 +403,15 @@ def check_cores_and_mem(input_file: str, c: int, cpg: int) -> None:
 #### Create runscript ####
 
 
-def create_runscript(queue, cores, nodes, input_file, nbo):
+def create_runscript(queue, cores, nodes, time, input_file, nbo):
     script = (
         """#!/bin/bash --login
 #SBATCH -p {}       # (or --partition=) Parallel job using cores on a single node
 #SBATCH -n {}                # (or --ntasks=) Number of cores (2--40)
 #SBATCH -N {}                # (or --nodes=) Number of nodes
-#SBATCH -t 7-0
+#SBATCH -t {}-0
 #SBATCH --job-name {}""".format(
-            queue, cores, nodes, input_file.split(".")[0]
+            queue, cores, nodes, time, input_file.split(".")[0]
         )
         + """
 ###########################
@@ -539,7 +544,7 @@ if __name__ == "__main__":
         # check if number of cores in input file matches number of cores specified
         check_cores_and_mem(args.input, args.cores, args.cores_per_group)
         with open("run.sh", "w") as f:
-            f.write(create_runscript(queue, args.cores, args.nodes, args.input, nbo_module))
+            f.write(create_runscript(queue, args.cores, args.nodes, args.time, args.input, nbo_module))
         print(custom_print("Runscript has been created.", "done"))
 
         if not args.interactive and args.submit:
