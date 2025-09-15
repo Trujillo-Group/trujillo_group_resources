@@ -1,7 +1,7 @@
 # ORCA submission scripts for CSF3/4
 # ================================
-Here are two python scripts that can be use as-they-are on CSF3/4 for creating and submitting ORCA jobs. Place the scripts in the same directory as your ORCA input file and run them from there, or place them in a directory that is in your PATH variable (e.g your ```bin``` in your csf3/4 home directory). Running the ```orca_rungen``` script will create a submission script named ```run.sh```. This script can be submitted to the slurm workload manager on CSF3/4.
-The settings regarding the CSF configuration and ORCA version/additional software can be passed as arguments to the scripts. You can run the script in an interactive mode by running it with the ```-inter```/```--interactive``` flag. The submission script will apply the settings to the ORCA input file and submit the job to the respective queue, depending on the chosen configuration.
+This python script can be use as-is on CSF3/4 for creating and submitting ORCA jobs. Place the script in the same directory as your ORCA input file and run it from there, or place it in a directory that is in your PATH variable (e.g your ```bin``` in your csf3/4 home directory). Running the ```orca_rungen``` script will create a submission script named ```run.sh```. This script can be submitted to the slurm workload manager on CSF3/4.
+The settings regarding the CSF configuration and ORCA version/additional software can be passed as arguments to the script. You can run the script in an interactive mode by running it with the ```-inter```/```--interactive``` flag. The submission script will apply the settings to the ORCA input file and submit the job to the respective queue, depending on the chosen configuration.
 
 #### Available options:
 ```bash
