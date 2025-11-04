@@ -46,10 +46,17 @@ def custom_print(string: str, print_type: str = "default") -> str:
 #### Create parser ####
 
 
-def validate_queue_config(cores: int, nodes: int, host: str = None) -> str:
+def validate_queue_config(cores: int, nodes: int, host: str = None, small: bool = False) -> str:
     """Validate and determine queue type based on cores, nodes, and host."""
     # Default to CSF4 limits if host not specified
-    max_cores = 168 if host == "csf3" else 40
+    if small and host == "csf4":
+        raise ValueError("CSF4 doesn't have a small queue!")
+    elif small and host == "csf3":
+        max_cores = 32
+    elif not small and host == "csf3":
+        max_cores = 168
+    else:
+        max_cores = 40
 
     if nodes > 1:
         if cores > max_cores:
@@ -152,6 +159,13 @@ def get_parser():
         "--orca5",
         help="Request Orca 5 module; default is Orca6",
         action="store_true",
+    )
+    parser.add_argument(
+        "-small",
+        "--small",
+        help="Submit to small queue",
+        action="store_true",
+        default=False,
     )
     parser.add_argument(
         "-inter",
@@ -722,7 +736,7 @@ if __name__ == "__main__":
 
     # Validate queue configuration now that we know the host
     try:
-        queue = validate_queue_config(args.cores, args.nodes, host)
+        queue = validate_queue_config(args.cores, args.nodes, host, args.small)
     except ValueError as e:
         print(custom_print(str(e), "error"))
         sys.exit()
