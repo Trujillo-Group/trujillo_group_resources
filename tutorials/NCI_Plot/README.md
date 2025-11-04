@@ -41,8 +41,8 @@ The next steps are very user-dependant. I have included the exact pathways for t
 
 ### VMD Steps
 
-6. Copy `func1.cub` and `func2.cub` over to `/Applications/VMD\ 2.0.0a7-pre2.app/Contents/MacOS//Applications/VMD\ 2.0.0a7-pre2.app/Contents/MacOS/`
-7. Execute `/Applications/VMD\ 2.0.0a7-pre2.app/Contents/MacOS//Applications/VMD\ 2.0.0a7-pre2.app/Contents/MacOS/VMDlauncher`
+6. Copy `func1.cub` and `func2.cub` over to `/Applications/VMD\ 2.0.0a7-pre2.app/Contents/MacOS/`
+7. Execute `/Applications/VMD\ 2.0.0a7-pre2.app/Contents/MacOS/VMDlauncher`
 8. In VMD terminal run cd `/Applications/VMD\ 2.0.0a7-pre2.app/Contents/MacOS/`
 9. In VMD terminal run `source /Applications/VMD\ 2.0.0a7-pre2.app/Contents/MacOS/RDGfill.vmd`
 
