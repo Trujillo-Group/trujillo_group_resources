@@ -33,7 +33,7 @@ Following steps required only if you have not defined orca_2mklpath in settings.
 
    - Using Multiwfn: `multiwfn filename.molden` --> Select option 19 (Generate wavefunction file) --> Select option 4 (.wfx format)
 
-5. Use Multiwfn to generate NCI plot (20 1 3)
+5. Use Multiwfn to generate NCI plot (20 1 3 3 0 0)
    - Use High-Quality Grid when possible.
    - Important files are `func1.cub` and `func2.cub`
 
