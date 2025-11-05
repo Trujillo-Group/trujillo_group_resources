@@ -43,7 +43,7 @@ The next steps are very user-dependant. I have included the exact pathways for t
 
 6. Copy `func1.cub` and `func2.cub` over to `/Applications/VMD\ 2.0.0a7-pre2.app/Contents/MacOS/`
 7. Execute `/Applications/VMD\ 2.0.0a7-pre2.app/Contents/MacOS/VMDlauncher`
-8. In VMD terminal run cd `/Applications/VMD\ 2.0.0a7-pre2.app/Contents/MacOS/`
+8. In VMD terminal run `cd /Applications/VMD\ 2.0.0a7-pre2.app/Contents/MacOS/`
 9. In VMD terminal run `source /Applications/VMD\ 2.0.0a7-pre2.app/Contents/MacOS/RDGfill.vmd`
 
 If having issues with reading the .cub files, make sure they are named func1.cub and func2.cub and in the folder you are in, where the RDGfill.vmd script is and VMDlauncher.exe
