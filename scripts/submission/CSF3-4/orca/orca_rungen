@@ -66,7 +66,9 @@ def validate_queue_config(cores: int, nodes: int, host: str = None, small: bool 
             # but we'll allow it
             return "multinode"
     elif nodes == 1:
-        if cores >= 2 and cores <= max_cores:
+        if cores >= 2 and cores <= max_cores and small:
+            return "multicore_small"
+        elif cores >=2 and cores <= max_cores and not small:
             return "multicore"
         elif cores == 1:
             return "serial"
@@ -303,9 +305,19 @@ def check_cores_and_mem(input_file: str, cores: int, cpg: int, host: str,
             cpg = int(new_cpg)
         else:
             sys.exit()
+    # Validate cores per group integer
+    elif int(cpg) < 1:
+        print(custom_print("Number of cores per group must be "
+                          "positive", "error"))
+        new_cpg = input(custom_print("Re-enter number of cores per group "
+                                   "or press any key to exit.", "att"))
+        if new_cpg.isdigit():
+            cpg = int(new_cpg)
+        else:
+            sys.exit()
 
     # Handle maxcore settings
-    lines = _handle_maxcore_settings(lines, host)
+    lines = _handle_maxcore_settings(lines, host, args.small)
 
     # Handle PAL block settings
     lines = _handle_pal_block(lines, cores, cpg, args, host)
@@ -318,10 +330,15 @@ def check_cores_and_mem(input_file: str, cores: int, cpg: int, host: str,
         f.write(lines)
 
 
-def _handle_maxcore_settings(lines: str, host: str) -> str:
+def _handle_maxcore_settings(lines: str, host: str, small: bool) -> str:
     """Handle maxcore settings based on host type."""
     # Determine target memory based on host
-    target_mem = 4600 if host == "csf4" else 8196
+    if host == "csf4":
+        target_mem = 3680 # 4600MB * 0.8 as suggested by ORCA --> Avoids OOM issues
+    elif host == "csf3" and small:
+        target_mem = 4916 # 6144MB * 0.8 as suggested by ORCA --> Avoids OOM issues
+    else: 
+        target_mem = 6554 # 8192MB * 0.8 as suggested by ORCA --> Avoids OOM issues   
 
     # Find ALL maxcore occurrences
     mem_reg = re.compile(r"\s*\%maxcore\s*(\d+)\n")
@@ -770,3 +787,4 @@ if __name__ == "__main__":
             print(custom_print("Job has been submitted.", "done"))
         else:
             sys.exit()
+
