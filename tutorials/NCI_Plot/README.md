@@ -49,4 +49,4 @@ The next steps are very user-dependant. I have included the exact pathways for t
 If having issues with reading the .cub files, make sure they are named func1.cub and func2.cub and in the folder you are in, where the RDGfill.vmd script is and VMDlauncher.exe
 
 (Optional)
-For some reason VMD uses cyan for the colour of carbon. To change this, you need to select the the relevant label for your molecule (This is typically the row which has a CPK style in your VMD main window). Then you must select `Display > Background > More Colours...` and select `Type` in `Categories` followed by `C` in `Names`, then whatever colour you want from the `Colors` tab (recommended: `2 Gray`).
+For some reason VMD uses cyan for the colour of carbon. To change this, you need to select the the relevant label for your molecule (This is typically the row which has a CPK style in your VMD main window). Then you must select `Display > Background > More Colours...` and select `Type` in `Categories` followed by `C` in `Names`, then whatever colour you want from the `Colors` tab (recommended: `2 Gray`). Ensure `Color` is selected to be represented based off `Type` in the VMD main window.
