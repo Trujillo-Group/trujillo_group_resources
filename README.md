@@ -84,20 +84,20 @@ In the appropriate directory/subdirectory in the repo - `Add file` --> `Upload f
 ## Tasks
 ### 2024
 **Tutorials**
+- [ ] Conformational Searches (@JamesOBrien02)
 - [ ] How to calculate redox potentials (@tire98 | @JamesOBrien02)
 - [ ] Minimum-Energy Crossing Points (@tire98 | @JamesOBrien02)
 
 **Resources**
 - [ ] Add Link for Benchmark Papers (@tire98 | @JamesOBrien02)
 - [ ] Add Link for Methodology Papers (@tire98 | @JamesOBrien02)
-- [ ] Add examples for each Gaussian Error (@JamesOBrien02 | @jak713 | @Diana-Bura)
+- [X] <del>Add examples for each Gaussian Error (@JamesOBrien02 | @jak713 | @Diana-Bura)</del>
 
 **Scripts**
 - [x] <del>Update sub_csf3 to include AMD cores (@tire98)</del>
 - [x] <del>Update ORCA submission scripts for ORCA 6.0.0 (@tire98)</del>
-- [ ] Workflow Manager (@tire98 | @JamesOBrien02)
 
-## Repo Day
+## Good Practices for the Repository!
 1. Clean up Repo.
 2. Suggest/Add wanted scripts or tutorials.
 3. Check over tutorials.
