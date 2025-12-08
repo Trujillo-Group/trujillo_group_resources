@@ -15,6 +15,7 @@ Firstly, it is **mandatory** for members of the group to familiarise themselves 
 Secondly the [Getting Started](tutorials/getting_started) section is highly recommended for new members. Particularly the **guidelines for good practice**.
 
 # Resources
+
 - **[Guidelines for Conduct](docs/guidelines)**
 - **[Basic UNIX Commands](tutorials/getting_started/basic_linux.md)**
 - **[Basic VI](tutorials/getting_started/basic_vi.md)**
@@ -27,45 +28,48 @@ Secondly the [Getting Started](tutorials/getting_started) section is highly reco
 - **[Submission Workflows](resources/workflows/README.md)**
 
 # Tutorials
+
 - **[Your first Gaussian optimisation](tutorials/gaussian_submission/README.md)**
 - **[Your first Reaction Path](tutorials/gaussian_submission/SN2_tutorial/README.md)**
 - **[Transition State Searching](tutorials/TS/README.md)**
 - **[MEP](tutorials/MEP/README.md)**
 - **[CREST](tutorials/CREST/README.md)**
 - **[NBO](tutorials/NBO/README.md)**
+- **[NCI Plot](tutorials/NCI_Plot/README.md)**
 - **[AIMAll](tutorials/AIMAll/README.md)**
 
 # Directories Overview
 
 ```
-├── scripts                   
+├── scripts
 |    ├── submission           Submission scripts for CSF3/4 and ICHEC
 |    └── analysis             Scripts for quick assessment of calculation
-├── resources                 
+├── resources
 |    ├── Image Formats        Information on image formatting
 |    ├── Web Resources        Lots of information from DFT to visualisation tools
 |    ├── Software Treats      Various packages to improve quality of life in the terminal
 |    └── Gaussian Errors      Guide to reading the "flawless" Gaussian output files
-└──tutorials                    
+└──tutorials
      ├── Getting Started      Various guides for first time setups
      ├── Gaussian Submission  Step by step guide submitted calculations using Gaussian
      ├── TS                   Step by step guide to finding Transition States
      ├── MEP                  Step by step MEP with Gaussian, MultiWFN & Jmol
      ├── CREST                Step by step Conformational Search tutorial with CREST
      ├── AIMAll               Step by step Atoms-In-Molecules tutorial with AIMAll & Gaussian
+     ├── NCI Plot             Step by step tutorial for visualisation of NCI plots with VMD
      └── NBO                  Step by step Non-Bonding Orbitals tutorial with Gaussian
 ```
 
 ## Guidelines for Uploading Scripts
 
 When uploading scripts to the repository, ensure they are user-friendly and meet the following criteria:
+
 1. **Functionality**: The script must work and be up-to-date.
 2. **Documentation**: Include docstrings and comments to assist users.
 3. **Readability**: Follow the PEP-8 style guide for Python scripts ([link](https://peps.python.org/pep-0008/)).
 4. **Generality**: The script should be applicable in various scenarios related to its purpose.
 5. **Security**: Avoid including sensitive data (API keys, passwords, usernames, etc.).
 6. **Attribution**: Provide information about authorship and the date of creation.
-
 
 ## How to upload files
 
@@ -77,27 +81,33 @@ In the appropriate directory/subdirectory in the repo - `Add file` --> `Upload f
 
 1. Clone the repository - `git clone git@github.com:Trujillo-Group/General.git`.
 
-2. Enter the repo and add the file you want to add. 
+2. Enter the repo and add the file you want to add.
 
 3. From the root of the repo, type - `git add *` , `git commit -m "added file / changed file for X reason"`, `git push origin main`.
 
 ## Tasks
+
 ### 2024
+
 **Tutorials**
+
 - [ ] Conformational Searches (@JamesOBrien02)
 - [ ] How to calculate redox potentials (@tire98 | @JamesOBrien02)
 - [ ] Minimum-Energy Crossing Points (@tire98 | @JamesOBrien02)
 
 **Resources**
+
 - [ ] Add Link for Benchmark Papers (@tire98 | @JamesOBrien02)
 - [ ] Add Link for Methodology Papers (@tire98 | @JamesOBrien02)
-- [X] <del>Add examples for each Gaussian Error (@JamesOBrien02 | @jak713 | @Diana-Bura)</del>
+- [x] <del>Add examples for each Gaussian Error (@JamesOBrien02 | @jak713 | @Diana-Bura)</del>
 
 **Scripts**
+
 - [x] <del>Update sub_csf3 to include AMD cores (@tire98)</del>
 - [x] <del>Update ORCA submission scripts for ORCA 6.0.0 (@tire98)</del>
 
 ## Good Practices for the Repository!
+
 1. Clean up Repo.
 2. Suggest/Add wanted scripts or tutorials.
 3. Check over tutorials.
