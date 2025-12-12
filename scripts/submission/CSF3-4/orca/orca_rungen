@@ -16,6 +16,7 @@ import sys
 import argparse
 import re
 import socket
+import subprocess
 
 
 #### Define functions ####
@@ -46,40 +47,51 @@ def custom_print(string: str, print_type: str = "default") -> str:
 #### Create parser ####
 
 
-def validate_queue_config(cores: int, nodes: int, host: str = None, small: bool = False) -> str:
-    """Validate and determine queue type based on cores, nodes, and host."""
+def validate_queue_config(cores: int, nodes: int, partition: str, host: str = None) -> None:
+    """Validate that partition choice makes sense for cores and nodes configuration.
+
+    Args:
+        cores: Number of cores requested
+        nodes: Number of nodes requested
+        partition: User-specified partition (serial, multicore, or multinode)
+        host: Host system (csf3 or csf4)
+
+    Raises:
+        ValueError: If partition doesn't match the configuration
+    """
     # Default to CSF4 limits if host not specified
-    if small and host == "csf4":
-        raise ValueError("CSF4 doesn't have a small queue!")
-    elif small and host == "csf3":
-        max_cores = 32
-    elif not small and host == "csf3":
-        max_cores = 168
-    else:
-        max_cores = 40
+    max_cores = 168 if host == "csf3" else 40
+    max_cores = 32 if host == "csf3" and partition == "multicore_small" else (168 if host == "csf3" else 40)
 
+    # Validate node configuration first
+    if nodes < 1:
+        raise ValueError("Invalid node configuration! Must request at least 1 node.")
+
+    # Check if cores exceed single node limit
+    if nodes == 1 and cores > max_cores:
+        raise ValueError(f"Cannot run {cores} cores on single node. "
+                       f"Maximum for {host or 'this cluster'} is {max_cores}. "
+                       f"Use multiple nodes or reduce core count.")
+
+    # Validate partition matches configuration
     if nodes > 1:
-        if cores > max_cores:
-            return "multinode"
-        else:
-            # Multi-node with cores within single node limit might not make sense
-            # but we'll allow it
-            return "multinode"
+        if partition != "multinode":
+            raise ValueError(f"Configuration requires multinode partition "
+                           f"({nodes} nodes requested), but '{partition}' partition specified. "
+                           f"Use --partition multinode or -p multinode")
     elif nodes == 1:
-        if cores >= 2 and cores <= max_cores and small:
-            return "multicore_small"
-        elif cores >=2 and cores <= max_cores and not small:
-            return "multicore"
-        elif cores == 1:
-            return "serial"
-        elif cores > max_cores:
-            raise ValueError(f"Cannot run {cores} cores on single node. "
-                           f"Maximum for {host or 'this cluster'} is {max_cores}. "
-                           f"Use multiple nodes.")
-    else:
-        raise ValueError("Invalid node configuration!")
-
-    return "multicore"  # fallback
+        if cores == 1:
+            if partition != "serial":
+                raise ValueError(f"Configuration with 1 core should use serial partition, "
+                               f"but '{partition}' partition specified. "
+                               f"Use --partition serial or -p serial")
+        elif cores >= 2 and cores <= max_cores:
+            if "multicore" not in partition:
+                raise ValueError(f"Configuration with {cores} cores on 1 node should use multicore partition, "
+                               f"but '{partition}' partition specified. "
+                               f"Use --partition multicore or -p multicore")
+        else:
+            raise ValueError(f"Invalid core configuration: {cores} cores on 1 node.")
 
 
 def get_orca_nbo_modules(use_orca5: bool, use_nbo: bool, host: str) -> tuple[str, str]:
@@ -149,6 +161,14 @@ def get_parser():
         type=int,
         default=1,
     )
+    parser.add_argument(
+        "-p",
+        "--partition",
+        help="Partition to run calculation on",
+        required=False,
+        type=str,
+        default="multicore",
+    )
     parser.add_argument("-c", "--cores", help="Number of cores", required=False, type=int, default=1)
     parser.add_argument(
         "-nbo",
@@ -161,13 +181,6 @@ def get_parser():
         "--orca5",
         help="Request Orca 5 module; default is Orca6",
         action="store_true",
-    )
-    parser.add_argument(
-        "-small",
-        "--small",
-        help="Submit to small queue",
-        action="store_true",
-        default=False,
     )
     parser.add_argument(
         "-inter",
@@ -305,19 +318,9 @@ def check_cores_and_mem(input_file: str, cores: int, cpg: int, host: str,
             cpg = int(new_cpg)
         else:
             sys.exit()
-    # Validate cores per group integer
-    elif int(cpg) < 1:
-        print(custom_print("Number of cores per group must be "
-                          "positive", "error"))
-        new_cpg = input(custom_print("Re-enter number of cores per group "
-                                   "or press any key to exit.", "att"))
-        if new_cpg.isdigit():
-            cpg = int(new_cpg)
-        else:
-            sys.exit()
 
     # Handle maxcore settings
-    lines = _handle_maxcore_settings(lines, host, args.small)
+    lines = _handle_maxcore_settings(lines, host, args)
 
     # Handle PAL block settings
     lines = _handle_pal_block(lines, cores, cpg, args, host)
@@ -330,15 +333,12 @@ def check_cores_and_mem(input_file: str, cores: int, cpg: int, host: str,
         f.write(lines)
 
 
-def _handle_maxcore_settings(lines: str, host: str, small: bool) -> str:
+def _handle_maxcore_settings(lines: str, host: str, args) -> str:
     """Handle maxcore settings based on host type."""
     # Determine target memory based on host
-    if host == "csf4":
-        target_mem = 3680 # 4600MB * 0.8 as suggested by ORCA --> Avoids OOM issues
-    elif host == "csf3" and small:
-        target_mem = 4916 # 6144MB * 0.8 as suggested by ORCA --> Avoids OOM issues
-    else: 
-        target_mem = 6554 # 8192MB * 0.8 as suggested by ORCA --> Avoids OOM issues   
+    target_mem = 4600 if host == "csf4" else 8196
+    if host == "csf3" and args.partition == "multicore_small":
+        target_mem = 4600
 
     # Find ALL maxcore occurrences
     mem_reg = re.compile(r"\s*\%maxcore\s*(\d+)\n")
@@ -597,9 +597,46 @@ def _handle_nprocs_settings(lines: str, cores: int, cpg: int, args) -> str:
 
 
 #### Create runscript ####
+def get_cores_per_socket(partition: str, host: str) -> int:
+    """Query SLURM to determine cores per socket for given partition.
+
+    Returns: cores per socket, or 0 if unable to determine
+    """
+    try:
+        # Query SLURM for node configuration
+        cmd = f"sinfo -p {partition} -o '%c %X' -h | head -n 1"
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=5)
+
+        if result.returncode == 0 and result.stdout.strip():
+            # Parse output: first column is cores, second is sockets
+            parts = result.stdout.strip().split()
+            if len(parts) >= 2:
+                total_cores = int(parts[0])
+                sockets = int(parts[1])
+                return total_cores // sockets if sockets > 0 else 0
+    except (subprocess.TimeoutExpired, ValueError, Exception):
+        pass
+
+    # Fallback to conservative estimates based on known configurations
+    if host == "csf4":
+        return 20  # CSF4: 40 cores / 2 sockets
+    elif host == "csf3":
+        if partition == "multicore_small":
+            return 16  # 32 cores / 2 sockets
+        return 84  # 168 cores / 2 sockets (standard nodes)
+
+    return 0  # Unknown configuration
 
 
-def create_runscript(queue, cores, nodes, input_file, orca_module, nbo_module):
+def create_runscript(queue, cores, nodes, input_file, orca_module, nbo_module, host):
+    # Determine if we should add socket directive
+    socket_directive = ""
+    if nodes == 1 and cores > 1:
+        cores_per_socket = get_cores_per_socket(queue, host)
+
+        if cores_per_socket > 0 and cores <= cores_per_socket:
+            socket_directive = f"#SBATCH --ntasks-per-socket={cores}"
+            socket_directive += "\n#SBATCH --cpus-per-task=1"
     script = (
         """#!/bin/bash --login
 #SBATCH -p {}       # (or --partition=) Parallel job using cores on a single node
@@ -609,7 +646,11 @@ def create_runscript(queue, cores, nodes, input_file, orca_module, nbo_module):
 #SBATCH --job-name {}""".format(
             queue, cores, nodes, input_file.split(".")[0]
         )
-        + """
+    )
+    # Add socket directive if applicable
+    if socket_directive:
+        script += f"\n{socket_directive}"
+    script += ("""
 ###########################
 job=${SLURM_JOB_NAME}
 
@@ -664,7 +705,7 @@ if [[ $HOSTNAME == *"csf3"* ]]; then
     cd $calcdir
 
     # Copy job and node info to beginning of outputfile
-    echo "Job execution start: $(date)" >> $SLURM_SUBMIT_DIR/$job.out
+    echo "Job execution start: $(date)" > $SLURM_SUBMIT_DIR/$job.out
     echo "Shared library path: $LD_LIBRARY_PATH" >> $SLURM_SUBMIT_DIR/$job.out
     echo "Slurm Job ID is: ${SLURM_JOB_ID}" >> $SLURM_SUBMIT_DIR/$job.out
     echo "Slurm Job name is: ${SLURM_JOB_NAME}" >> $SLURM_SUBMIT_DIR/$job.out
@@ -690,7 +731,7 @@ else
     cd $tdir
 
     # Copy job and node info to beginning of outputfile
-    echo "Job execution start: $(date)" >> $SLURM_SUBMIT_DIR/$job.out
+    echo "Job execution start: $(date)" > $SLURM_SUBMIT_DIR/$job.out
     echo "Shared library path: $LD_LIBRARY_PATH" >> $SLURM_SUBMIT_DIR/$job.out
     echo "Slurm Job ID is: ${SLURM_JOB_ID}" >> $SLURM_SUBMIT_DIR/$job.out
     echo "Slurm Job name is: ${SLURM_JOB_NAME}" >> $SLURM_SUBMIT_DIR/$job.out
@@ -714,6 +755,7 @@ cp $tdir/*.unso $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*.uco $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*.hess $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*.cis $SLURM_SUBMIT_DIR 2>/dev/null || true
+cp $tdir/*.nto $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*.dat $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*.mp2nat $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*.nat $SLURM_SUBMIT_DIR 2>/dev/null || true
@@ -726,10 +768,10 @@ cp $tdir/*.json* $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*json* $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*.err $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*spin* $SLURM_SUBMIT_DIR 2>/dev/null || true
+cp $tdir/*spectrum* $SLURM_SUBMIT_DIR 2>/dev/null || true
 
 # Clean up scratch directory
 echo "Cleaning up scratch directory: $tdir"
-rm -rf $tdir
 
 echo "Job completed: $(date)" >> $SLURM_SUBMIT_DIR/$job.out"""
     )
@@ -753,7 +795,7 @@ if __name__ == "__main__":
 
     # Validate queue configuration now that we know the host
     try:
-        queue = validate_queue_config(args.cores, args.nodes, host, args.small)
+        validate_queue_config(args.cores, args.nodes, args.partition, host)
     except ValueError as e:
         print(custom_print(str(e), "error"))
         sys.exit()
@@ -767,8 +809,8 @@ if __name__ == "__main__":
         check_cores_and_mem(input_file=args.input, cores=args.cores,
                            cpg=args.cores_per_group, host=host, args=args)
         with open("run.sh", "w") as f:
-            f.write(create_runscript(queue, args.cores, args.nodes, args.input,
-                                   orca_module, nbo_module))
+            f.write(create_runscript(args.partition, args.cores, args.nodes, args.input,
+                                   orca_module, nbo_module, host))
         print(custom_print("Runscript has been created.", "done"))
 
         if not args.interactive and args.submit:
@@ -787,4 +829,3 @@ if __name__ == "__main__":
             print(custom_print("Job has been submitted.", "done"))
         else:
             sys.exit()
-
