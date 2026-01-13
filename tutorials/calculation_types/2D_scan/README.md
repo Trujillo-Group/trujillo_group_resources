@@ -19,6 +19,6 @@ end
 
 # Visualising the 2D scan
 
-Once the 2D scan has been completed, you will have a series of energy values corresponding to each combination of the two scanned variables. To visualise this data, you can use Python with libraries such as NumPy and Matplotlib to create a contour plot or surface plot. I've provided a !(link)[https://github.com/JamesOBrien2/my_scripts/blob/main/plots/plot2d.py] to a python script that can be used to generate these plots below:
+Once the 2D scan has been completed, you will have a series of energy values corresponding to each combination of the two scanned variables. To visualise this data, you can use Python with libraries such as NumPy and Matplotlib to create a contour plot or surface plot. I've provided a [link](https://github.com/JamesOBrien2/my_scripts/blob/main/plots/plot2d.py) to a python script that can be used to generate these plots below:
 
 ![2D Plot example](../figures/example_2d_pes.png)
