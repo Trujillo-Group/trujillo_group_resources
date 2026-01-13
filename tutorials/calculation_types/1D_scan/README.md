@@ -13,7 +13,7 @@ As such, it is recommended to start with small increments (e.g., 1°) with a met
 
 ![Dihedral Angle Simplified](../figures/dihedral_angle_simplified.png)
 
-# Performing the scan (ORCA 6.1)
+# Performing a 1D scan (ORCA 6.1)
 
 To perform the dihedral scan using ORCA 6.1, you will need to create an input file that specifies the dihedral scan parameters. Below is an example of how to set up the input file for a dihedral scan:
 
@@ -24,3 +24,5 @@ To perform the dihedral scan using ORCA 6.1, you will need to create an input fi
 end
 * xyzfile 0 1 inp.xyz
 ```
+
+# Performing a 2D scan (ORCA 6.1)
