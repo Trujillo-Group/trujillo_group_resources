@@ -14,7 +14,8 @@ As such, it is recommended to start with small increments (e.g., 1°) with a met
 
 To perform the dihedral scan using ORCA 6.1, you will need to create an input file that specifies the dihedral scan parameters. Below is an example of how to set up the input file for a dihedral scan:
 
-```plaintext! XTB ALPB(Water) Opt
+```plaintext
+! XTB ALPB(Water) Opt
 %geom
     Scan D 1 2 3 4  = starting_angle, end_angle, number_of_steps end# Replace 1,2,3,4 with the atom indices of the dihedral
 end
