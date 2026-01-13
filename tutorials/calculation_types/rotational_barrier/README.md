@@ -2,7 +2,7 @@
 
 The first step in calculating rotational barriers is to identify the dihedral angle of interest. This can typically be done using molecular visualization software to inspect the 3D structure of the molecule and select the four atoms that define the dihedral angle. It is important to ensure that the selected atoms accurately represent the rotational axis you wish to study. For example, to identify the rotational barrier for a catalyst arm to convert from monodentate to bidentate binding mode, you would select the atoms involved in the bond rotation that facilitates this change, as shown below:
 
-![Dihedral Angle Example](../assets/img/blogs/dihedral_angle_example.png)
+![Dihedral Angle Example](../figures/dihedral_angle_example.png)
 
 # Setting up the scan
 
