@@ -13,7 +13,7 @@ Guide for creating NCI plots using Multiwfn and VMD on MacOS systems.
 - Define `orca_2mklpath` parameter in `settings.ini`. This allows you to skip steps 2, 3, and 4 below.
   - To do this: (1) set environment variable `Multiwfnpath=${HOMEBREW_PREFIX}/etc/multiwfn` (2) Set the `orca_2mklpath` parameter in `${HOMEBREW_PREFIX}/etc/multiwfn/settings.ini` to your `orca_2mkl` path
 
-### Initial Steps
+## Initial Steps
 
 1. Run ORCA calculation to generate .gbw file
 
@@ -30,7 +30,6 @@ Following steps required only if you have not defined orca_2mklpath in settings.
      ...
      ```
 4. Use Molden2Aim software or Multiwfn to convert .molden to .wfx
-
    - Using Multiwfn: `multiwfn filename.molden` --> Select option 19 (Generate wavefunction file) --> Select option 4 (.wfx format)
 
 5. Use Multiwfn to generate NCI plot (20 1 3 3 0 0)
@@ -39,7 +38,14 @@ Following steps required only if you have not defined orca_2mklpath in settings.
 
 The next steps are very user-dependant. I have included the exact pathways for the folders in my MacOS system, but you may need to adjust them for your own system. The main goal is to get the `func1.cub` and `func2.cub` files into the same folder as the VMDlauncher executable and then run the RDGfill.vmd script with VMD open.
 
-### VMD Steps
+## VMD Steps
+
+### One-time setup of RDGfill.vmd script
+
+1. Download `RDGfill.vmd` script from this repository.
+2. Copy `RDGfill.vmd` to `/Applications/VMD\ 2.0.0a7-pre2.app/Contents/MacOS/`
+
+### Each time you want to create an NCI plot (Change version number as needed)
 
 6. Copy `func1.cub` and `func2.cub` over to `/Applications/VMD\ 2.0.0a7-pre2.app/Contents/MacOS/`
 7. Execute `/Applications/VMD\ 2.0.0a7-pre2.app/Contents/MacOS/VMDlauncher`
