@@ -124,7 +124,7 @@ qtaim.visualise("<structure>.xyz",
 ```
 
 This should return something similar to this:
-![qtaim_vis_example](posts/nci-visualisation-18-02-2026-assets/qtaim_vis.png)
+![qtaim_vis_example](qtaim_vis.png)
 
 ---
 
@@ -167,7 +167,7 @@ test.visualise_nbo_data("inp.xyz",
 
 The rendered py3Dmol output should look similar to this:
 
-![NBO_vis_example](posts/nci-visualisation-18-02-2026-assets/nbo_vis.png)
+![NBO_vis_example](nbo_vis.png)
 
 ---
 
@@ -196,7 +196,7 @@ combine_qtaim_and_nbo_data(qtaim=qtaim,
 
 This will yield something that looks similar to this:
 
-![NBO_and_QTAIM_example](posts/nci-visualisation-18-02-2026-assets/combine_qtaim_nbo.png)
+![NBO_and_QTAIM_example](combine_qtaim_nbo.png)
 
 ---
 
@@ -224,7 +224,7 @@ Step by step assuming a Linux/MacOS machine (Windows user try this at your own r
 
 9. Go to: File -> Load Visualization State... -> Select RDGfill.vmd and press okay. Your NCI plot should manifest and should look something like this:
 
-![NCI_plot_example](posts/nci-visualisation-18-02-2026-assets/nci_plot.png)
+![NCI_plot_example](nci_plot.png)
 
 
 10. For the scatterplot we use **Gnuplot**. This is free and open source and can be found [here](http://www.gnuplot.info/). On Mac, you can obtain it via [brew](https://formulae.brew.sh/formula/gnuplot).
@@ -236,7 +236,7 @@ Step by step assuming a Linux/MacOS machine (Windows user try this at your own r
 13. Convert the .ps file into pdf or png with the EPS viewer and you're good to go.
 The resulting output should look something like this:
 
-![RDG_scatter_example](posts/nci-visualisation-18-02-2026-assets/RDGscatter.png)
+![RDG_scatter_example](RDGscatter.png)
 
 If you encounter any issues with any of the Python scripts in this tutorial, please let me know by raising an issue on GitHub.
 
