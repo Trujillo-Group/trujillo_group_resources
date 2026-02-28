@@ -52,3 +52,10 @@ A collection of cheminformatics and machine-learning software written in C++ and
 ### [AQME](https://github.com/jvalegre/aqme)
 Ensemble of automated QM workflows that can be run through jupyter notebooks, command lines and yaml file.
 [Youtube tutorials](https://www.youtube.com/channel/UCHRqI8N61bYxWV9BjbUI4Xw) available.
+
+### [xyzrender](https://github.com/aligfellow/xyzrender)
+Publication-quality molecular graphics from the command line. Render molecular structures as publication-quality SVG, PNG, PDF, and animated GIF from XYZ files or quantum chemistry output.
+
+### [GraphRC](https://github.com/aligfellow/graphRC)
+Internal Coordinate Analysis of Vibrational Modes. Identify bond formation/breaking, angle changes, and dihedral rotations from vibrational trajectories with graph-based transformation analysis.Can be used nicely for IRC generation and/or imaginary frequency removal!
+
