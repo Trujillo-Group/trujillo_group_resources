@@ -85,27 +85,6 @@ In the appropriate directory/subdirectory in the repo - `Add file` --> `Upload f
 
 3. From the root of the repo, type - `git add *` , `git commit -m "added file / changed file for X reason"`, `git push origin main`.
 
-## Tasks
-
-### 2024
-
-**Tutorials**
-
-- [ ] Conformational Searches (@JamesOBrien02)
-- [ ] How to calculate redox potentials (@tire98 | @JamesOBrien02)
-- [ ] Minimum-Energy Crossing Points (@tire98 | @JamesOBrien02)
-
-**Resources**
-
-- [ ] Add Link for Benchmark Papers (@tire98 | @JamesOBrien02)
-- [ ] Add Link for Methodology Papers (@tire98 | @JamesOBrien02)
-- [x] <del>Add examples for each Gaussian Error (@JamesOBrien02 | @jak713 | @Diana-Bura)</del>
-
-**Scripts**
-
-- [x] <del>Update sub_csf3 to include AMD cores (@tire98)</del>
-- [x] <del>Update ORCA submission scripts for ORCA 6.0.0 (@tire98)</del>
-
 ## Good Practices for the Repository!
 
 1. Clean up Repo.
