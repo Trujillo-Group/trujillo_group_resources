@@ -71,7 +71,7 @@ sshfs csf3:/path/to/remote/directory /path/to/local/directory
 ```
 You can then access the files in the remote directory as if they were on your local machine. You can also use your local editor to edit the files in the remote directory.
 
-## file transfer
+## file transfer
 If you want to transfer files between your local machine and a remote machine, you can use the `scp` command.
 To transfer a file from your local machine to a remote machine, open a terminal and type:
 ```bash
