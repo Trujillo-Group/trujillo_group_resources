@@ -92,7 +92,7 @@ connections between the nuclei and BCPs)
 
 10. `7 Show real space function values at specific CP or all CPs`
 
-11. Input 0 for `0 (Note 1: If input 0, then properties of all CPs will be outputted to CPprop.txt in current folder (and if you feel the output speed is slow, you can input -1 to avoid outputting ESP, which is the most expensive one))`. This may take some time depending on how many CPs were found.
+11. Input 0 for `0 (Note 1: If input 0, then properties of all CPs will be output to CPprop.txt in current folder (and if you feel the output speed is slow, you can input -1 to avoid outputting ESP, which is the most expensive one))`. This may take some time depending on how many CPs were found.
 
 The `CPprop.txt` file and the `.xyz` file used in the ORCA calculation is what we will use for visualising the connections in a Jupyter notebook. The required Python script can be found [here](https://github.com/jak713/qtaim_vis). If you are unfamiliar with Jupyter notebooks, you can have a look at how to install the web interface [here](https://docs.jupyter.org/en/latest/install/notebook-classic.html).
 
