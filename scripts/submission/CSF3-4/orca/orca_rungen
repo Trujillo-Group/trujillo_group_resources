@@ -336,9 +336,9 @@ def check_cores_and_mem(input_file: str, cores: int, cpg: int, host: str,
 def _handle_maxcore_settings(lines: str, host: str, args) -> str:
     """Handle maxcore settings based on host type."""
     # Determine target memory based on host
-    target_mem = 4600 if host == "csf4" else 8196
+    target_mem = 4000 if host == "csf4" else 8196
     if host == "csf3" and args.partition == "multicore_small":
-        target_mem = 4600
+        target_mem = 4000
 
     # Find ALL maxcore occurrences
     mem_reg = re.compile(r"\s*\%maxcore\s*(\d+)\n")
