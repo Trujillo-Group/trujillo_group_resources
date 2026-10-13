@@ -1,3 +1,3 @@
 # Submission scripts
 
-The scripts are written in python or bash and can be run on CSF3/4 directly or from your local machine. The scripts need be stored in `~/bin` and need to be made executable by running `[sudo] chmod u+x foo`. The script can be invoked from any directory by calling its name and specifing the name of the input file and the number of cores required for the calculation. A help message is displayed when the script is called without any arguments.
+The scripts are written in python or bash and can be run on CSF3 directly or from your local machine. The scripts need be stored in `~/bin` and need to be made executable by running `[sudo] chmod u+x foo`. The script can be invoked from any directory by calling its name and specifing the name of the input file and the number of cores required for the calculation. A help message is displayed when the script is called without any arguments.

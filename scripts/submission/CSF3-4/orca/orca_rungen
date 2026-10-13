@@ -1,25 +1,18 @@
 #!/usr/bin/python3
 
-
 #############################################
-######## Create Orca SLURM runscript ##########
+######## Create Orca SLURM runscript ########
 #############################################
 # Author: Tim Renningholtz
-# Date: 15.09.2025
-# Description: This script creates a SLURM runscript for Orca 5.0.4, 6.1.1-avx2
-# on the CSF4 cluster.
-
-#### Imports ####
+# Modified: add --gxtb support for CSF3 private g-xTB 2.0.1 module
 
 import os
 import sys
 import argparse
 import re
-import socket
-import subprocess
 
+TIME_RE = re.compile(r"\d+(-\d+(:\d+){0,2}|(:\d+){0,2})")
 
-#### Define functions ####
 
 def custom_print(string: str, print_type: str = "default") -> str:
     normal = "\u001b[0m"
@@ -29,7 +22,6 @@ def custom_print(string: str, print_type: str = "default") -> str:
         new_string = f"{prefix}{normal}\t{string}"
     elif print_type in ["warn", "warning"]:
         prefix = "\u001b[38;5;220m [ ⚠️] "
-        new_string = f"{prefix}\t{string}{normal}"
         new_string = f"{prefix}\t{string}{normal}"
     elif print_type in ["done"]:
         prefix = "\u001b[38;5;46m ✅✅"
@@ -42,108 +34,72 @@ def custom_print(string: str, print_type: str = "default") -> str:
         new_string = f"{prefix}{normal}\t{string}"
     else:
         new_string = string
+
     return new_string
 
-#### Create parser ####
 
+def validate_queue_config(cores: int, nodes: int, partition: str) -> None:
+    """Validate that partition choice makes sense for cores and nodes configuration."""
+    max_cores = 40 if partition == "multicore_small" else 168
 
-def validate_queue_config(cores: int, nodes: int, partition: str, host: str = None) -> None:
-    """Validate that partition choice makes sense for cores and nodes configuration.
-
-    Args:
-        cores: Number of cores requested
-        nodes: Number of nodes requested
-        partition: User-specified partition (serial, multicore, or multinode)
-        host: Host system (csf3 or csf4)
-
-    Raises:
-        ValueError: If partition doesn't match the configuration
-    """
-    # Default to CSF4 limits if host not specified
-    max_cores = 168 if host == "csf3" else 40
-    max_cores = 32 if host == "csf3" and partition == "multicore_small" else (168 if host == "csf3" else 40)
-
-    # Validate node configuration first
     if nodes < 1:
         raise ValueError("Invalid node configuration! Must request at least 1 node.")
 
-    # Check if cores exceed single node limit
     if nodes == 1 and cores > max_cores:
-        raise ValueError(f"Cannot run {cores} cores on single node. "
-                       f"Maximum for {host or 'this cluster'} is {max_cores}. "
-                       f"Use multiple nodes or reduce core count.")
+        raise ValueError(
+            f"Cannot run {cores} cores on single node. "
+            f"Maximum for {partition} is {max_cores}. "
+            f"Use multiple nodes or reduce core count."
+        )
 
-    # Validate partition matches configuration
     if nodes > 1:
         if partition != "multinode":
-            raise ValueError(f"Configuration requires multinode partition "
-                           f"({nodes} nodes requested), but '{partition}' partition specified. "
-                           f"Use --partition multinode or -p multinode")
+            raise ValueError(
+                f"Configuration requires multinode partition "
+                f"({nodes} nodes requested), but '{partition}' partition specified. "
+                f"Use --partition multinode or -p multinode"
+            )
     elif nodes == 1:
         if cores == 1:
             if partition != "serial":
-                raise ValueError(f"Configuration with 1 core should use serial partition, "
-                               f"but '{partition}' partition specified. "
-                               f"Use --partition serial or -p serial")
-        elif cores >= 2 and cores <= max_cores:
+                raise ValueError(
+                    f"Configuration with 1 core should use serial partition, "
+                    f"but '{partition}' partition specified. "
+                    f"Use --partition serial or -p serial"
+                )
+        elif 2 <= cores <= max_cores:
             if "multicore" not in partition:
-                raise ValueError(f"Configuration with {cores} cores on 1 node should use multicore partition, "
-                               f"but '{partition}' partition specified. "
-                               f"Use --partition multicore or -p multicore")
+                raise ValueError(
+                    f"Configuration with {cores} cores on 1 node should use multicore partition, "
+                    f"but '{partition}' partition specified. "
+                    f"Use --partition multicore or -p multicore"
+                )
         else:
             raise ValueError(f"Invalid core configuration: {cores} cores on 1 node.")
 
 
-def get_orca_nbo_modules(use_orca5: bool, use_nbo: bool, host: str) -> tuple[str, str]:
-    """Get appropriate ORCA and NBO module commands based on host and version."""
+def get_orca_nbo_modules(use_orca5: bool, use_nbo: bool) -> tuple[str, str]:
+    """Get ORCA and NBO module commands for CSF3."""
+    if use_orca5:
+        orca_module = "module load apps/binapps/orca/5.0.4"
+        nbo = "i4"
+    else:
+        orca_module = "module load apps/binapps/orca/6.1.1-avx2"
+        nbo = "i8"
 
-    # ORCA module selection
-    if host == "csf3":
-        if use_orca5:
-            orca_module = "module load apps/binapps/orca/5.0.4"
-        else:
-            orca_module = "module load apps/binapps/orca/6.1.1-avx2"
-    else:  # csf4
-        if use_orca5:
-            orca_module = "module load orca/5.0.4-gompi-2021a"
-        else:
-            orca_module = "module load rhel apps/binapps/orca/6.1.1-avx2"
-
-    # NBO module selection
     if not use_nbo:
-        nbo_module = ""
-    elif host == "csf3":
-        if use_orca5:
-            nbo_module = """module load apps/binapps/nbo/7.0-i4
-export NBOEXE="/opt/apps/apps/binapps/nbo/7.0/bin/nbo7.i4.exe"
-export GENEXE="/opt/apps/apps/binapps/nbo/7.0/bin/gennbo.i4.exe"
+        return orca_module, ""
+
+    nbo_module = f"""module load apps/binapps/nbo/7.0-{nbo}
+export NBOEXE="/opt/apps/apps/binapps/nbo/7.0/bin/nbo7.{nbo}.exe"
+export GENEXE="/opt/apps/apps/binapps/nbo/7.0/bin/gennbo.{nbo}.exe"
 
 """
-        else:
-            nbo_module = """module load apps/binapps/nbo/7.0-i8
-export NBOEXE="/opt/apps/apps/binapps/nbo/7.0/bin/nbo7.i8.exe"
-export GENEXE="/opt/apps/apps/binapps/nbo/7.0/bin/gennbo.i8.exe"
-
-"""
-    else:  # csf4
-        if use_orca5:
-            nbo_module = """module load nbo/7.0.8-i4
-export NBOEXE="/opt/software/RI/non-eb/apps/binapps/nbo/7.0.8/bin/nbo7.i4.exe"
-export GENEXE="/opt/software/RI/non-eb/apps/binapps/nbo/7.0.8/bin/gennbo.i4.exe"
-
-"""
-        else:
-            nbo_module = """module load nbo/7.0.8-i8
-export NBOEXE="/opt/software/RI/non-eb/apps/binapps/nbo/7.0.8/bin/nbo7.i8.exe"
-export GENEXE="/opt/software/RI/non-eb/apps/binapps/nbo/7.0.8/bin/gennbo.i8.exe"
-
-"""
-
     return orca_module, nbo_module
 
 
 def get_parser():
-    """Create parser for command line arguments"""
+    """Create parser for command line arguments."""
     parser = argparse.ArgumentParser(description="Create Orca slurm runscript")
     parser.add_argument("-i", "--input", help="Input file name", required=False, type=str)
     parser.add_argument(
@@ -169,11 +125,23 @@ def get_parser():
         type=str,
         default="multicore",
     )
-    parser.add_argument("-c", "--cores", help="Number of cores", required=False, type=int, default=1)
+    parser.add_argument("-c", "--cores", help="Number of cores", required=False, type=int, default=20)
+    parser.add_argument(
+        "-t",
+        "--time",
+        help="Wall time, SLURM format (e.g. 2-0, 1-12:00:00); default=4-0",
+        type=str,
+        default="4-0",
+    )
     parser.add_argument(
         "-nbo",
         "--nbo",
         help="Request NBO module; needed only if nbo analysis is requested in input file",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--gxtb",
+        help="Add private g-xTB 2.0.1 module loads to run.sh",
         action="store_true",
     )
     parser.add_argument(
@@ -197,41 +165,40 @@ def get_parser():
         default=False,
     )
 
-
     args = parser.parse_args()
+
     if not any(vars(args).values()) or args.interactive:
         args = parse_interactively()
 
-    # Note: Queue validation and module selection moved to main() after hostname detection
+    if not TIME_RE.fullmatch(args.time):
+        print(custom_print(f"Invalid time '{args.time}'. Use SLURM format, e.g. 2-0, 1-12:00:00", "error"))
+        sys.exit()
 
-    # check orca and nbo modules
     if args.orca5 and args.cores_per_group != 1:
         print(custom_print("Orca 5 does not support nprocs_group.", "error"))
         sys.exit()
 
-    # no arguments provided or interactive mode is selected get arguments interactively
     return args
 
 
 def parse_interactively():
-    """Function that parses user input interactively"""
-    # Detect hostname for core limits
-    hostname = socket.gethostname()
-    max_cores = 168 if "csf3" in hostname else 40
-    host_name = "CSF3" if "csf3" in hostname else "CSF4"
+    """Function that parses user input interactively."""
+    max_cores = 168
+    host_name = "CSF3"
 
     input_file = input("Enter input file name: ")
-    orca_version = input("Which version of ORCA do you want to use? "
-                        "(enter 5 for ORCA 5.0.4 or 6 ORCA 6.1.1-avx2) ")
-    if orca_version == "5":
-        orca5 = True
-    else:
-        orca5 = False
-    nbo = input("Do you want to use the NBO module? (Y/n) ").capitalize()
-    if nbo == "N":
-        nbo = False
-    else:
-        nbo = True
+
+    orca_version = input(
+        "Which version of ORCA do you want to use? "
+        "(enter 5 for ORCA 5.0.4 or 6 ORCA 6.1.1-avx2) "
+    )
+    orca5 = orca_version == "5"
+
+    nbo_answer = input("Do you want to use the NBO module? (Y/n) ").capitalize()
+    nbo = nbo_answer != "N"
+
+    gxtb_answer = input("Do you want to use the g-xTB module? (y/N) ").capitalize()
+    gxtb = gxtb_answer == "Y"
 
     parallel = input("Do you want to run the job in parallel? (Y/n) ").capitalize()
     if parallel == "N":
@@ -245,197 +212,141 @@ def parse_interactively():
             if proceed == "N":
                 cores = int(input(f"Enter number of cores (max {max_cores}): "))
 
-    if not orca5:
-        cores_per_group = int(input("Enter number of cores per group. "
-                                   "Press enter to skip: "))
-        if cores_per_group == "":
-            cores_per_group = 1
-        elif cores % cores_per_group != 0:
+        if not orca5:
+            cpg_input = input("Enter number of cores per group. Press enter to skip: ")
+            if cpg_input == "":
+                cores_per_group = 1
+            else:
+                cores_per_group = int(cpg_input)
+
             while cores % cores_per_group != 0:
-                print("Number of cores must be divisible by number of "
-                     "cores per group.")
+                print("Number of cores must be divisible by number of cores per group.")
                 cores_per_group = int(input("Re-enter number of cores per group: "))
-        elif cores_per_group > cores:
+
             while cores_per_group > cores:
-                print("Number of cores per group must be less than or "
-                     "equal to number of cores.")
+                print("Number of cores per group must be less than or equal to number of cores.")
                 cores_per_group = int(input("Re-enter number of cores per group: "))
-    else:
-        cores_per_group = 1
+        else:
+            cores_per_group = 1
 
     if cores > max_cores:
-        nodes = int(input(f"You have selected more than {max_cores} cores. "
-                         f"Enter number of nodes: "))
-    elif cores >= 2 and cores <= max_cores:
-        nodes = 1
+        nodes = int(input(f"You have selected more than {max_cores} cores. Enter number of nodes: "))
     else:
         nodes = 1
 
-    submit = input("Do you want to submit the job? (Y/n) ").capitalize()
-    if submit == "N":
-        submit = False
-    else:
-        submit = True
+    time = input("Enter wall time (SLURM format, e.g. 2-0). Press enter for 4-0: ").strip() or "4-0"
 
+    submit_answer = input("Do you want to submit the job? (Y/n) ").capitalize()
+    submit = submit_answer != "N"
 
-    # create parser arguments
     args = argparse.Namespace(
         input=input_file,
         nodes=nodes,
         cores=cores,
         cores_per_group=cores_per_group,
         nbo=nbo,
+        gxtb=gxtb,
         orca5=orca5,
         interactive=True,
         submit=submit,
+        time=time,
+        partition="multinode" if nodes > 1 else ("multicore" if cores > 1 else "serial"),
     )
 
     return args
-#### Check cores and memory in input file ####
 
 
-def check_cores_and_mem(input_file: str, cores: int, cpg: int, host: str,
-                       args) -> None:
-    """Function that checks number of cores in input file and adjusts if necessary.
-
-    Args:
-        input_file (str): Name of input file
-        cores (int): number of cores specified by user in cli
-        cpg (int): number of cores per group specified by user in cli
-        host (str): hostname to determine memory settings
-        args: parsed arguments object
-    """
+def check_cores_and_mem(input_file: str, cores: int, cpg: int, args) -> None:
+    """Check number of cores in input file and adjust if necessary."""
     with open(input_file, "r") as f:
         lines = f.read()
 
-    # Validate cores divisibility
     if int(cores) % int(cpg) != 0:
-        print(custom_print("Number of cores must be divisible by number "
-                          "of cores per group", "error"))
-        new_cpg = input(custom_print("Re-enter number of cores per group "
-                                   "or press any key to exit.", "att"))
+        print(custom_print("Number of cores must be divisible by number of cores per group", "error"))
+        new_cpg = input(custom_print("Re-enter number of cores per group or press any key to exit.", "att"))
         if new_cpg.isdigit():
             cpg = int(new_cpg)
         else:
             sys.exit()
 
-    # Handle maxcore settings
-    lines = _handle_maxcore_settings(lines, host, args)
-
-    # Handle PAL block settings
-    lines = _handle_pal_block(lines, cores, cpg, args, host)
-
-    # Handle nprocs settings
+    lines = _handle_maxcore_settings(lines, args)
+    lines = _handle_pal_block(lines, cores, cpg, args)
     lines = _handle_nprocs_settings(lines, cores, cpg, args)
 
-    # Save the modified file
     with open(input_file, "w") as f:
         f.write(lines)
 
 
-def _handle_maxcore_settings(lines: str, host: str, args) -> str:
-    """Handle maxcore settings based on host type."""
-    # Determine target memory based on host
-    target_mem = 4000 if host == "csf4" else 8196
-    if host == "csf3" and args.partition == "multicore_small":
-        target_mem = 4000
+def _handle_maxcore_settings(lines: str, args) -> str:
+    target_mem = 4000 if args.partition == "multicore_small" else 8000
 
-    # Find ALL maxcore occurrences
-    mem_reg = re.compile(r"\s*\%maxcore\s*(\d+)\n")
+    mem_reg = re.compile(r"\s*\%maxcore\s*(\d+)\n", re.IGNORECASE)
     maxcore_matches = mem_reg.findall(lines)
 
     if not maxcore_matches:
-        # No maxcore found - add one
         lines = _add_maxcore_directive(lines, target_mem)
-        print(custom_print(f"%maxcore {target_mem} has been added to your "
-                          "input file.", "info"))
+        print(custom_print(f"%maxcore {target_mem} has been added to your input file.", "info"))
     else:
-        # Check if any maxcore values are incorrect or if there are multiple
         if len(maxcore_matches) > 1:
-            print(custom_print(f"Multiple %maxcore directives found. "
-                              f"Removing all and setting to {target_mem}.",
-                              "warn"))
-            # Remove all maxcore directives
+            print(
+                custom_print(
+                    f"Multiple %maxcore directives found. Removing all and setting to {target_mem}.",
+                    "warn",
+                )
+            )
             lines = mem_reg.sub("", lines)
-            # Add single correct one
             lines = _add_maxcore_directive(lines, target_mem)
         else:
-            # Single maxcore found - check if it needs updating
             current_mem = int(maxcore_matches[0])
             if current_mem != target_mem:
                 mem_string = f"\n%maxcore {target_mem}\n"
                 lines = mem_reg.sub(mem_string, lines)
-                print(custom_print(f"%maxcore has been updated from "
-                                  f"{current_mem} to {target_mem}.", "info"))
+                print(custom_print(f"%maxcore has been updated from {current_mem} to {target_mem}.", "info"))
 
     return lines
 
 
 def _add_maxcore_directive(lines: str, memory: int) -> str:
-    """Add maxcore directive to the input file at appropriate location."""
     mem_string = f"\n%maxcore {memory}\n\n"
 
     try:
-        # Try to add after last comment line
         first_input_line_reg = re.compile(r"!\s*(.*)")
         first_input_line = first_input_line_reg.findall(lines)[-1]
         new_string = first_input_line + mem_string
         lines = lines.replace(first_input_line, new_string)
     except IndexError:
-        # If no comment line is found, add before first method directive
         first_method_reg = re.compile(r"\%")
         match = first_method_reg.search(lines)
         if match:
             pos = match.start()
             lines = lines[:pos] + mem_string + lines[pos:]
         else:
-            # If no % directive found, add at the end
             lines += mem_string
 
     return lines
 
 
-def _handle_pal_block(lines: str, cores: int, cpg: int, args, host: str) -> str:
-    """Handle PAL block in the input file."""
-    # Define core limits based on host
-    max_cores = 168 if host == "csf3" else 40
-
-    # Validate core count against host limits
-    if cores > max_cores:
-        print(custom_print(f"Warning: {cores} cores requested but {host} "
-                          f"supports maximum {max_cores} cores.", "warn"))
-        if args.interactive:
-            proceed = input(custom_print("Do you want to continue anyway? (Y/n)", "att"))
-            if proceed.capitalize() == "N":
-                sys.exit()
-
-    # More flexible PAL block detection - handles various formats
+def _handle_pal_block(lines: str, cores: int, cpg: int, args) -> str:
     pal_reg = re.compile(r"\%pal\b", re.IGNORECASE)
     has_pal_block = bool(pal_reg.search(lines))
 
     if not has_pal_block and cores > 1:
-        print(custom_print("%pal block is not in your input file. This is "
-                          "required for parallel calculations.", "warn"))
+        print(custom_print("%pal block is not in your input file. This is required for parallel calculations.", "warn"))
         if args.interactive:
-            add_pal = input(custom_print("Do you want to add a %pal block to "
-                                       "your input file? (Y/n)", "att"))
+            add_pal = input(custom_print("Do you want to add a %pal block to your input file? (Y/n)", "att"))
             if add_pal.capitalize() == "N":
                 sys.exit()
 
-        # Add PAL block after maxcore if it exists, otherwise at appropriate location
         lines = _add_pal_block(lines, cores, cpg, args.orca5)
         print(custom_print("%pal block has been added to your input file.", "info"))
 
     elif has_pal_block:
-        # Update existing PAL block
         lines = _update_existing_pal_block(lines, cores, cpg, args.orca5)
 
     return lines
 
 
 def _add_pal_block(lines: str, cores: int, cpg: int, is_orca5: bool) -> str:
-    """Add a new PAL block to the input file at appropriate location."""
-    # Create PAL block content
     if is_orca5:
         pal_content = f"\n%pal\n\tnprocs {cores}\nend\n\n"
     else:
@@ -444,44 +355,35 @@ def _add_pal_block(lines: str, cores: int, cpg: int, is_orca5: bool) -> str:
         else:
             pal_content = f"\n%pal\n\tnprocs {cores}\n\tnprocs_group {cpg}\nend\n\n"
 
-    # Try to place after maxcore directive
     maxcore_pattern = re.compile(r"(\%maxcore\s+\d+)", re.IGNORECASE)
     maxcore_match = maxcore_pattern.search(lines)
 
     if maxcore_match:
-        # Insert PAL block after maxcore line
         maxcore_end = maxcore_match.end()
-        # Find the end of the line containing maxcore
-        line_end = lines.find('\n', maxcore_end)
+        line_end = lines.find("\n", maxcore_end)
         if line_end == -1:
             line_end = len(lines)
         lines = lines[:line_end] + pal_content + lines[line_end:]
     else:
-        # No maxcore found - add after last comment or before first method block
         comment_pattern = re.compile(r"^!\s*.*$", re.MULTILINE)
         comment_matches = list(comment_pattern.finditer(lines))
 
         if comment_matches:
-            # Add after last comment
             last_comment = comment_matches[-1]
             insert_pos = last_comment.end()
             lines = lines[:insert_pos] + pal_content + lines[insert_pos:]
         else:
-            # Add before first method block (% directive)
             method_pattern = re.compile(r"\%")
             method_match = method_pattern.search(lines)
             if method_match:
                 lines = lines[:method_match.start()] + pal_content + lines[method_match.start():]
             else:
-                # No method blocks found, add at end
                 lines += pal_content
 
     return lines
 
 
 def _update_existing_pal_block(lines: str, cores: int, cpg: int, is_orca5: bool) -> str:
-    """Update existing PAL block with new settings."""
-    # Find PAL block boundaries
     pal_start_pattern = re.compile(r"\%pal\b", re.IGNORECASE)
     pal_end_pattern = re.compile(r"^end\s*$", re.MULTILINE | re.IGNORECASE)
 
@@ -489,34 +391,23 @@ def _update_existing_pal_block(lines: str, cores: int, cpg: int, is_orca5: bool)
     if not pal_start_match:
         return lines
 
-    # Find the 'end' that corresponds to this PAL block
     pal_end_match = pal_end_pattern.search(lines, pal_start_match.end())
+
+    if is_orca5:
+        new_pal = f"%pal\n\tnprocs {cores}\nend"
+    else:
+        if cpg == 1:
+            new_pal = f"%pal\n\tnprocs {cores}\nend"
+        else:
+            new_pal = f"%pal\n\tnprocs {cores}\n\tnprocs_group {cpg}\nend"
+
     if not pal_end_match:
-        # PAL block without proper 'end' - replace the whole line
-        line_start = lines.rfind('\n', 0, pal_start_match.start()) + 1
-        line_end = lines.find('\n', pal_start_match.end())
+        line_start = lines.rfind("\n", 0, pal_start_match.start()) + 1
+        line_end = lines.find("\n", pal_start_match.end())
         if line_end == -1:
             line_end = len(lines)
-
-        if is_orca5:
-            new_pal = f"%pal\n\tnprocs {cores}\nend"
-        else:
-            if cpg == 1:
-                new_pal = f"%pal\n\tnprocs {cores}\nend"
-            else:
-                new_pal = f"%pal\n\tnprocs {cores}\n\tnprocs_group {cpg}\nend"
-
         lines = lines[:line_start] + new_pal + lines[line_end:]
     else:
-        # Replace entire PAL block
-        if is_orca5:
-            new_pal = f"%pal\n\tnprocs {cores}\nend"
-        else:
-            if cpg == 1:
-                new_pal = f"%pal\n\tnprocs {cores}\nend"
-            else:
-                new_pal = f"%pal\n\tnprocs {cores}\n\tnprocs_group {cpg}\nend"
-
         lines = lines[:pal_start_match.start()] + new_pal + lines[pal_end_match.end():]
         print(custom_print("%pal block has been updated.", "info"))
 
@@ -524,15 +415,14 @@ def _update_existing_pal_block(lines: str, cores: int, cpg: int, is_orca5: bool)
 
 
 def _handle_nprocs_settings(lines: str, cores: int, cpg: int, args) -> str:
-    """Handle nprocs and nprocs_group settings in the input file."""
     cores_reg = re.compile(r"\s*nprocs\s*(\d+)\s*")
+
     try:
         input_cores = cores_reg.search(lines).group(1)
     except AttributeError:
         print(custom_print("nprocs is not in your input file.", "warn"))
         if args.interactive:
-            add_cores = input(custom_print("Do you want to add nprocs to your "
-                                         "input file? (Y/n)", "att"))
+            add_cores = input(custom_print("Do you want to add nprocs to your input file? (Y/n)", "att"))
             if add_cores.capitalize() == "N":
                 sys.exit()
         lines = re.sub(r"\s*\%pal", f"\n%pal\n\tnprocs {cores}\n", lines)
@@ -541,46 +431,41 @@ def _handle_nprocs_settings(lines: str, cores: int, cpg: int, args) -> str:
 
     cores_per_group_reg = re.compile(r"\s*nprocs_group\s*(\d+)")
 
-    # Handle nprocs_group based on ORCA version and settings
     if not args.orca5 and cpg != 1:
         try:
             cores_per_group = cores_per_group_reg.search(lines).group(1)
         except AttributeError:
-            # Add nprocs_group to input file after nprocs
-            lines = re.sub(cores_reg, f"\n\tnprocs {cores}\n\tnprocs_group {cpg}\n",
-                          lines)
-            print(custom_print("nprocs_group has been added to your input file.",
-                              "info"))
+            lines = re.sub(cores_reg, f"\n\tnprocs {cores}\n\tnprocs_group {cpg}\n", lines)
+            print(custom_print("nprocs_group has been added to your input file.", "info"))
             cores_per_group = str(cpg)
+
     elif not args.orca5 and cpg == 1:
         try:
             cores_per_group = cores_per_group_reg.search(lines).group(1)
-            # Remove entire nprocs_group line from input file
             lines = re.sub(r"\s*nprocs_group\s*\d+", "", lines)
-            print(custom_print("nprocs_group has been removed from your "
-                              "input file.", "info"))
+            print(custom_print("nprocs_group has been removed from your input file.", "info"))
         except AttributeError:
             cores_per_group = "1"
+
     else:
         try:
             print("nprocs_group is not supported in Orca 5.")
             cores_per_group = cores_per_group_reg.search(lines).group(1)
-            # Remove nprocs_group from input file
             lines = re.sub(r"\s*nprocs_group\s*\d+\n", "", lines)
-            print(custom_print("nprocs_group has been removed from your "
-                              "input file.", "info"))
+            print(custom_print("nprocs_group has been removed from your input file.", "info"))
         except AttributeError:
             cores_per_group = "1"
 
-    # Check if number of cores in input file matches specified cores
     if int(input_cores) != cores or (not args.orca5 and int(cores_per_group) != cpg):
-        print(custom_print("Your input file does not match number of cores "
-                          "specified.", "warn"))
-        # Ask user if they want to change number of cores in input file
+        print(custom_print("Your input file does not match number of cores specified.", "warn"))
+
         if args.interactive:
-            change_cores = input(custom_print("Do you want to change the number "
-                                            "of cores in the input file according "
-                                            "to your CLI input? (Y/n)", "att"))
+            change_cores = input(
+                custom_print(
+                    "Do you want to change the number of cores in the input file according to your CLI input? (Y/n)",
+                    "att",
+                )
+            )
             if change_cores.capitalize() == "N":
                 sys.exit()
 
@@ -595,62 +480,25 @@ def _handle_nprocs_settings(lines: str, cores: int, cpg: int, args) -> str:
     return lines
 
 
+def create_runscript(queue, cores, nodes, time, input_file, orca_module, nbo_module, use_gxtb=False):
+    """Create SLURM runscript text."""
+    gxtb_module = ""
+    if use_gxtb:
+        gxtb_module = "module load use.own\nmodule load g-xTB/2.0.1\nhash -r"
 
-#### Create runscript ####
-def get_cores_per_socket(partition: str, host: str) -> int:
-    """Query SLURM to determine cores per socket for given partition.
-
-    Returns: cores per socket, or 0 if unable to determine
-    """
-    try:
-        # Query SLURM for node configuration
-        cmd = f"sinfo -p {partition} -o '%c %X' -h | head -n 1"
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=5)
-
-        if result.returncode == 0 and result.stdout.strip():
-            # Parse output: first column is cores, second is sockets
-            parts = result.stdout.strip().split()
-            if len(parts) >= 2:
-                total_cores = int(parts[0])
-                sockets = int(parts[1])
-                return total_cores // sockets if sockets > 0 else 0
-    except (subprocess.TimeoutExpired, ValueError, Exception):
-        pass
-
-    # Fallback to conservative estimates based on known configurations
-    if host == "csf4":
-        return 20  # CSF4: 40 cores / 2 sockets
-    elif host == "csf3":
-        if partition == "multicore_small":
-            return 16  # 32 cores / 2 sockets
-        return 84  # 168 cores / 2 sockets (standard nodes)
-
-    return 0  # Unknown configuration
-
-
-def create_runscript(queue, cores, nodes, input_file, orca_module, nbo_module, host):
-    # Determine if we should add socket directive
-    socket_directive = ""
-    if nodes == 1 and cores > 1:
-        cores_per_socket = get_cores_per_socket(queue, host)
-
-        if cores_per_socket > 0 and cores <= cores_per_socket:
-            socket_directive = f"#SBATCH --ntasks-per-socket={cores}"
-            socket_directive += "\n#SBATCH --cpus-per-task=1"
     script = (
         """#!/bin/bash --login
 #SBATCH -p {}       # (or --partition=) Parallel job using cores on a single node
-#SBATCH -n {}                # (or --ntasks=) Number of cores (2--40)
+#SBATCH -n {}                # (or --ntasks=) Number of cores
 #SBATCH -N {}                # (or --nodes=) Number of nodes
-#SBATCH -t 7-0
+#SBATCH -t {}
 #SBATCH --job-name {}""".format(
-            queue, cores, nodes, input_file.split(".")[0]
+            queue, cores, nodes, time, input_file.split(".")[0]
         )
     )
-    # Add socket directive if applicable
-    if socket_directive:
-        script += f"\n{socket_directive}"
-    script += ("""
+
+    script += (
+        """
 ###########################
 job=${SLURM_JOB_NAME}
 
@@ -658,13 +506,14 @@ job=$(echo ${job%%.*})
 ##########################
 
 # Load the modulefile in a clean environment
-module purge"""
-        + "\n"
+module purge
+"""
+        + gxtb_module
+        + ("\n" if gxtb_module else "")
         + orca_module
         + "\n"
         + nbo_module
         + """
-
 export RSH_COMMAND=ssh
 ##########################
 export scratchlocation=/scratch
@@ -690,21 +539,19 @@ cp $SLURM_SUBMIT_DIR/*xyz $tdir/ 2>/dev/null || true
 if [[ $HOSTNAME == *"csf3"* ]]; then
     echo "CSF3 detected - using TMPDIR approach"
 
-    # Create calculation directory in TMPDIR
     calcdir=$(mktemp -d $HOME/localscratch/orcacalc_$SLURM_JOB_ID-XXXX)
     echo "Calculation directory: $calcdir"
 
-    # Copy input files from tdir to calcdir
     cp $tdir/*.inp $calcdir/ 2>/dev/null || true
     cp $tdir/*.gbw $calcdir/ 2>/dev/null || true
     cp $tdir/*.cmp $calcdir/ 2>/dev/null || true
     cp $tdir/*.hess $calcdir/ 2>/dev/null || true
     cp $tdir/*xyz $calcdir/ 2>/dev/null || true
+    cp $tdir/*interp* $calcdir/ 2>/dev/null || true
+    cp $tdir/*densities* $calcdir/ 2>/dev/null || true
 
-    # Change to calculation directory
     cd $calcdir
 
-    # Copy job and node info to beginning of outputfile
     echo "Job execution start: $(date)" > $SLURM_SUBMIT_DIR/$job.out
     echo "Shared library path: $LD_LIBRARY_PATH" >> $SLURM_SUBMIT_DIR/$job.out
     echo "Slurm Job ID is: ${SLURM_JOB_ID}" >> $SLURM_SUBMIT_DIR/$job.out
@@ -713,24 +560,19 @@ if [[ $HOSTNAME == *"csf3"* ]]; then
     echo "Calculation directory: $calcdir" >> $SLURM_SUBMIT_DIR/$job.out
     echo $SLURM_NODELIST >> $SLURM_SUBMIT_DIR/$job.out
 
-    # Start ORCA job
     $(which orca) $job.inp >> $SLURM_SUBMIT_DIR/$job.out
 
-    # Copy all files from calcdir to tdir for backup
     echo "Copying results from calcdir to tdir..."
     cp $calcdir/* $tdir/ 2>/dev/null || true
 
-    # Clean up calculation directory
     echo "Cleaning up calculation directory: $calcdir"
     rm -rf $calcdir
 
 else
-    echo "CSF4 detected - using standard scratch approach"
+    echo "Using standard scratch approach"
 
-    # Change to scratch directory (traditional approach)
     cd $tdir
 
-    # Copy job and node info to beginning of outputfile
     echo "Job execution start: $(date)" > $SLURM_SUBMIT_DIR/$job.out
     echo "Shared library path: $LD_LIBRARY_PATH" >> $SLURM_SUBMIT_DIR/$job.out
     echo "Slurm Job ID is: ${SLURM_JOB_ID}" >> $SLURM_SUBMIT_DIR/$job.out
@@ -739,11 +581,9 @@ else
     echo "Working directory: $tdir" >> $SLURM_SUBMIT_DIR/$job.out
     echo $SLURM_NODELIST >> $SLURM_SUBMIT_DIR/$job.out
 
-    # Start ORCA job
     $(which orca) $job.inp >> $SLURM_SUBMIT_DIR/$job.out
 fi
 
-# Copy important output files back to submit directory
 echo "Copying results back to submit directory..."
 cp $tdir/*.gbw $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*.engrad $SLURM_SUBMIT_DIR 2>/dev/null || true
@@ -760,72 +600,78 @@ cp $tdir/*.dat $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*.mp2nat $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*.nat $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*.scfp_fod $SLURM_SUBMIT_DIR 2>/dev/null || true
-cp $tdir/*.densit* $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*.nbo $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/FILE.47 $SLURM_SUBMIT_DIR 2>/dev/null || true
-cp $tdir/*property.txt $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*.json* $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*json* $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*.err $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*spin* $SLURM_SUBMIT_DIR 2>/dev/null || true
 cp $tdir/*spectrum* $SLURM_SUBMIT_DIR 2>/dev/null || true
+cp $tdir/*interp* $SLURM_SUBMIT_DIR 2>/dev/null || true
 
-# Clean up scratch directory
 echo "Cleaning up scratch directory: $tdir"
 
-echo "Job completed: $(date)" >> $SLURM_SUBMIT_DIR/$job.out"""
+echo "Job completed: $(date)" >> $SLURM_SUBMIT_DIR/$job.out
+"""
     )
+
     return script
 
 
-#### Main ####
-
-
 if __name__ == "__main__":
-
     args = get_parser()
-    hostname = socket.gethostname()
-    if "csf3" in hostname:
-        host = "csf3"
-    else:
-        host = "csf4"
 
-    # Get appropriate modules based on host and ORCA version
-    orca_module, nbo_module = get_orca_nbo_modules(args.orca5, args.nbo, host)
+    orca_module, nbo_module = get_orca_nbo_modules(args.orca5, args.nbo)
 
-    # Validate queue configuration now that we know the host
     try:
-        validate_queue_config(args.cores, args.nodes, args.partition, host)
+        validate_queue_config(args.cores, args.nodes, args.partition)
     except ValueError as e:
         print(custom_print(str(e), "error"))
         sys.exit()
-    # check if input file exists
+
     if not os.path.isfile(args.input):
         print(custom_print("Input file does not exist.", "error"))
         sys.exit()
-    # if input file exists, create slurm runscript and adjust number of cores
-    else:
-        # check if number of cores in input file matches number of cores specified
-        check_cores_and_mem(input_file=args.input, cores=args.cores,
-                           cpg=args.cores_per_group, host=host, args=args)
-        with open("run.sh", "w") as f:
-            f.write(create_runscript(args.partition, args.cores, args.nodes, args.input,
-                                   orca_module, nbo_module, host))
-        print(custom_print("Runscript has been created.", "done"))
 
-        if not args.interactive and args.submit:
-            os.system("sbatch run.sh")
-            print(custom_print("Job has been submitted.", "done"))
-        elif args.interactive and not args.submit:
-            print(custom_print("Runscript has been created. Please check it before submitting the job.", "done"))
-            submit = input(custom_print("Do you want to submit the job? (Y/n) now?", "att")).capitalize()
-            if submit == "Y":
-                os.system("sbatch run.sh")
-                print(custom_print("Job has been submitted.", "done"))
-            else:
-                sys.exit()
-        elif args.interactive and args.submit:
+    check_cores_and_mem(
+        input_file=args.input,
+        cores=args.cores,
+        cpg=args.cores_per_group,
+        args=args,
+    )
+
+    with open("run.sh", "w") as f:
+        f.write(
+            create_runscript(
+                args.partition,
+                args.cores,
+                args.nodes,
+                args.time,
+                args.input,
+                orca_module,
+                nbo_module,
+                args.gxtb,
+            )
+        )
+
+    print(custom_print("Runscript has been created.", "done"))
+
+    if not args.interactive and args.submit:
+        os.system("sbatch run.sh")
+        print(custom_print("Job has been submitted.", "done"))
+
+    elif args.interactive and not args.submit:
+        print(custom_print("Runscript has been created. Please check it before submitting the job.", "done"))
+        submit = input(custom_print("Do you want to submit the job? (Y/n) now?", "att")).capitalize()
+        if submit == "Y":
             os.system("sbatch run.sh")
             print(custom_print("Job has been submitted.", "done"))
         else:
             sys.exit()
+
+    elif args.interactive and args.submit:
+        os.system("sbatch run.sh")
+        print(custom_print("Job has been submitted.", "done"))
+
+    else:
+        sys.exit()

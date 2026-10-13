@@ -1,8 +1,6 @@
 # Submission scripts
-## CSF3/4
-The queue manager on **CSF3** is Sun Grid Engine (SGE) and the scripts that create the submit files for orca and gaussian calculations are orca_rungen_csf3 and gaussian_rungen_csf3, respectively.
-
-The queue manager on **CSF4** is SLURM and requires a different run.sh file. The \*\_csf4 scripts generate the respective file.
+## CSF3
+The queue manager on **CSF3** is SLURM and the scripts that create the submit files for orca and gaussian calculations are orca_rungen and gaussian_rungen, respectively.
 
 ### Usage
 
@@ -10,33 +8,15 @@ The scripts are written in python and can be run on CSF3/4 directly or from your
 
 **Example:**
 
-`orca_rungen_csf4 -i test.inp -c 20`
+`orca_rungen -i test.inp -c 20`
 
 This will create a `run.sh` file in the current directory and will submit the calculation specified in `test.inp` to the `multicore` queue and allocates 20 cores.
 
 
-#### CSF4
-
-**orca_rungen_csf4** - ORCA 6.0.0
-
-**sub_csf4** - Gaussian16, NBO7 (g16), ORCA
-
-**sub_csf4_g09** - Gaussian09
-
-**sub_csf4_g16_bash** - Gaussian16
-
-**sub_csf4_mep** - MEP
-
-**sub_csf4_crest** - CREST
-
-**sub_csf4_xtb** - xTB
-
 #### CSF3
 
-**orca_rungen_csf3** - ORCA 6.0.0
+**orca_rungen** - ORCA 6.1.0
 
-**sub_csf3** - Gaussian16
+**gaussian_rungen** - Gaussian16, Gaussian16, NBO7 (g16)
 
-**sub_csf3_g09** - Gaussian09
-
-**sub_csf3_mep** - MEP
+**m_rungen** - Multiwfn

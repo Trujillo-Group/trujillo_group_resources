@@ -1,0 +1,78 @@
+#!/usr/bin/python3
+
+##################################################
+######## Create Gaussian SLURM runscript #########
+##################################################
+# Author: James O'Brien
+# Date: 13.10.2026
+# Description: This script creates a SLURM runscript for g09, g16
+# for CSF3.
+
+import os
+import re
+import sys
+import argparse
+
+MAX_CORES = {"serial": 1, "multicore_small": 40, "multicore": 168}
+
+parser = argparse.ArgumentParser(description="Create (and optionally submit) a Gaussian SLURM runscript on CSF3")
+parser.add_argument("-i", "--input", help="Input file name (.com)", required=True, type=str)
+parser.add_argument("-c", "--cores", help="Number of cores; default=8", type=int, default=8)
+parser.add_argument("-p", "--partition", choices=tuple(MAX_CORES),
+                    help="Partition; default=serial for 1 core, multicore otherwise")
+parser.add_argument("-g", "--gaussian", choices=("16", "09"), default="16", help="Gaussian version; default=16")
+parser.add_argument("-t", "--time", default="7-0", help="Wall time, SLURM format (e.g. 2-0, 12:00:00); default=7-0")
+parser.add_argument("-s", "--submit", action="store_true", help="Submit job after creating runscript")
+args = parser.parse_args()
+
+if not os.path.isfile(args.input):
+    sys.exit(f"Input file '{args.input}' does not exist")
+if not args.input.endswith(".com"):
+    sys.exit("Input file must be a .com file")
+
+if not re.fullmatch(r"\d+(-\d+(:\d+){0,2}|(:\d+){0,2})", args.time):
+    sys.exit(f"Invalid time '{args.time}'. Use SLURM format, e.g. 2-0, 1-12:00:00, 30:00")
+
+partition = args.partition or ("serial" if args.cores == 1 else "multicore")
+if args.cores < 1 or args.cores > MAX_CORES[partition]:
+    sys.exit(f"{args.cores} cores not allowed on {partition} (max {MAX_CORES[partition]})")
+if partition != "serial" and args.cores == 1:
+    sys.exit("Use -p serial for 1-core jobs")
+
+job_name = os.path.splitext(os.path.basename(args.input))[0]
+
+with open(args.input) as f:
+    use_nbo = "nbo" in f.read().lower()
+
+if args.gaussian == "16":
+    modules = "module load apps/binapps/gaussian/g16c01_em64t_detectcpu"
+    if use_nbo:
+        modules += "\nmodule load apps/binapps/nbo/7.0.8"
+    mem = "export GAUSS_MDEF=$((SLURM_NTASKS*4))GB\n" if use_nbo else ""
+    exe = "$g16root/g16/g16"
+else:
+    modules = "module load apps/binapps/gaussian/g09d01_em64t"
+    mem = "export GAUSS_MDEF=$((SLURM_NTASKS*4))GB\nexport OMP_NUM_THREADS=$SLURM_NTASKS\n"
+    exe = "$g09root/g09/g09"
+
+script = f"""#!/bin/bash --login
+#SBATCH -p {partition}
+#SBATCH --ntasks {args.cores}
+#SBATCH --job-name {job_name}
+#SBATCH -t {args.time}
+
+{modules}
+export GAUSS_SCRDIR=/scratch/$USER/gau_temp_$SLURM_JOB_ID
+mkdir -p $GAUSS_SCRDIR
+{mem}export GAUSS_PDEF=$SLURM_NTASKS
+
+{exe} < $SLURM_JOB_NAME.com > $SLURM_JOB_NAME.log
+rm -rf $GAUSS_SCRDIR
+"""
+
+with open("run.sh", "w") as f:
+    f.write(script)
+print(f"Created run.sh (g{args.gaussian}, {partition}, {args.cores} cores, {args.time})")
+
+if args.submit:
+    os.system("sbatch run.sh")

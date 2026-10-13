@@ -1,0 +1,120 @@
+#!/bin/bash
+
+# m_rungen: generate (and optionally submit)
+# a SLURM job script for Multiwfn analyses
+# starting from an ORCA .gbw file
+
+# --- Default values ---
+CORES=4
+PARTITION="multicore"
+TIME="1-0"
+SUBMIT=false
+INPUT=""
+DO_ESP=false
+DO_NCI=false
+DO_QTAIM=false
+
+# --- Parse arguments ---
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -i)     INPUT="$2";     shift 2 ;;
+        -c)     CORES="$2";     shift 2 ;;
+        -p)     PARTITION="$2"; shift 2 ;;
+        -t)     TIME="$2";      shift 2 ;;
+        -s)     SUBMIT=true;    shift   ;;
+        -esp)   DO_ESP=true;    shift   ;;
+        -nci)   DO_NCI=true;    shift   ;;
+        -qtaim) DO_QTAIM=true;  shift   ;;
+        *)      echo "Unknown option: $1"; exit 1 ;;
+    esac
+done
+
+# --- Validate required arguments ---
+if [[ -z "$INPUT" ]]; then
+    echo "Usage: m_rungen -i <file.gbw> [-c <cores>] [-p <partition>] [-t <time>] [-esp] [-nci] [-qtaim] [-s]"
+    exit 1
+fi
+if [[ ! -f "$INPUT" ]]; then
+    echo "Error: input file '$INPUT' not found"
+    exit 1
+fi
+
+# --- At least one analysis must be requested ---
+if ! $DO_ESP && ! $DO_NCI && ! $DO_QTAIM; then
+    echo "Error: specify at least one analysis flag: -esp, -nci, -qtaim"
+    exit 1
+fi
+
+# --- Ensure ~/multiwfn/settings.ini exists and contains iusegui= 0 ---
+# This disables the GUI, which is required on headless cluster nodes
+SETTINGS="$HOME/multiwfn/settings.ini"
+if [[ -f "$SETTINGS" ]]; then
+    if grep -q "^iusegui=" "$SETTINGS"; then
+        # Line exists: make sure it is set to 0
+        if ! grep -q "^iusegui= 0" "$SETTINGS"; then
+            sed -i 's/^iusegui=.*/iusegui= 0/' "$SETTINGS"
+            echo "Updated: iusegui= 0 in $SETTINGS"
+        fi
+    else
+        # Line is missing: append it
+        echo "iusegui= 0" >> "$SETTINGS"
+        echo "Added: iusegui= 0 to $SETTINGS"
+    fi
+else
+    # File does not exist: create it with the minimum required setting
+    mkdir -p "$(dirname "$SETTINGS")"
+    echo "iusegui= 0" > "$SETTINGS"
+    echo "Created: $SETTINGS"
+fi
+
+# --- Strip .gbw extension to get the base name ---
+BASENAME=$(basename "$INPUT" .gbw)
+JOBSCRIPT="${BASENAME}.sh"
+
+# --- Build the Multiwfn command sequence ---
+# Each analysis block is appended in order; they are assumed to return
+# to the main menu at the end of their respective command sequences.
+COMMANDS=""
+if $DO_ESP; then
+    COMMANDS+=$'5\n1\n3\n2\n0\n5\n12\n3\n2\n0\n12\n0\n1\n-1\n-1\n'
+fi
+if $DO_NCI; then
+    COMMANDS+=$'20\n1\n3\n3\n2\n0\n0\n'
+fi
+if $DO_QTAIM; then
+    COMMANDS+=$'2\n2\n3\n4\n5\n8\n0\n7\n0\n-10\n'
+fi
+COMMANDS+="q"   # always quit at the end
+
+# --- Generate the SLURM job script ---
+# Note: \$SLURM_NTASKS and \$HOME are escaped so they expand at runtime,
+# while ${BASENAME}, ${CORES}, ${PARTITION}, ${COMMANDS} expand now.
+cat > "$JOBSCRIPT" << EOF
+#!/bin/bash --login
+
+#SBATCH -p ${PARTITION}
+#SBATCH -n ${CORES}
+#SBATCH -t ${TIME}
+
+module purge
+module load apps/binapps/multiwfn/2026.2.2
+module load apps/binapps/orca/6.1.1-avx2
+
+# Point Multiwfn to the settings directory (contains iusegui= 0)
+export Multiwfnpath=\$HOME/multiwfn
+
+# Convert ORCA binary .gbw to Molden format
+orca_2mkl ${BASENAME} -molden
+
+# Run Multiwfn in silent mode; feed commands via heredoc
+Multiwfn ${BASENAME}.molden.input -nt \$SLURM_NTASKS -silent << 'MWFN' > ${BASENAME}_multiwfn.out
+${COMMANDS}
+MWFN
+EOF
+
+echo "Generated: $JOBSCRIPT"
+
+# --- Optionally submit to SLURM ---
+if $SUBMIT; then
+    sbatch "$JOBSCRIPT"
+fi

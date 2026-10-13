@@ -2,7 +2,7 @@
 
 # ================================
 
-This python script can be use as-is on CSF3/4 for creating and submitting ORCA jobs. Place the script in the same directory as your ORCA input file and run it from there, or place it in a directory that is in your PATH variable (e.g your `bin` in your csf3/4 home directory). Running the `orca_rungen` script will create a submission script named `run.sh`. This script can be submitted to the slurm workload manager on CSF3/4.
+This python script can be use as-is on CSF3 for creating and submitting ORCA jobs. Place the script in the same directory as your ORCA input file and run it from there, or place it in a directory that is in your PATH variable (e.g your `bin` in your csf3 home directory). Running the `orca_rungen` script will create a submission script named `run.sh`. This script can be submitted to the slurm workload manager on CSF3/4.
 The settings regarding the CSF configuration and ORCA version/additional software can be passed as arguments to the script. You can run the script in an interactive mode by running it with the `-inter`/`--interactive` flag. The submission script will apply the settings to the ORCA input file and submit the job to the respective queue, depending on the chosen configuration.
 
 #### Available options:
@@ -28,13 +28,8 @@ $ orca_rungen -h
 
 ## CSF3
 
-The configuration for CSF3 outlined on the respective [documentation page](https://ri.itservices.manchester.ac.uk/csf3/overview/configuration/). If you want to run calculations in parallel, you can request up to 168 cores per node in the `multicore` queue or 32 cores per node in the `multicore_small` queue. This script only creates scripts assuming the use of the amd nodes. If you want to use other nodes consult the [CSF3 documentation](https://ri.itservices.manchester.ac.uk/csf3/overview/configuration/) for the respective settings.
+The configuration for CSF3 outlined on the respective [documentation page](https://ri.itservices.manchester.ac.uk/csf3/overview/configuration/). If you want to run calculations in parallel, you can request up to 168 cores per node in the `multicore` queue or 40 cores per node in the `multicore_small` queue. This script only creates scripts assuming the use of the amd nodes. If you want to use other nodes consult the [CSF3 documentation](https://ri.itservices.manchester.ac.uk/csf3/overview/configuration/) for the respective settings.
 The memory settings are adjusted automatically based on the chosen queue. The amd nodes have 8GB per core. If your job requires more memory, the [high memory queue](https://ri.itservices.manchester.ac.uk/csf3/batch-slurm/high-memory-jobs-slurm/) can be accessed by submitting your job to the `himem` in the orca input file.
-
-## CSF4
-
-The configuration for CSF4 outlined on the respective [documentation page](https://ri.itservices.manchester.ac.uk/csf4/overview/configuration/). The maximum number of cores per node is 40 in the multicore queue. More cores can be requested by using the multinode queue. We recommend using the amd queue on CSF3 if you need more than 40 cores!
-The memory settings are adjusted automatically to `%maxcore 4600` in the orca input file. CSF4 does not have a high memory queue, so if you need more memory, you will have to switch to the amd or high memory queue on CSF3.
 
 ## Example usage
 
@@ -45,8 +40,8 @@ $ orca_rungen -i test.inp -c 20 -o5 -nbo
 This script will create a submission script for an ORCA job with the input file `test.inp`, requesting 20 cores, the ORCA5 version, and the NBO package.
 
 ```bash
-$ orca_rungen -i test.inp -c 20 -cpg 4 -amd -s
+$ orca_rungen -i test.inp -c 20 -cpg 4 -s
 ```
 
-This script will create a submission script for an ORCA6 job with the input file `test.inp`, requesting 20 cores, four cores per group, and will automatically submit the job to the amd queue after the changes have been made to the input file.
+This script will create a submission script for an ORCA6 job with the input file `test.inp`, requesting 20 cores, four cores per group, and will automatically submit the job to the queue after the changes have been made to the input file.
 You can also run the scripts in interactive mode by running them with the `-inter`/`--interactive` flag. This will prompt you for the necessary information.
