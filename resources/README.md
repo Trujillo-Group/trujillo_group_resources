@@ -103,6 +103,10 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
 
 ## Graphics-related
 
+### Affinity
+
+- **Free to use alternative to Adobe Illustrator**: [Affinity](https://www.affinity.studio/)
+
 ### Blender
 
 - **Blender Guru Donut Tutorial**: Master Blender basics with this popular tutorial series available from [Blender Guru](https://www.youtube.com/watch?v=TPrnSACiTJ4&list=PLexwJr_iILK7IkuhEeAYeN7aLV5AAXKa-).
@@ -136,4 +140,6 @@ This section serves as a **comprehensive catalog** of valuable resources, includ
   - Find inspiration at [Dataviz Inspiration](https://www.dataviz-inspiration.com/) and [Colour Hunt](https://colorhunt.co).
 - **Contrast Checker**: Ensure accessibility with the help of a [contrast checker](https://colourcontrast.cc).
 - **Remove Background from CLI**: [Github Repository](https://github.com/remove-bg/remove-bg-cli) thats simple to use and execute.
-- **Energy Diagram Plotter**: [Paper](https://pubs.acs.org/doi/10.1021/acs.jchemed.3c00319) introducing EveRplot.
+- **Energy Diagram Plotter 1**: [PlotProfile](https://github.com/aligfellow/plotprofile) from Ali Goodfellow
+- **Energy Diagram Plotter 2**: [Paper](https://pubs.acs.org/doi/10.1021/acs.jchemed.3c00319) introducing EveRplot.
+
